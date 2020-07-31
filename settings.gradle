@@ -1,0 +1,4 @@
+include ':ipc'
+include ':binderservice'
+include ':app'
+rootProject.name = "IPCDemo"
