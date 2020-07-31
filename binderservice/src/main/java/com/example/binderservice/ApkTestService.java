@@ -12,8 +12,6 @@ import com.example.ipc.ApkInfo;
 import com.example.ipc.IApkInstallListener;
 import com.example.ipc.IApkInstallManager;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 public class ApkTestService extends Service {
 
     private static final String TAG = "zhangyu.ApkTestService";
@@ -25,11 +23,6 @@ public class ApkTestService extends Service {
 
 
     private Binder mBinder = new IApkInstallManager.Stub() {
-        @Override
-        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-
-        }
-
         @Override
         public void setFlag(int flag) throws RemoteException {
             ApkTestService.this.flag = flag;
@@ -148,7 +141,6 @@ public class ApkTestService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         Log.d(TAG, "onUnbind:" + Thread.currentThread());
-
         return super.onUnbind(intent);
     }
 
@@ -156,6 +148,5 @@ public class ApkTestService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy:" + Thread.currentThread());
-
     }
 }
