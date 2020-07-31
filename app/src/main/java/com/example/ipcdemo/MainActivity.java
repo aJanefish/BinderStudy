@@ -30,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             iApkInstallManager = IApkInstallManager.Stub.asInterface(service);
+            try {
+                //设置死亡代理
+                service.linkToDeath(deathRecipient, 0);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             Log.d(TAG, "onServiceConnected:" + iApkInstallManager);
         }
 
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName name) {
             // TODO: 2020/7/31 重新连接服务 UI线程中回调
             Log.d(TAG, "onServiceDisconnected:" + name);
+            iApkInstallManager = null;
         }
     };
 
@@ -52,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
                 iApkInstallManager = null;
                 // TODO: 2020/7/31 重新绑定远程服务
                 Intent intent = new Intent(Constant.APK_TEST_ACTION);
-                //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
                 //设置服务端的包名
+                //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
                 intent.setPackage("com.example.binderservice");
                 bindService(intent, serviceConnection, BIND_AUTO_CREATE);
             } catch (RemoteException e) {
