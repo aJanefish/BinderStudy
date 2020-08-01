@@ -41,16 +41,26 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            // TODO: 2020/7/31 重新连接服务 UI线程中回调
-            Log.d(TAG, "onServiceDisconnected:" + name);
+            // TODO: 2020/7/31 服务端断开 UI线程中回调
+            Log.d(TAG, "onServiceDisconnected:" + name + " " + Thread.currentThread());
             iApkInstallManager = null;
+            reBindService();
         }
     };
+
+    private void reBindService() {
+        Intent intent = new Intent(Constant.APK_TEST_ACTION);
+        //设置服务端的包名
+        //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
+        intent.setPackage("com.example.binderservice");
+        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+    }
 
     private IBinder.DeathRecipient deathRecipient = new IBinder.DeathRecipient() {
         @Override
         public void binderDied() {
-            Log.d(TAG, "binderDied:" + iApkInstallManager);
+            // FIXME: 2020/8/1 服务断开 binder线程中调用
+            Log.d(TAG, "binderDied:" + iApkInstallManager + " " + Thread.currentThread());
             if (iApkInstallManager == null) {
                 return;
             }
@@ -58,11 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 iApkInstallManager.asBinder().linkToDeath(deathRecipient, 0);
                 iApkInstallManager = null;
                 // TODO: 2020/7/31 重新绑定远程服务
-                Intent intent = new Intent(Constant.APK_TEST_ACTION);
-                //设置服务端的包名
-                //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
-                intent.setPackage("com.example.binderservice");
-                bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+                reBindService();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
