@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ipcdemo">
 
-
+    <!-- 客户端申请自定义权限-->
+    <uses-permission android:name="com.example.binderservice.TEST_ACCESS" />
 
     <application
         android:name=".App"

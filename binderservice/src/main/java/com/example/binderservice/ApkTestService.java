@@ -2,8 +2,11 @@ package com.example.binderservice;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
+import android.os.Parcel;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.util.Log;
@@ -11,6 +14,8 @@ import android.util.Log;
 import com.example.ipc.ApkInfo;
 import com.example.ipc.IApkInstallListener;
 import com.example.ipc.IApkInstallManager;
+
+import java.util.Arrays;
 
 public class ApkTestService extends Service {
 
@@ -23,6 +28,35 @@ public class ApkTestService extends Service {
 
 
     private Binder mBinder = new IApkInstallManager.Stub() {
+
+        @Override
+        public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+            //return super.onTransact(code, data, reply, flags);
+            int checkCallingOrSelfPermission = checkCallingOrSelfPermission(PER);
+            Log.d(TAG, "onTransact check:" + checkCallingOrSelfPermission + " " + Thread.currentThread());
+            if (checkCallingOrSelfPermission == PackageManager.PERMISSION_DENIED) {
+                //权限不满足，返回NULL，绑定服务失败
+                return false;
+            }
+
+            String pkgName = null;
+            int callingUid = getCallingUid();
+            int callingPid = getCallingPid();
+            Log.d(TAG, "onTransact callingUid:" + callingUid + " callingPid:" + callingPid);
+            String[] packages = getPackageManager().getPackagesForUid(callingUid);
+            Log.d(TAG, "onTransact packages:" + Arrays.toString(packages));
+            if (packages != null && packages.length > 0) {
+                pkgName = packages[0];
+            }
+
+            //限定某些包名可以访问服务
+            if (!"com.example.ipcdemo".equals(pkgName)) {
+                return false;
+            }
+
+            return super.onTransact(code, data, reply, flags);
+        }
+
         @Override
         public void setFlag(int flag) throws RemoteException {
             ApkTestService.this.flag = flag;
@@ -117,11 +151,24 @@ public class ApkTestService extends Service {
         Log.d(TAG, "onCreate:" + Thread.currentThread());
     }
 
+    private String PER = "com.example.binderservice.TEST_ACCESS";
+
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        //throw new UnsupportedOperationException("Not yet implemented");
-        Log.d(TAG, "onBind:" + Thread.currentThread());
+        // FIXME: 2020/8/1 校验权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int checkSelfPermission = checkSelfPermission(PER);
+            Log.d(TAG, "onBind checkSelfPermission:" + checkSelfPermission);
+        }
+
+        int checkCallingPermission = checkCallingPermission(PER);
+        Log.d(TAG, "onBind checkCallingPermission:" + checkCallingPermission);
+        int checkCallingOrSelfPermission = checkCallingOrSelfPermission(PER);
+        Log.d(TAG, "onBind check:" + checkCallingOrSelfPermission + " " + Thread.currentThread());
+//        if (checkCallingOrSelfPermission == PackageManager.PERMISSION_DENIED) {
+//            //权限不满足，返回NULL，绑定服务失败
+//            return null;
+//        }
         return mBinder;
     }
 
