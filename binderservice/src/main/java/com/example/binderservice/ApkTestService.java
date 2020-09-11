@@ -148,7 +148,7 @@ public class ApkTestService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate:" + Thread.currentThread());
+        Log.d(TAG, "onCreate:" + this + " " + Thread.currentThread());
     }
 
     private String PER = "com.example.binderservice.TEST_ACCESS";
@@ -156,19 +156,20 @@ public class ApkTestService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // FIXME: 2020/8/1 校验权限
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int checkSelfPermission = checkSelfPermission(PER);
-            Log.d(TAG, "onBind checkSelfPermission:" + checkSelfPermission);
-        }
-
-        int checkCallingPermission = checkCallingPermission(PER);
-        Log.d(TAG, "onBind checkCallingPermission:" + checkCallingPermission);
-        int checkCallingOrSelfPermission = checkCallingOrSelfPermission(PER);
-        Log.d(TAG, "onBind check:" + checkCallingOrSelfPermission + " " + Thread.currentThread());
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            int checkSelfPermission = checkSelfPermission(PER);
+//            Log.d(TAG, "onBind checkSelfPermission:" + checkSelfPermission);
+//        }
+//
+//        int checkCallingPermission = checkCallingPermission(PER);
+//        Log.d(TAG, "onBind checkCallingPermission:" + checkCallingPermission);
+//        int checkCallingOrSelfPermission = checkCallingOrSelfPermission(PER);
+//        Log.d(TAG, "onBind check:" + checkCallingOrSelfPermission + " " + Thread.currentThread());
 //        if (checkCallingOrSelfPermission == PackageManager.PERMISSION_DENIED) {
 //            //权限不满足，返回NULL，绑定服务失败
 //            return null;
 //        }
+        Log.d(TAG, "onBind:" + mBinder + " " + Thread.currentThread());
         return mBinder;
     }
 
