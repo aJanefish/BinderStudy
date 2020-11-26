@@ -11,7 +11,7 @@ interface IApkInstallManager {
     // 静默安装
     void startSilentInstall(in ApkInfo info);
     // 普通安装
-    void startInstall(in ApkInfo info);
+    void startCommonInstall(in ApkInfo info);
     //设置安装回调
     void registerListener(IApkInstallListener listener);
     void unregisterListener(IApkInstallListener listener);

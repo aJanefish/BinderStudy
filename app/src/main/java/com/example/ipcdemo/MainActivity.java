@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            Log.d(TAG, "onServiceConnected:" + iApkInstallManager);
+            Log.d(TAG, "onServiceConnected:" + iApkInstallManager + " " + service);
         }
 
         @Override
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
             Log.d(TAG, "startCommonInstall:" + apkInfo);
-            iApkInstallManager.startInstall(apkInfo);
+            iApkInstallManager.startCommonInstall(apkInfo);
             titleAppend("startCommonInstall");
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -186,18 +186,19 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-    private IApkInstallListener.Stub listener1 = new IApkInstallListener.Stub() {
-        @Override
-        public void onStatusChanged(int status, String msg) throws RemoteException {
-            Log.d(TAG, "onStatusChanged:" + Thread.currentThread());
-            Log.d(TAG, "onStatusChanged: status=" + status + " msg=" + msg);
-        }
-    };
-
     private IApkInstallListener.Stub listener2 = new IApkInstallListener.Stub() {
         @Override
         public void onStatusChanged(int status, String msg) throws RemoteException {
+            Log.d(TAG, "onStatusChanged 1:" + Thread.currentThread());
+            Log.d(TAG, "onStatusChanged 1: status=" + status + " msg=" + msg);
+        }
+    };
 
+    private IApkInstallListener.Stub listener1 = new IApkInstallListener.Stub() {
+        @Override
+        public void onStatusChanged(int status, String msg) throws RemoteException {
+            Log.d(TAG, "onStatusChanged 2:" + Thread.currentThread() + " " + Log.getStackTraceString(new Throwable()));
+            Log.d(TAG, "onStatusChanged 2: status=" + status + " msg=" + msg);
         }
     };
 
@@ -214,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void unregisterListener(View view) {
         try {
-            iApkInstallManager.unregisterListener(listener1);
+            //iApkInstallManager.unregisterListener(listener1);
+            iApkInstallManager.unregisterListener(listener2);
             Log.d(TAG, "unregisterListener: listener1=" + listener1);
 
             titleAppend("unregisterListener");
@@ -248,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
                     Log.d(TAG, "startSilentInstall:" + apkInfo);
-                    iApkInstallManager.startInstall(apkInfo);
+                    iApkInstallManager.startCommonInstall(apkInfo);
                     titleAppend("startCommonInstallInChildThread");
                 } catch (RemoteException e) {
                     e.printStackTrace();

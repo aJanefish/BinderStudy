@@ -17,6 +17,8 @@ import com.example.ipc.IApkInstallManager;
 
 import java.util.Arrays;
 
+import javax.xml.transform.sax.TemplatesHandler;
+
 public class ApkTestService extends Service {
 
     private static final String TAG = "zhangyu.ApkTestService";
@@ -60,7 +62,7 @@ public class ApkTestService extends Service {
         @Override
         public void setFlag(int flag) throws RemoteException {
             ApkTestService.this.flag = flag;
-            Log.d(TAG, "setFlag:" + " " + Thread.currentThread());
+            Log.d(TAG, "setFlag:" + flag + " " + Thread.currentThread() + " " + Log.getStackTraceString(new Throwable()));
         }
 
         @Override
@@ -82,7 +84,7 @@ public class ApkTestService extends Service {
         }
 
         @Override
-        public void startInstall(ApkInfo info) throws RemoteException {
+        public void startCommonInstall(ApkInfo info) throws RemoteException {
             Log.d(TAG, "startInstall:" + info + " " + Thread.currentThread());
             startInstallImp(info);
         }
@@ -129,20 +131,30 @@ public class ApkTestService extends Service {
         listeners.finishBroadcast();
     }
 
-    private void startSilentInstallImp(ApkInfo info) throws RemoteException {
-        int n = listeners.beginBroadcast();
-        for (int i = 0; i < n; i++) {
-            IApkInstallListener iApkInstallListener = listeners.getBroadcastItem(i);
-            if (iApkInstallListener != null) {
-                iApkInstallListener.onStatusChanged(1, "start silent Install");
-                iApkInstallListener.onStatusChanged(2, "check apk");
-                info.setFilePath("" + info.getFilePath() + "...checked");
-                iApkInstallListener.onStatusChanged(3, "Installing...");
-                iApkInstallListener.onStatusChanged(4, "Install success");
-                iApkInstallListener.onStatusChanged(5, "Install failed");
+    private void startSilentInstallImp(final ApkInfo info) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int n = listeners.beginBroadcast();
+                for (int i = 0; i < n; i++) {
+                    IApkInstallListener iApkInstallListener = listeners.getBroadcastItem(i);
+                    if (iApkInstallListener != null) {
+                        try {
+                            iApkInstallListener.onStatusChanged(1, "start silent Install");
+                            iApkInstallListener.onStatusChanged(2, "check apk");
+                            info.setFilePath("" + info.getFilePath() + "...checked");
+                            iApkInstallListener.onStatusChanged(3, "Installing...");
+                            iApkInstallListener.onStatusChanged(4, "Install success");
+                            iApkInstallListener.onStatusChanged(5, "Install failed");
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                            Log.d(TAG, "startSilentInstallImp:" + e);
+                        }
+                    }
+                }
+                listeners.finishBroadcast();
             }
-        }
-        listeners.finishBroadcast();
+        }).start();
     }
 
     @Override
@@ -175,7 +187,7 @@ public class ApkTestService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand:" + Thread.currentThread());
+        Log.d(TAG, "onStartCommand:" + mBinder + " " + Thread.currentThread());
         return super.onStartCommand(intent, flags, startId);
     }
 
