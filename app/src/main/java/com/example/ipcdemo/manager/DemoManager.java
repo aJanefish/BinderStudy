@@ -16,7 +16,7 @@ import com.example.ipc.util.Constant;
  */
 public class DemoManager {
 
-    private static final String TAG = "DemoManager";
+    private static final String TAG =  Constant.PRE_TAG +"DemoManager";
     private static DemoManager demoManager = new DemoManager();
     private static int values = 1;
     private Context mContext;

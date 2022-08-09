@@ -10,8 +10,8 @@
         android:id="@+id/main_title_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="跨进程访问服务端" />
+        android:text="跨进程访问服务端"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -25,88 +25,100 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="gotoOne"
-            android:text="去One" />
+            android:text="去One"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/main_two_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="gotoTwo"
-            android:text="去Two" />
+            android:text="去Two"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/main_button_three"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="bindDiyService"
-            android:text="bind服务" />
+            android:text="bind服务"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="unbindDiyService"
-            android:text="unbind服务" />
+            android:text="unbind服务"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="getFlag"
-            android:text="获取服务端flag" />
+            android:text="获取服务端flag"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/main_button_four"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="setFlag"
-            android:text="设置服务端flag" />
+            android:text="设置服务端flag"
+            android:textAllCaps="false" />
 
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="checkPermission"
-            android:text="检查服务端安装权限" />
+            android:text="检查服务端安装权限"
+            android:textAllCaps="false" />
 
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="registerListener"
-            android:text="注册安装回调" />
+            android:text="注册安装回调"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="unregisterListener"
-            android:text="反注册安装回调" />
+            android:text="反注册安装回调"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startSilentInstall"
-            android:text="静默安装" />
+            android:text="静默安装"
+            android:textAllCaps="false" />
 
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startCommonInstall"
-            android:text="普通安装" />
+            android:text="普通安装"
+            android:textAllCaps="false" />
 
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startSilentInstallInChildThread"
-            android:text="子线程静默安装" />
+            android:text="子线程静默安装"
+            android:textAllCaps="false" />
 
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startCommonInstallInChildThread"
-            android:text="子线程普通安装" />
+            android:text="子线程普通安装"
+            android:textAllCaps="false" />
     </LinearLayout>
 
     <TextView

@@ -9,35 +9,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.ipc.IApkInstallManager;
 import com.example.ipc.util.Constant;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     private IApkInstallManager iApkInstallManager;
-    private String TAG = "zhangyu.MainActivity";
+    private final static String TAG = Constant.PRE_TAG + "MainActivity";
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        title = findViewById(R.id.service_main_title);
+        findViewById(R.id.service_main_button_get_flag).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFlag(v);
+            }
+        });
+
+        findViewById(R.id.service_main_button_set_flag).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFlag(v);
+            }
+        });
     }
 
-    public void startService(View view) {
-        bindDiyService(view);
-    }
-
-    public void bindDiyService(View view) {
-        Intent intent = new Intent(Constant.APK_TEST_ACTION);
-        //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
-        //设置服务端的包名
-        intent.setPackage("com.example.binderservice");
-
-        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
-    }
-
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             iApkInstallManager = IApkInstallManager.Stub.asInterface(service);
@@ -47,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            Log.d(TAG, "onServiceConnected:" + iApkInstallManager + " " + service);
+            Log.d(TAG, "onServiceConnected:" + iApkInstallManager + " " + service + " identityHashCode:" + System.identityHashCode(service));
         }
 
         @Override
@@ -58,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
             reBindService();
         }
     };
+
+    public void bindDiyService(View view) {
+        Intent intent = new Intent(Constant.APK_TEST_ACTION);
+        //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
+        //设置服务端的包名
+        intent.setPackage("com.example.binderservice");
+
+        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+    }
 
     private void reBindService() {
         Intent intent = new Intent(Constant.APK_TEST_ACTION);
@@ -85,5 +100,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    public void unbindDiyService(View view) {
+        unbindService(serviceConnection);
+    }
+
+    public void getFlag(View view) {
+        try {
+            int flag = iApkInstallManager.getFlag();
+            title.append("\n" + flag);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setFlag(View view) {
+        try {
+            iApkInstallManager.setFlag(new Random().nextInt(100));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

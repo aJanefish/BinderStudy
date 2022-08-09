@@ -30,7 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".ApkTestService"
+            android:name=".install.ApkTestService"
             android:enabled="true"
             android:exported="true"
             android:permission="com.example.binderservice.TEST_ACCESS">

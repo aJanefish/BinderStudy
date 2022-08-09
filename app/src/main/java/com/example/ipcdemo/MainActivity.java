@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
     public void registerListener(View view) {
         try {
             iApkInstallManager.registerListener(listener1);
+            //iApkInstallManager.registerListener(listener2);
             Log.d(TAG, "registerListener: listener1=" + listener1 + " " + listener1.asBinder());
             titleAppend("registerListener");
         } catch (Exception e) {
@@ -215,8 +216,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void unregisterListener(View view) {
         try {
-            //iApkInstallManager.unregisterListener(listener1);
-            iApkInstallManager.unregisterListener(listener2);
+            iApkInstallManager.unregisterListener(listener1);
+            //iApkInstallManager.unregisterListener(listener2);
             Log.d(TAG, "unregisterListener: listener1=" + listener1);
 
             titleAppend("unregisterListener");
