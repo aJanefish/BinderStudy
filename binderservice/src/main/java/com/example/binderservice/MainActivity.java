@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.ipc.ApkInfo;
+import com.example.ipc.IApkInstallListener;
 import com.example.ipc.IApkInstallManager;
 import com.example.ipc.util.Constant;
 
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
     }
 
-    private IBinder.DeathRecipient deathRecipient = new IBinder.DeathRecipient() {
+    private IBinder.DeathRecipient deathRecipient =  new IBinder.DeathRecipient() {
         @Override
         public void binderDied() {
             // FIXME: 2020/8/1 服务断开 binder线程中调用
@@ -117,6 +119,85 @@ public class MainActivity extends AppCompatActivity {
     public void setFlag(View view) {
         try {
             iApkInstallManager.setFlag(new Random().nextInt(100));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private IApkInstallListener.Stub listener1 = new IApkInstallListener.Stub() {
+        @Override
+        public void onStatusChanged(int status, String msg) throws RemoteException {
+            Log.d(TAG, "onStatusChanged 1:" + Thread.currentThread() + " " + Log.getStackTraceString(new Throwable()));
+            Log.d(TAG, "onStatusChanged 1: status=" + status + " msg=" + msg);
+        }
+    };
+
+    public void registerListener(View view) {
+        try {
+            iApkInstallManager.registerListener(listener1);
+            Log.d(TAG, "registerListener: listener1=" + listener1 + " " + listener1.asBinder());
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public void unregisterListener(View view) {
+        try {
+            iApkInstallManager.unregisterListener(listener1);
+            Log.d(TAG, "unregisterListener: listener1=" + listener1);
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+            e.printStackTrace();
+        }
+    }
+
+    public void startSilentInstallInChildThread(View view) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
+                    Log.d(TAG, "startSilentInstall:" + apkInfo);
+                    iApkInstallManager.startSilentInstall(apkInfo);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
+    public void startCommonInstallInChildThread(View view) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
+                    Log.d(TAG, "startSilentInstall:" + apkInfo);
+                    iApkInstallManager.startCommonInstall(apkInfo);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void startSilentInstall(View view) {
+        try {
+            ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
+            Log.d(TAG, "startSilentInstall:" + apkInfo);
+            iApkInstallManager.startSilentInstall(apkInfo);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startCommonInstall(View view) {
+        try {
+            ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
+            Log.d(TAG, "startCommonInstall:" + apkInfo);
+            iApkInstallManager.startCommonInstall(apkInfo);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
