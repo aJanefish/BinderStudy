@@ -114,11 +114,16 @@ public class ApkInstallManager extends IApkInstallManager.Stub {
                     IApkInstallListener iApkInstallListener = listeners.getBroadcastItem(i);
                     if (iApkInstallListener != null) {
                         try {
+                            Log.d(TAG, "1 start silent Install");
                             iApkInstallListener.onStatusChanged(1, "start silent Install");
+                            Log.d(TAG, "2 check apk");
                             iApkInstallListener.onStatusChanged(2, "check apk");
+                            Log.d(TAG, "3 Installing...");
                             info.setFilePath("" + info.getFilePath() + "...checked");
                             iApkInstallListener.onStatusChanged(3, "Installing...");
+                            Log.d(TAG, "4 Install success");
                             iApkInstallListener.onStatusChanged(4, "Install success");
+                            Log.d(TAG, "5 Install failed");
                             iApkInstallListener.onStatusChanged(5, "Install failed");
                         } catch (RemoteException e) {
                             e.printStackTrace();
