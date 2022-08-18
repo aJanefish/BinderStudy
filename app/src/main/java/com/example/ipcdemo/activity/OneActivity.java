@@ -1,4 +1,4 @@
-package com.example.ipcdemo;
+package com.example.ipcdemo.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ipc.util.Constant;
+import com.example.ipcdemo.R;
 import com.example.ipcdemo.manager.DemoManager;
 import com.example.ipcdemo.util.Utils;
 
