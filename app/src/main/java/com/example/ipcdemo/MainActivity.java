@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.ipcdemo.activity.IPCDemoActivity;
+import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,5 +18,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_ipc_demo(View view) {
         startActivity(new Intent(this, IPCDemoActivity.class));
+    }
+
+    public void test_proxy_system_manager(View view) {
+        startActivity(new Intent(this, ProxyManagerDemoActivity.class));
     }
 }
