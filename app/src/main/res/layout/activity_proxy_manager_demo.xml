@@ -17,6 +17,12 @@
         android:layout_height="1dp"
         android:background="@color/colorAccent" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="剪切板服务" />
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +38,34 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="获取剪切板服务" />
+        android:text="我是文本编辑器，请编辑我" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Activity服务"
+        android:textAllCaps="false" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test_activity_manager"
+        android:text="代理Activity服务"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="get_activity_manager"
+        android:text="获取Activity服务"
+        android:textAllCaps="false" />
 
 
 </android.support.v7.widget.LinearLayoutCompat>

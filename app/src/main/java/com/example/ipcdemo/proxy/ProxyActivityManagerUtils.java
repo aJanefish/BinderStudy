@@ -2,23 +2,22 @@ package com.example.ipcdemo.proxy;
 
 import static com.example.ipc.util.Constant.PRE_TAG;
 
+import android.app.ActivityManager;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.IBinder;
 import android.util.Log;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProxyClipboardManagerUtils {
-    private static final String TAG = PRE_TAG + "ProxyUtils";
+public class ProxyActivityManagerUtils {
+    private static final String TAG = PRE_TAG + "AManagerUtils";
 
-    public static void hockClipboardManager(Context context) {
+    public static void hockActivityManager(Context context) {
         try {
             //1 getClass android.os.ServiceManager
             Class<?> serviceManager = Class.forName("android.os.ServiceManager");
@@ -29,7 +28,7 @@ public class ProxyClipboardManagerUtils {
             Method getServiceMethod = serviceManager.getDeclaredMethod("getService", String.class);
             Log.d(TAG, "getServiceMethod:" + getServiceMethod);
 
-            final IBinder getServiceMethodInvoke = (IBinder) getServiceMethod.invoke(null, Context.CLIPBOARD_SERVICE);
+            final IBinder getServiceMethodInvoke = (IBinder) getServiceMethod.invoke(null, Context.ACTIVITY_SERVICE);
             Log.d(TAG, "getServiceMethodInvoke:" + getServiceMethodInvoke);
 
             IBinder proxyIBinder = (IBinder) Proxy.newProxyInstance(getServiceMethodInvoke.getClass().getClassLoader(),
@@ -48,7 +47,7 @@ public class ProxyClipboardManagerUtils {
                 Log.d(TAG, "sCache:" + key + " " + sCache.get(key));
             }
 
-            sCache.put(Context.CLIPBOARD_SERVICE, proxyIBinder);
+            //sCache.put(Context.ACTIVITY_SERVICE, proxyIBinder);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,10 +58,11 @@ public class ProxyClipboardManagerUtils {
     }
 
 
-    public static ClipboardManager getClipboardManager(Context context) {
-        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        Log.d(TAG, "clipboardManager:" + clipboardManager.getClass());
-        Log.d(TAG, "clipboardManager:" + clipboardManager);
-        return clipboardManager;
+    public static ActivityManager getActivityManager(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        Log.d(TAG, "activityManager:" + activityManager.getClass());
+        Log.d(TAG, "activityManager:" + activityManager);
+        activityManager.getAppTasks();
+        return activityManager;
     }
 }
