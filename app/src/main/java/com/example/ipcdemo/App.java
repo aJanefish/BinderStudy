@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.example.ipc.util.Constant;
+import com.example.ipcdemo.classloader.ClassLoaderUtils;
 import com.example.ipcdemo.manager.DemoManager;
 
 public class App extends Application {
@@ -15,5 +16,6 @@ public class App extends Application {
         Log.d(TAG, "onCreate:" + this);
 //        DemoManager.getDemoManager().init(this);
 //        DemoManager.getDemoManager().bindDiyService();
+        //ClassLoaderUtils.installHook();
     }
 }

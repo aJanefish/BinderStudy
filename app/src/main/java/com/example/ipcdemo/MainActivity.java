@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.ipcdemo.activity.IPCDemoActivity;
 import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
+import com.example.ipcdemo.classloader.ClassLoaderUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,5 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_proxy_system_manager(View view) {
         startActivity(new Intent(this, ProxyManagerDemoActivity.class));
+    }
+
+    public void test_class_loader(View view) {
+        //ClassLoaderUtils.installHook();
+        ClassLoaderUtils.testPathClassLoader();
     }
 }
