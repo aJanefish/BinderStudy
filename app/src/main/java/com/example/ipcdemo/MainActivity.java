@@ -1,6 +1,7 @@
 package com.example.ipcdemo;
 
 import android.content.Intent;
+import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.View;
 import com.example.ipcdemo.activity.IPCDemoActivity;
 import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
 import com.example.ipcdemo.classloader.ClassLoaderUtils;
+import com.example.ipcdemo.util.BinderInternalUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,5 +30,10 @@ public class MainActivity extends AppCompatActivity {
     public void test_class_loader(View view) {
         //ClassLoaderUtils.installHook();
         ClassLoaderUtils.testPathClassLoader();
+
+    }
+
+    public void test_getContextObject(View view) {
+        BinderInternalUtils.test();
     }
 }
