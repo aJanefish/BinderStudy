@@ -9,6 +9,7 @@ import android.view.View;
 import com.example.ipcdemo.activity.IPCDemoActivity;
 import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
 import com.example.ipcdemo.classloader.ClassLoaderUtils;
+import com.example.ipcdemo.study.activity.SubMainActivity;
 import com.example.ipcdemo.util.BinderInternalUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,5 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_getContextObject(View view) {
         BinderInternalUtils.test();
+    }
+
+    //测试Activity
+    public void test_activity(View view) {
+        startActivity(new Intent(this, SubMainActivity.class));
     }
 }

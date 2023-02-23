@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".study.activity.SubMainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="测试Activity"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/start_in_process_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="start_in_process_activity"
+        android:text="启动当前进程的Activity"
+        android:textAllCaps="false"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/start_new_process_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="start_new_process_activity"
+        android:text="启动新进程的Activity"
+        android:textAllCaps="false"
+        tools:ignore="MissingConstraints" />
+
+</android.support.v7.widget.LinearLayoutCompat>

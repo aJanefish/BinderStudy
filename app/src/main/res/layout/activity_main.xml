@@ -8,31 +8,38 @@
     tools:context=".MainActivity">
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:onClick="test_ipc_demo"
-        android:textAllCaps="false"
         android:text="IPC Demo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textAllCaps="false" />
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:onClick="test_proxy_system_manager"
-        android:textAllCaps="false"
         android:text="Proxy SystemManager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textAllCaps="false" />
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:onClick="test_class_loader"
-        android:textAllCaps="false"
         android:text="Test ClassLoader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textAllCaps="false" />
 
     <Button
-        android:onClick="test_getContextObject"
-        android:textAllCaps="false"
-        android:text="Test getContextObject"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="test_getContextObject"
+        android:text="Test getContextObject"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test_activity"
+        android:text="Test Activity"
+        android:textAllCaps="false" />
 
 </android.support.v7.widget.LinearLayoutCompat>

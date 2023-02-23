@@ -24,7 +24,26 @@
         <activity
             android:name=".activity.IPCDemoActivity"
             android:process="com.example.ipcdemo.one" />
-        <activity android:name=".MainActivity">
+
+        <!--Activity Test Start-->
+        <activity
+            android:name=".study.activity.SubInNewProcessActivity"
+            android:label="SubInNewProcessActivity"
+            android:process="zy.demo.new.process" />
+
+        <activity
+            android:name=".study.activity.SubInProcessActivity"
+            android:label="SubInProcessActivity"
+            android:process="zy.demo.main.process" />
+        <activity
+            android:name=".study.activity.SubMainActivity"
+            android:label="SubMainActivity"
+            android:process="zy.demo.main.process" />
+        <!--Activity Test End-->
+
+        <activity
+            android:name=".MainActivity"
+            android:process="zy.demo.main.process">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
