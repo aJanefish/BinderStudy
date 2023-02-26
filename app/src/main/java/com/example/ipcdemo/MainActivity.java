@@ -42,4 +42,9 @@ public class MainActivity extends AppCompatActivity {
     public void test_activity(View view) {
         startActivity(new Intent(this, SubMainActivity.class));
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 }

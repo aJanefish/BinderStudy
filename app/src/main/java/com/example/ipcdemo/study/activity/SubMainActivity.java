@@ -18,10 +18,18 @@ public class SubMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sub_main);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    public void start_in_process_self(View view) {
+        startActivity(new Intent(this, SubMainActivity.class));
     }
 
     public void start_in_process_activity(View view) {
@@ -30,5 +38,10 @@ public class SubMainActivity extends AppCompatActivity {
 
     public void start_new_process_activity(View view) {
         startActivity(new Intent(this, SubInNewProcessActivity.class));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }

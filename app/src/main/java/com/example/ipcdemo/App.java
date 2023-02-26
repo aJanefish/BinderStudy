@@ -1,6 +1,7 @@
 package com.example.ipcdemo;
 
 import android.app.Application;
+import android.os.Looper;
 import android.util.Log;
 
 import com.example.ipc.util.Constant;
@@ -14,7 +15,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate:" + this + " " + System.identityHashCode(this));
+        Log.d(TAG, "onCreate:" + this + " " + System.identityHashCode(this)+" "+ Looper.getMainLooper());
 //        DemoManager.getDemoManager().init(this);
 //        DemoManager.getDemoManager().bindDiyService();
         //ClassLoaderUtils.installHook();

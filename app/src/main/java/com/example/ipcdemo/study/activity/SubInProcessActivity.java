@@ -20,9 +20,9 @@ public class SubInProcessActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_two);
-        title = findViewById(R.id.two_title);
-        Button button_two = findViewById(R.id.two_button);
+        setContentView(R.layout.activity_sub_in_process);
+        title = findViewById(R.id.activity_sub_in_process_title);
+        Button button_two = findViewById(R.id.activity_sub_in_process_button_one);
         button_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

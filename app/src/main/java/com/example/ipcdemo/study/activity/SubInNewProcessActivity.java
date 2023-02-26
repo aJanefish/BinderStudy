@@ -1,5 +1,6 @@
 package com.example.ipcdemo.study.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,7 +21,7 @@ public class SubInNewProcessActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_two);
+        setContentView(R.layout.activity_sub_new_process);
         title = findViewById(R.id.two_title);
         Button button_two = findViewById(R.id.two_button);
         button_two.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +35,12 @@ public class SubInNewProcessActivity extends AppCompatActivity {
                         Utils.showProcess();
                     }
                 }).start();
+            }
+        });
+        findViewById(R.id.one_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SubInNewProcessActivity.this, SubMainActivity.class));
             }
         });
     }
