@@ -2,12 +2,12 @@ package com.example.ipc;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-import com.example.ipc.util.Constant;
+import com.zy.zlog.ZLog;
+
 
 public class ApkInfo implements Parcelable {
-    private static final String TAG = Constant.PRE_TAG + "ApkInfo";
+    private static final String TAG = "ApkInfo";
 
     String pkgName;
     String filePath;
@@ -45,7 +45,7 @@ public class ApkInfo implements Parcelable {
     }
 
     public void setFilePath(String filePath) {
-        Log.d(TAG, "setFilePath:" + filePath);
+        ZLog.d(TAG, "setFilePath:" + filePath);
         this.filePath = filePath;
     }
 

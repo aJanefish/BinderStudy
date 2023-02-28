@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.example.ipc.util.Constant;
 import com.example.ipcdemo.R;
 
 public class SubMainActivity extends AppCompatActivity {
 
-    private final String TAG = Constant.PRE_TAG + "SubMain";
+    private final String TAG = "SubMain";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

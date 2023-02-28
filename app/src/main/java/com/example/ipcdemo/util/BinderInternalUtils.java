@@ -1,13 +1,11 @@
 package com.example.ipcdemo.util;
 
-import static com.example.ipc.util.Constant.PRE_TAG;
-
-import android.util.Log;
+import com.zy.zlog.ZLog;
 
 import java.lang.reflect.Method;
 
 public class BinderInternalUtils {
-    private static final String TAG = PRE_TAG + "BinderInternalUtils";
+    private static final String TAG = "BinderInternalUtils";
 
     public static void test() {
         try {
@@ -15,7 +13,7 @@ public class BinderInternalUtils {
             Method method = binderInternal.getMethod("getContextObject");
             method.setAccessible(true);
             Object object = method.invoke(null);
-            Log.d(TAG, "" + object);
+            ZLog.d(TAG, "" + object);
         } catch (Throwable e) {
             e.printStackTrace();
         }

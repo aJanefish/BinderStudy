@@ -3,7 +3,7 @@ package com.example.ipcdemo.util;
 import android.os.Process;
 import android.util.Log;
 
-import static com.example.ipc.util.Constant.TAG_UTILS;
+import static com.zy.utils.Constant.TAG_UTILS;
 
 public class Utils {
 

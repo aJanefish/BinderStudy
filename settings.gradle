@@ -2,3 +2,5 @@ include ':ipc'
 include ':binderservice'
 include ':app'
 rootProject.name = "IPCDemo"
+include ':base:zlog'
+include ':base:utils'

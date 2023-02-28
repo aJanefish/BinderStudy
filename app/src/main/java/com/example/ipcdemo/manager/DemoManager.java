@@ -1,22 +1,24 @@
 package com.example.ipcdemo.manager;
 
+import static com.example.ipc.IPCConstant.APK_TEST_ACTION;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.util.Log;
 
 import com.example.ipc.IApkInstallManager;
-import com.example.ipc.util.Constant;
+import com.zy.zlog.ZLog;
+
 
 /**
  * 通过Application连接服务
  */
 public class DemoManager {
 
-    private static final String TAG =  Constant.PRE_TAG +"DemoManager";
+    private static final String TAG = "DemoManager";
     private static DemoManager demoManager = new DemoManager();
     private static int values = 1;
     private Context mContext;
@@ -32,13 +34,13 @@ public class DemoManager {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            Log.d(TAG, "onServiceConnected:" + iApkInstallManager + " " + service);
+            ZLog.d(TAG, "onServiceConnected:" + iApkInstallManager + " " + service);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             // TODO: 2020/7/31 服务端断开 UI线程中回调
-            Log.d(TAG, "onServiceDisconnected:" + name + " " + Thread.currentThread());
+            ZLog.d(TAG, "onServiceDisconnected:" + name + " " + Thread.currentThread());
             iApkInstallManager = null;
             reBindService();
         }
@@ -48,7 +50,7 @@ public class DemoManager {
         @Override
         public void binderDied() {
             // FIXME: 2020/8/1 服务断开 binder线程中调用
-            Log.d(TAG, "binderDied:" + iApkInstallManager + " " + Thread.currentThread());
+            ZLog.d(TAG, "binderDied:" + iApkInstallManager + " " + Thread.currentThread());
             if (iApkInstallManager == null) {
                 return;
             }
@@ -75,7 +77,7 @@ public class DemoManager {
     }
 
     public void bindDiyService() {
-        Intent intent = new Intent(Constant.APK_TEST_ACTION);
+        Intent intent = new Intent(APK_TEST_ACTION);
         //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
         //设置服务端的包名
         intent.setPackage("com.example.binderservice");

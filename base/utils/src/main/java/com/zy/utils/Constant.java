@@ -1,7 +1,6 @@
-package com.example.ipc.util;
+package com.zy.utils;
 
 public class Constant {
-    public static final String APK_TEST_ACTION = "com.test.zy.APK_INSTALL_ACTION";
 
     public static final String PRE_TAG = "ZYDebug.";
     public static final String TAG_UTILS = PRE_TAG + "Utils";

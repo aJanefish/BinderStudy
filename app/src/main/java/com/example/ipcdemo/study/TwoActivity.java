@@ -2,19 +2,18 @@ package com.example.ipcdemo.study;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.ipc.util.Constant;
 import com.example.ipcdemo.R;
 import com.example.ipcdemo.manager.DemoManager;
 import com.example.ipcdemo.util.Utils;
+import com.zy.zlog.ZLog;
 
 public class TwoActivity extends AppCompatActivity {
 
-    private String TAG = Constant.PRE_TAG + "TwoActivity";
+    private final String TAG =  "TwoActivity";
     private TextView title;
 
     @Override
@@ -26,7 +25,7 @@ public class TwoActivity extends AppCompatActivity {
         button_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "showTips");
+                ZLog.d(TAG, "showTips");
                 Utils.showProcess();
                 new Thread(new Runnable() {
                     @Override

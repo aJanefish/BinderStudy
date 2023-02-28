@@ -1,10 +1,8 @@
 package com.example.ipcdemo.activity;
 
-import static com.example.ipc.util.Constant.PRE_TAG;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.example.ipcdemo.R;
@@ -15,7 +13,7 @@ import com.example.ipcdemo.proxy.ProxyPMSUtils;
 
 public class ProxyManagerDemoActivity extends AppCompatActivity {
 
-    private static final String TAG = PRE_TAG + "ProxyManagerDemo";
+    private static final String TAG = "ProxyManagerDemo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
