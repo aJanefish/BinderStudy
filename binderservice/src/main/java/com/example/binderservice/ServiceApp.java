@@ -1,16 +1,16 @@
 package com.example.binderservice;
 
 import android.app.Application;
-import android.util.Log;
 
-import com.example.ipc.util.Constant;
+import com.zy.zlog.ZLog;
+
 
 public class ServiceApp extends Application {
-    private static final String TAG = Constant.PRE_TAG + "ServiceApp";
+    private static final String TAG = "ServiceApp";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG,"onCreate");
+        ZLog.d(TAG, "onCreate");
     }
 }

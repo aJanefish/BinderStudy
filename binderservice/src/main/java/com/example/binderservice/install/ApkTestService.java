@@ -6,11 +6,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.example.ipc.util.Constant;
+import com.zy.zlog.ZLog;
 
 public class ApkTestService extends Service {
 
-    private static final String TAG = Constant.PRE_TAG + "ApkTestService";
+    private static final String TAG = "ApkTestService";
 
     public ApkTestService() {
     }
@@ -40,7 +40,7 @@ public class ApkTestService extends Service {
 //            //权限不满足，返回NULL，绑定服务失败
 //            return null;
 //        }
-        Log.d(TAG, "onBind:" + mBinder + " identityHashCode:" + System.identityHashCode(mBinder));
+        ZLog.d(TAG, "onBind:" + mBinder + " identityHashCode:" + System.identityHashCode(mBinder));
         return mBinder;
     }
 
