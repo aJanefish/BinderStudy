@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zy.server">
+
+    <application>
+        <service
+            android:name="com.zy.server.install.ApkTestService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.example.binderservice.TEST_ACCESS">
+            <intent-filter>
+                <action android:name="com.test.zy.APK_INSTALL_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

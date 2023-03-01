@@ -1,6 +1,7 @@
-include ':ipc'
-include ':binderservice'
-include ':app'
+include 'business:frameworks:ipc'
+include 'container:binderservice'
+include 'container:app'
 rootProject.name = "IPCDemo"
 include ':base:zlog'
 include ':base:utils'
+include ':business:frame:server-impl'
