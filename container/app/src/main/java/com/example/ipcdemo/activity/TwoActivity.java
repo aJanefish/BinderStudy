@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.ipcdemo.R;
-import com.example.ipcdemo.manager.DemoManager;
 import com.example.ipcdemo.util.Utils;
 import com.zy.zlog.ZLog;
 
@@ -41,7 +40,6 @@ public class TwoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        title.setText("sss:" + DemoManager.getValues());
     }
 
     public void twoShowTips(View view) {

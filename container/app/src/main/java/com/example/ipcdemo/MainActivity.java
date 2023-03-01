@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.ipcdemo.activity.IPCDemoActivity;
 import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
 import com.example.ipcdemo.classloader.ClassLoaderUtils;
 import com.example.ipcdemo.study.activity.SubMainActivity;
 import com.example.ipcdemo.util.BinderInternalUtils;
+import com.zy.server.IPCDemoActivity;
 
 public class MainActivity extends AppCompatActivity {
 

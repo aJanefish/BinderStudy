@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="test_ipc_demo"
-        android:text="IPC Demo"
+        android:text="IPC Client"
         android:textAllCaps="false" />
 
     <Button

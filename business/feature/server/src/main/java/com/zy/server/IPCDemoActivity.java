@@ -1,4 +1,4 @@
-package com.example.ipcdemo.activity;
+package com.zy.server;
 
 import static com.example.ipc.IPCConstant.APK_TEST_ACTION;
 
@@ -15,9 +15,6 @@ import android.widget.TextView;
 import com.example.ipc.ApkInfo;
 import com.example.ipc.IApkInstallListener;
 import com.example.ipc.IApkInstallManager;
-import com.example.ipcdemo.R;
-import com.example.ipcdemo.manager.DemoManager;
-import com.example.ipcdemo.util.Utils;
 import com.zy.zlog.ZLog;
 
 import java.util.Random;
@@ -88,24 +85,6 @@ public class IPCDemoActivity extends AppCompatActivity {
         super.onStart();
         DemoManager.setValues(2);
         title.setText("sss:" + DemoManager.getValues());
-    }
-
-    public void gotoOne(View view) {
-        startActivity(new Intent(this, OneActivity.class));
-    }
-
-    public void gotoTwo(View view) {
-        startActivity(new Intent(this, TwoActivity.class));
-    }
-
-    public void showTips(View view) {
-        Utils.showProcess();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Utils.showProcess();
-            }
-        }).start();
     }
 
     public void getFlag(View view) {

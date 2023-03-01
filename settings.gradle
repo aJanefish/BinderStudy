@@ -5,3 +5,4 @@ rootProject.name = "IPCDemo"
 include ':base:zlog'
 include ':base:utils'
 include ':business:frame:server-impl'
+include ':business:feature:server'

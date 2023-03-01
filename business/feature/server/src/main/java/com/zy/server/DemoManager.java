@@ -1,4 +1,4 @@
-package com.example.ipcdemo.manager;
+package com.zy.server;
 
 import static com.example.ipc.IPCConstant.APK_TEST_ACTION;
 
@@ -19,7 +19,7 @@ import com.zy.zlog.ZLog;
 public class DemoManager {
 
     private static final String TAG = "DemoManager";
-    private static DemoManager demoManager = new DemoManager();
+    private static final DemoManager demoManager = new DemoManager();
     private static int values = 1;
     private Context mContext;
 

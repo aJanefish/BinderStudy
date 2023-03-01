@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zy.server.IPCDemoActivity">
+
+    <TextView
+        android:id="@+id/main_title_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跨进程访问服务端"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/main_title_one"
+            tools:ignore="MissingConstraints">
+
+            <Button
+                android:id="@+id/main_button_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="bindDiyService"
+                android:text="bind服务"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="unbindDiyService"
+                android:text="unbind服务"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="getFlag"
+                android:text="获取服务端flag"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/main_button_four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="setFlag"
+                android:text="设置服务端flag"
+                android:textAllCaps="false" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="checkPermission"
+                android:text="检查服务端安装权限"
+                android:textAllCaps="false" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="registerListener"
+                android:text="注册安装回调"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="unregisterListener"
+                android:text="反注册安装回调"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startSilentInstall"
+                android:text="静默安装"
+                android:textAllCaps="false" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startCommonInstall"
+                android:text="普通安装"
+                android:textAllCaps="false" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startSilentInstallInChildThread"
+                android:text="子线程静默安装"
+                android:textAllCaps="false" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="startCommonInstallInChildThread"
+                android:text="子线程普通安装"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+</android.support.v7.widget.LinearLayoutCompat>
