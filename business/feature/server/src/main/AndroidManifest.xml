@@ -5,8 +5,13 @@
     <application>
 
         <activity
-            android:name="com.zy.server.IPCDemoActivity"
+            android:name="com.zy.server.IPCMainActivity"
             android:label="IPCDemoActivity"
+            android:process="com.example.ipcdemo.one" />
+
+        <activity
+            android:name="com.zy.server.IPCBindServiceActivity"
+            android:label="IPCMainActivity"
             android:process="com.example.ipcdemo.one" />
 
     </application>

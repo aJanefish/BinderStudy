@@ -4,15 +4,19 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.zy.zlog.ZLog;
 
-public class ApkTestService extends Service {
+public class ApkBaseService extends Service {
 
-    private static final String TAG = "ApkTestService";
+    private final String TAG;
 
-    public ApkTestService() {
+    public ApkBaseService() {
+        TAG = getDiyTag();
+    }
+
+    protected String getDiyTag() {
+        return "ApkTestService";
     }
 
     private Binder mBinder = new ApkInstallManager(this);
@@ -20,7 +24,7 @@ public class ApkTestService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate:" + this + " " + Thread.currentThread());
+        ZLog.d(TAG, "onCreate:" + this + " " + Thread.currentThread());
     }
 
 
@@ -46,7 +50,7 @@ public class ApkTestService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand:" + mBinder + " " + Thread.currentThread());
+        ZLog.d(TAG, "onStartCommand:" + mBinder + " " + Thread.currentThread());
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -54,18 +58,18 @@ public class ApkTestService extends Service {
     @Override
     public void onRebind(Intent intent) {
         super.onRebind(intent);
-        Log.d(TAG, "onRebind:" + Thread.currentThread());
+        ZLog.d(TAG, "onRebind:" + Thread.currentThread());
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        Log.d(TAG, "onUnbind:" + Thread.currentThread());
+        ZLog.d(TAG, "onUnbind:" + Thread.currentThread());
         return super.onUnbind(intent);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy:" + Thread.currentThread());
+        ZLog.d(TAG, "onDestroy:" + Thread.currentThread());
     }
 }

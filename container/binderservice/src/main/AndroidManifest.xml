@@ -30,13 +30,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".IPCMainActivity"
+            android:exported="true"
+            android:label="IPC Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".IPCBindServiceActivity"
+            android:label="IPCBindServiceActivity" />
+
+        <activity
+            android:name=".IPCStartServiceActivity"
+            android:label="IPCStartServiceActivity" />
     </application>
 
 </manifest>

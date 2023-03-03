@@ -1,4 +1,4 @@
-package com.zy.server;
+package com.example.binderservice;
 
 import static com.example.ipc.IPCConstant.APK_TEST_ACTION;
 
@@ -15,16 +15,39 @@ import android.widget.TextView;
 import com.example.ipc.ApkInfo;
 import com.example.ipc.IApkInstallListener;
 import com.example.ipc.IApkInstallManager;
+
 import com.zy.zlog.ZLog;
 
 import java.util.Random;
 
-public class IPCDemoActivity extends AppCompatActivity {
+public class IPCBindServiceActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private IApkInstallManager iApkInstallManager;
+    private final static String TAG = "MainActivity";
     private TextView title;
-    IApkInstallManager iApkInstallManager = null;
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        title = findViewById(R.id.service_main_title);
+        findViewById(R.id.service_main_button_get_flag).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFlag(v);
+            }
+        });
+
+        findViewById(R.id.service_main_button_set_flag).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFlag(v);
+            }
+        });
+    }
+
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             iApkInstallManager = IApkInstallManager.Stub.asInterface(service);
@@ -34,7 +57,7 @@ public class IPCDemoActivity extends AppCompatActivity {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            ZLog.d(TAG, "onServiceConnected:" + iApkInstallManager + " " + service);
+            ZLog.d(TAG, "onServiceConnected:" + iApkInstallManager + " " + service + " identityHashCode:" + System.identityHashCode(service));
         }
 
         @Override
@@ -45,6 +68,15 @@ public class IPCDemoActivity extends AppCompatActivity {
             reBindService();
         }
     };
+
+    public void bindDiyService(View view) {
+        Intent intent = new Intent(APK_TEST_ACTION);
+        //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
+        //设置服务端的包名
+        intent.setPackage("com.example.binderservice");
+
+        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
+    }
 
     private void reBindService() {
         Intent intent = new Intent(APK_TEST_ACTION);
@@ -73,24 +105,14 @@ public class IPCDemoActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ipc_demo);
-        title = findViewById(R.id.main_title);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        DemoManager.setValues(2);
-        title.setText("sss:" + DemoManager.getValues());
+    public void unbindDiyService(View view) {
+        unbindService(serviceConnection);
     }
 
     public void getFlag(View view) {
         try {
             int flag = iApkInstallManager.getFlag();
-            title.append("" + flag + "\n");
+            title.append("\n" + flag);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -104,90 +126,18 @@ public class IPCDemoActivity extends AppCompatActivity {
         }
     }
 
-    public void bindDiyService(View view) {
-        Intent intent = new Intent(APK_TEST_ACTION);
-        //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
-        //设置服务端的包名
-        intent.setPackage("com.example.binderservice");
-
-        bindService(intent, serviceConnection, BIND_AUTO_CREATE);
-    }
-
-    public void unbindDiyService(View view) {
-        unbindService(serviceConnection);
-    }
-
-    public void checkPermission(View view) {
-
-        try {
-            boolean checkPermission = iApkInstallManager.checkPermission();
-            title.append("检查apk安装权限:" + checkPermission + "\n");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void startSilentInstall(View view) {
-        try {
-            ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
-            ZLog.d(TAG, "startSilentInstall:" + apkInfo);
-            iApkInstallManager.startSilentInstall(apkInfo);
-            titleAppend("startSilentInstall");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void startCommonInstall(View view) {
-        try {
-            ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
-            ZLog.d(TAG, "startCommonInstall:" + apkInfo);
-            iApkInstallManager.startCommonInstall(apkInfo);
-            titleAppend("startCommonInstall");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-    }
-
-//    private IApkInstallListener iApkInstallListener = new IApkInstallListener() {
-//        @Override
-//        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-//
-//        }
-//
-//        @Override
-//        public void onStatusChanged(int status, String msg) throws RemoteException {
-//
-//        }
-//
-//        @Override
-//        public IBinder asBinder() {
-//            return null;
-//        }
-//    }
-
-    private IApkInstallListener.Stub listener2 = new IApkInstallListener.Stub() {
-        @Override
-        public void onStatusChanged(int status, String msg) throws RemoteException {
-            ZLog.d(TAG, "onStatusChanged 1:" + Thread.currentThread());
-            ZLog.d(TAG, "onStatusChanged 1: status=" + status + " msg=" + msg);
-        }
-    };
-
     private IApkInstallListener.Stub listener1 = new IApkInstallListener.Stub() {
         @Override
         public void onStatusChanged(int status, String msg) throws RemoteException {
-            ZLog.d(TAG, "onStatusChanged 2:" + Thread.currentThread() + " " + ZLog.getStackTraceString(new Throwable()));
-            ZLog.d(TAG, "onStatusChanged 2: status=" + status + " msg=" + msg);
+            ZLog.d(TAG, "onStatusChanged 1:" + Thread.currentThread() + " " + ZLog.getStackTraceString(new Throwable()));
+            ZLog.d(TAG, "onStatusChanged 1: status=" + status + " msg=" + msg);
         }
     };
 
     public void registerListener(View view) {
         try {
             iApkInstallManager.registerListener(listener1);
-            //iApkInstallManager.registerListener(listener2);
             ZLog.d(TAG, "registerListener: listener1=" + listener1 + " " + listener1.asBinder());
-            titleAppend("registerListener");
         } catch (Exception e) {
             ZLog.d(TAG, e.toString());
             e.printStackTrace();
@@ -197,10 +147,7 @@ public class IPCDemoActivity extends AppCompatActivity {
     public void unregisterListener(View view) {
         try {
             iApkInstallManager.unregisterListener(listener1);
-            //iApkInstallManager.unregisterListener(listener2);
             ZLog.d(TAG, "unregisterListener: listener1=" + listener1);
-
-            titleAppend("unregisterListener");
         } catch (Exception e) {
             ZLog.d(TAG, e.toString());
             e.printStackTrace();
@@ -215,7 +162,6 @@ public class IPCDemoActivity extends AppCompatActivity {
                     ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
                     ZLog.d(TAG, "startSilentInstall:" + apkInfo);
                     iApkInstallManager.startSilentInstall(apkInfo);
-                    titleAppend("startSilentInstallInChildThread");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -232,7 +178,6 @@ public class IPCDemoActivity extends AppCompatActivity {
                     ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
                     ZLog.d(TAG, "startSilentInstall:" + apkInfo);
                     iApkInstallManager.startCommonInstall(apkInfo);
-                    titleAppend("startCommonInstallInChildThread");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -240,12 +185,24 @@ public class IPCDemoActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void titleAppend(final String values) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                title.append(values + "\n");
-            }
-        });
+    public void startSilentInstall(View view) {
+        try {
+            ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
+            ZLog.d(TAG, "startSilentInstall:" + apkInfo);
+            iApkInstallManager.startSilentInstall(apkInfo);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void startCommonInstall(View view) {
+        try {
+            ApkInfo apkInfo = new ApkInfo("com.tentent.ig", "/sdcard/Android/data/com.example.ipcdemo/test.Apk");
+            ZLog.d(TAG, "startCommonInstall:" + apkInfo);
+            iApkInstallManager.startCommonInstall(apkInfo);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

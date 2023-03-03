@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zy.server.IPCDemoActivity">
+    tools:context="com.zy.server.IPCBindServiceActivity">
 
     <TextView
         android:id="@+id/main_title_one"

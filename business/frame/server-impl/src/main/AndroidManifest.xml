@@ -4,12 +4,24 @@
 
     <application>
         <service
-            android:name="com.zy.server.install.ApkTestService"
+            android:name="com.zy.server.install.ApkInProcessService"
             android:enabled="true"
             android:exported="true"
             android:permission="com.example.binderservice.TEST_ACCESS">
             <intent-filter>
                 <action android:name="com.test.zy.APK_INSTALL_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.zy.server.install.ApkNewProcessService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.example.binderservice.TEST_ACCESS"
+            android:process="com.zy.server.new_process">
+            <intent-filter>
+                <action android:name="com.test.zy.APK_IN_NEW_PROCESS_INSTALL_ACTION" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>

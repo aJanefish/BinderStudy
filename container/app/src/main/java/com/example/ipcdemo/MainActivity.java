@@ -9,7 +9,7 @@ import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
 import com.example.ipcdemo.classloader.ClassLoaderUtils;
 import com.example.ipcdemo.study.activity.SubMainActivity;
 import com.example.ipcdemo.util.BinderInternalUtils;
-import com.zy.server.IPCDemoActivity;
+import com.zy.server.IPCMainActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test_ipc_demo(View view) {
-        startActivity(new Intent(this, IPCDemoActivity.class));
+        startActivity(new Intent(this, IPCMainActivity.class));
     }
 
     public void test_proxy_system_manager(View view) {
