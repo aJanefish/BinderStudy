@@ -11,6 +11,6 @@ public class ServiceApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ZLog.d(TAG, "onCreate");
+        ZLog.d(TAG, "onCreate:" + this);
     }
 }

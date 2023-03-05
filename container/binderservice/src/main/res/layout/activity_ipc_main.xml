@@ -17,8 +17,15 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="test_bind_service_activity"
-        android:text="IPC Bind"
+        android:onClick="test_bind_service_activity_in_process"
+        android:text="同进程IPC Bind"
+        android:textAllCaps="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test_bind_service_activity_in_new_process"
+        android:text="不同进程IPC Bind"
         android:textAllCaps="false" />
 
 

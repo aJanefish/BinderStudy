@@ -18,8 +18,12 @@ public class IPCMainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    public void test_bind_service_activity(View view) {
-        startActivity(new Intent(this, IPCBindServiceActivity.class));
+    public void test_bind_service_activity_in_process(View view) {
+        startActivity(new Intent(this, IPCBindServiceInProcessActivity.class));
+    }
+
+    public void test_bind_service_activity_in_new_process(View view) {
+        startActivity(new Intent(this, IPCBindServiceNewProcessActivity.class));
     }
 
     public void test_start_service_activity(View view) {

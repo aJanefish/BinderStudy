@@ -9,6 +9,6 @@ public class ApkNewProcessService extends ApkBaseService {
 
     @Override
     protected String getDiyTag() {
-        return "ApkNewProcessService";
+        return "NPService";
     }
 }

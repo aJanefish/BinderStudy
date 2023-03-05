@@ -10,6 +10,6 @@ public class ApkInProcessService extends ApkBaseService {
 
     @Override
     protected String getDiyTag() {
-        return "ApkInProcessService";
+        return "IPService";
     }
 }

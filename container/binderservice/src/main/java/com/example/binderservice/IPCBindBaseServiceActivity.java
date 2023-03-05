@@ -5,22 +5,21 @@ import static com.example.ipc.IPCConstant.APK_TEST_ACTION;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.ipc.ApkInfo;
 import com.example.ipc.IApkInstallListener;
 import com.example.ipc.IApkInstallManager;
-
 import com.zy.zlog.ZLog;
 
 import java.util.Random;
 
-public class IPCBindServiceActivity extends AppCompatActivity {
+public class IPCBindBaseServiceActivity extends AppCompatActivity {
 
     private IApkInstallManager iApkInstallManager;
     private final static String TAG = "MainActivity";
@@ -29,7 +28,7 @@ public class IPCBindServiceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ipc_binder_service);
 
         title = findViewById(R.id.service_main_title);
         findViewById(R.id.service_main_button_get_flag).setOnClickListener(new View.OnClickListener() {
@@ -74,7 +73,6 @@ public class IPCBindServiceActivity extends AppCompatActivity {
         //Caused by: java.lang.IllegalArgumentException: Service Intent must be explicit: Intent { act=com.test.zy.APK_INSTALL_ACTION }
         //设置服务端的包名
         intent.setPackage("com.example.binderservice");
-
         bindService(intent, serviceConnection, BIND_AUTO_CREATE);
     }
 
