@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/base/zlog" />
             <option value="$PROJECT_DIR$/business" />
             <option value="$PROJECT_DIR$/business/feature" />
+            <option value="$PROJECT_DIR$/business/feature/broadcast" />
             <option value="$PROJECT_DIR$/business/feature/server" />
             <option value="$PROJECT_DIR$/business/frame" />
             <option value="$PROJECT_DIR$/business/frame/server-impl" />

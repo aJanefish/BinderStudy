@@ -42,4 +42,11 @@
         android:text="Test Activity"
         android:textAllCaps="false" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test_broadcast"
+        android:text="测试广播"
+        android:textAllCaps="false" />
+
 </android.support.v7.widget.LinearLayoutCompat>
