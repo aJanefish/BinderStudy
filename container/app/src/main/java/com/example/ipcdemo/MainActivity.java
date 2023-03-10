@@ -9,6 +9,7 @@ import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
 import com.example.ipcdemo.classloader.ClassLoaderUtils;
 import com.example.ipcdemo.study.activity.SubMainActivity;
 import com.example.ipcdemo.util.BinderInternalUtils;
+import com.zy.animation.AnimationMenuActivity;
 import com.zy.feat.broadcast.BroadcastMainActivity;
 import com.zy.feat.broadcast.ZBroadcastManager;
 import com.zy.server.IPCMainActivity;
@@ -67,5 +68,9 @@ public class MainActivity extends AppCompatActivity {
             stringBuffer.append(i).append(" ").append(actions).append("\n");
         }
         stringBuffer.toString();
+    }
+
+    public void test_animation(View view) {
+        startActivity(new Intent(this, AnimationMenuActivity.class));
     }
 }
