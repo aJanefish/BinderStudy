@@ -15,19 +15,13 @@ import com.zy.animation.bean.AnimationMenuBean;
 
 import java.util.List;
 
+@Deprecated
 public class AnimationMenuAdapter extends RecyclerView.Adapter<AnimationMenuAdapter.AnimationMenuViewHolder> {
 
     List<AnimationMenuBean> mainBeanList;
 
-    private View mView;
-
     public AnimationMenuAdapter(List<AnimationMenuBean> mainBeanList) {
         this.mainBeanList = mainBeanList;
-    }
-
-
-    public void setView(View mView) {
-        this.mView = mView;
     }
 
     @NonNull

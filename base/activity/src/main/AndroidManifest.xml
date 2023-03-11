@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zy.activity">
+
+    <application>
+        <!--        <activity-->
+        <!--            android:name=".BaseMenuActivity"-->
+        <!--            android:exported="false" />-->
+        <!--        <activity-->
+        <!--            android:name=".BaseMainActivity"-->
+        <!--            android:exported="false" />-->
+    </application>
+
+</manifest>

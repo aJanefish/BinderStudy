@@ -9,6 +9,8 @@ import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
 import com.example.ipcdemo.classloader.ClassLoaderUtils;
 import com.example.ipcdemo.study.activity.SubMainActivity;
 import com.example.ipcdemo.util.BinderInternalUtils;
+import com.zy.algorithm.AlgorithmMainActivity;
+import com.zy.algorithm.AlgorithmMenuActivity;
 import com.zy.animation.AnimationMenuActivity;
 import com.zy.feat.broadcast.BroadcastMainActivity;
 import com.zy.feat.broadcast.ZBroadcastManager;
@@ -72,5 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void test_animation(View view) {
         startActivity(new Intent(this, AnimationMenuActivity.class));
+    }
+
+    public void test_algorithm(View view) {
+        startActivity(new Intent(this, AlgorithmMenuActivity.class));
     }
 }

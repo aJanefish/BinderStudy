@@ -1,5 +1,7 @@
 package com.zy.animation.bean;
 
+
+@Deprecated
 public class AnimationMenuBean {
 
     private String title;

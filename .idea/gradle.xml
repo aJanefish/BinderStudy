@@ -12,17 +12,20 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/base/activity" />
             <option value="$PROJECT_DIR$/base/utils" />
             <option value="$PROJECT_DIR$/base/zlog" />
             <option value="$PROJECT_DIR$/base/zy-view" />
             <option value="$PROJECT_DIR$/business" />
             <option value="$PROJECT_DIR$/business/feature" />
+            <option value="$PROJECT_DIR$/business/feature/algorithm-impl" />
             <option value="$PROJECT_DIR$/business/feature/animation" />
             <option value="$PROJECT_DIR$/business/feature/broadcast" />
             <option value="$PROJECT_DIR$/business/feature/server" />
             <option value="$PROJECT_DIR$/business/frame" />
             <option value="$PROJECT_DIR$/business/frame/server-impl" />
             <option value="$PROJECT_DIR$/business/frameworks" />
+            <option value="$PROJECT_DIR$/business/frameworks/algorithm" />
             <option value="$PROJECT_DIR$/business/frameworks/ipc" />
             <option value="$PROJECT_DIR$/container" />
             <option value="$PROJECT_DIR$/container/app" />

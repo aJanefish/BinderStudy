@@ -32,6 +32,7 @@ dependencies {
     implementation project(path: ':business:feature:server')
     implementation project(path: ':business:feature:broadcast')
     implementation project(path: ':business:feature:animation')
+    implementation project(path: ':business:feature:algorithm-impl')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
