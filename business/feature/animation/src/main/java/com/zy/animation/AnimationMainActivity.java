@@ -12,16 +12,16 @@ public class AnimationMainActivity extends BaseMainActivity {
 
     @Override
     protected Fragment getContainerFragment() {
-        int type = getIntent().getIntExtra("type", 0);
+        int code = getIntent().getIntExtra("code", 0);
 
         Fragment fragment;
-        if (type == 1) {
+        if (code == 1) {
             fragment = new SingleAnimationDesFragment();
-        } else if (type == 2) {
+        } else if (code == 2) {
             fragment = new TwoAnimationDesFragment();
-        } else if (type == 3) {
+        } else if (code == 3) {
             fragment = new Two1AnimationDesFragment();
-        } else if (type == 4) {
+        } else if (code == 4) {
             fragment = new Two2AnimationDesFragment();
         } else {
             fragment = new SingleAnimationDesFragment();

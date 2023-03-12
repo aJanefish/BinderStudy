@@ -2,4 +2,5 @@
 <resources>
     <dimen name="STEP">50dp</dimen>
     <dimen name="STEP_TWO">100dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
 </resources>

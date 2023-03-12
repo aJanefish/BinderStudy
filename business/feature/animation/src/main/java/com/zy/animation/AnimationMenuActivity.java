@@ -20,7 +20,7 @@ public class AnimationMenuActivity extends BaseMenuActivity {
     @Override
     protected void clickItem(BaseBean bean) {
         Intent intent = new Intent(this, AnimationMainActivity.class);
-        intent.putExtra("type", bean.getType());
+        intent.putExtra("code", bean.getCode());
         startActivity(intent);
     }
 }
