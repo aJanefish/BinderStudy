@@ -1,15 +1,15 @@
 package com.zy.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class BaseFragment extends Fragment {
+
+    protected final Handler mHandler = new Handler();
 
     public BaseFragment() {
         // Required empty public constructor

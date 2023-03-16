@@ -3,6 +3,7 @@ package com.zy.algorithm;
 import android.support.v4.app.Fragment;
 
 import com.zy.activity.BaseMainActivity;
+import com.zy.algorithm.sort.BubbleSortColumnChartV1Fragment;
 import com.zy.algorithm.sort.BubbleSortV1Fragment;
 import com.zy.algorithm.sort.BubbleSortV2Fragment;
 
@@ -17,6 +18,8 @@ public class AlgorithmMainActivity extends BaseMainActivity {
             fragment = new BubbleSortV1Fragment();
         } else if (code == 2) {
             fragment = new BubbleSortV2Fragment();
+        }else if (code == 3) {
+            fragment = new BubbleSortColumnChartV1Fragment();
         } else {
             fragment = new BubbleSortV1Fragment();
         }

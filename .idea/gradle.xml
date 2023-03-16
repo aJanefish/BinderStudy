@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/base/activity" />
+            <option value="$PROJECT_DIR$/base/resource" />
             <option value="$PROJECT_DIR$/base/utils" />
             <option value="$PROJECT_DIR$/base/zlog" />
             <option value="$PROJECT_DIR$/base/zy-view" />

@@ -1,14 +1,17 @@
-include 'business:frameworks:ipc'
 include 'container:binderservice'
 include 'container:app'
 rootProject.name = "IPCDemo"
 include ':base:zlog'
 include ':base:utils'
+include ':base:zy-view'
+include ':base:activity'
+include ':base:resource'
+
 include ':business:frame:server-impl'
 include ':business:feature:server'
 include ':business:feature:broadcast'
 include ':business:feature:animation'
-include ':base:zy-view'
 include ':business:frameworks:algorithm'
 include ':business:feature:algorithm-impl'
-include ':base:activity'
+
+include 'business:frameworks:ipc'

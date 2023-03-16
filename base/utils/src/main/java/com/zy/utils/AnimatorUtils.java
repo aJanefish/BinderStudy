@@ -20,7 +20,7 @@ public class AnimatorUtils {
     //rotation
     //alpha
 
-    private static final int D = 300;
+    private static final int D = 1000;
 
 
     public static void reset(View origin) {

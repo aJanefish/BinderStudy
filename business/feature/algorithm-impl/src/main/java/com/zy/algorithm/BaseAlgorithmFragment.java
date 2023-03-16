@@ -26,8 +26,6 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
 
     private static final String TAG = "BaseAlgorithm";
 
-    protected final Handler mHandler = new Handler();
-
     @Override
     protected int getLayout() {
         return R.layout.fragment_algorithm_base;
