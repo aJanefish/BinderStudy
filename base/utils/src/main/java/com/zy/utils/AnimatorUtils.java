@@ -137,10 +137,19 @@ public class AnimatorUtils {
         togetherStart(list, null);
     }
 
+    public static Animator getTogetherStart(Animator... animators) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        //同时动画
+        animatorSet.playTogether(animators);
+        animatorSet.setDuration(300);
+        return animatorSet;
+    }
+
     public static Animator getTogetherStart(List<Animator> list) {
         AnimatorSet animatorSet = new AnimatorSet();
         //同时动画
         animatorSet.playTogether(list);
+        animatorSet.setDuration(300);
         return animatorSet;
     }
 

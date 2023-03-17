@@ -6,7 +6,9 @@ import static com.zy.view.SortSquareView.STATUES_SORTING;
 import static com.zy.view.SortSquareView.STATUES_UNSORTED;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,6 +40,10 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
 
     protected SortSquareView[] dataTVS = new SortSquareView[10];
 
+    protected TextView sort_step;
+    protected TextView sort_step_index;
+    protected TextView sort_step_des;
+
     @Override
     protected View[] getDataViewS() {
         return dataTVS;
@@ -50,10 +56,43 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
 
     @Override
     protected void initView(View view) {
+        initEnteringContainer(view);
         initDataTV(view);
+        initTitle(view);
+    }
+
+
+    private View entering_container;
+    private View algorithm_context_container;
+
+    private void initEnteringContainer(View view) {
+        entering_container = view.findViewById(R.id.entering_container);
+        algorithm_context_container = view.findViewById(R.id.algorithm_context_container);
+    }
+
+    @Override
+    protected View getEnterContainer() {
+        return entering_container;
+    }
+
+    @Override
+    protected View getContextContainer() {
+        return algorithm_context_container;
+    }
+
+    private void initTitle(View view) {
+        TextView title = view.findViewById(R.id.sort_title);
+        title.setText(getTitle());
+        TextView enterTitle = view.findViewById(R.id.enter_title);
+        enterTitle.setText(getEnterTitle());
     }
 
     protected void initDataTV(View view) {
+        sort_step = view.findViewById(R.id.sort_step);
+        sort_step_index = view.findViewById(R.id.sort_step_index);
+        sort_step_des = view.findViewById(R.id.sort_step_des);
+
+
         sort_index_0 = view.findViewById(R.id.sort_index_0);
         sort_index_1 = view.findViewById(R.id.sort_index_1);
         sort_index_2 = view.findViewById(R.id.sort_index_2);
@@ -75,6 +114,17 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
         dataTVS[7] = sort_index_7;
         dataTVS[8] = sort_index_8;
         dataTVS[9] = sort_index_9;
+
+        sort_step_des.setText(getDataDes());
+    }
+
+    protected abstract String getDataDes();
+
+    @Override
+    protected void initSetData() {
+        super.initSetData();
+        sort_step.setText("第(" + 0 + ")趟,第(" + 0 + ")次比较");
+        sort_step_index.setText("比较次数:(" + 0 + ")\n交换次数:(" + 0 + ")");
     }
 
     protected void setSortData(SortStepBean bean, boolean start) {
@@ -102,35 +152,79 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
     }
 
     @Override
-    protected void sortAnimation(SortStepBean curStepBean, StepListener listener) {
+    protected void sortAnimation(int index, SortStepBean curStepBean, StepListener listener) {
         //设置当前操作位置-标识
         setDataItemSorting(curStepBean.getOpFirst());
         setDataItemSorting(curStepBean.getOpSecond());
-
 
         View originFirstTV = dataTVS[curStepBean.getOpFirst()];
         View originSecondTV = dataTVS[curStepBean.getOpSecond()];
         //比较动画
 
 
+        float[] shakes = new float[]{1f, 1.05f, 1, 0.95F, 1f, 1.05f, 1f};
+
         List<Animator> animatorList = new ArrayList<>();
+        List<Animator> shakeList = new ArrayList<>();
         if (curStepBean.isResult()) {
             //前一个大
-            animatorList.add(AnimatorUtils.getShakeAnimator(originFirstTV));
+            shakeList.add(ObjectAnimator.ofFloat(originFirstTV, "scaleX", shakes));
+            shakeList.add(ObjectAnimator.ofFloat(originFirstTV, "scaleY", shakes));
+
+            AnimatorSet shakeAnimatorSet = new AnimatorSet();
+            shakeAnimatorSet.playTogether(shakeList);
+            shakeAnimatorSet.setDuration(500);
+
+
+            //animatorList.add(shakeAnimatorSet);
+
+
+            //交换
+            int translationXWidth = originFirstTV.getWidth();
+            List<Animator> move = new ArrayList<>();
+            move.add(ObjectAnimator.ofFloat(originFirstTV, "translationX", 0, translationXWidth));
+            move.add(ObjectAnimator.ofFloat(originSecondTV, "translationX", 0, -translationXWidth));
+
+
+            AnimatorSet moveAnimatorSet = new AnimatorSet();
+            moveAnimatorSet.playTogether(move);
+            moveAnimatorSet.setDuration(500);
+            animatorList.add(moveAnimatorSet);
+
+//            ObjectAnimator empty = ObjectAnimator.ofFloat(originSecondTV, "scaleX", 1f, 1f);
+//            empty.setDuration(200);
+//            animatorList.add(empty);
         } else {//后一个大
-            animatorList.add(AnimatorUtils.getShakeAnimator(originSecondTV));
+            //不交换
+            shakeList.add(ObjectAnimator.ofFloat(originSecondTV, "scaleX", shakes));
+            shakeList.add(ObjectAnimator.ofFloat(originSecondTV, "scaleY", shakes));
+
+            AnimatorSet shakeAnimatorSet = new AnimatorSet();
+            shakeAnimatorSet.playTogether(shakeList);
+            shakeAnimatorSet.setDuration(500);
+
+
+            //animatorList.add(shakeAnimatorSet);
+
+            ObjectAnimator empty = ObjectAnimator.ofFloat(originSecondTV, "scaleX", 1f, 1f);
+            empty.setDuration(500);
+            animatorList.add(empty);
         }
 
 
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(animatorList);
-        animatorSet.start();
-        //移动动画
-        mHandler.postDelayed(new Runnable() {
+        animatorSet.playSequentially(animatorList);
+        animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void run() {
+            public void onAnimationEnd(Animator animation, boolean isReverse) {
+                super.onAnimationEnd(animation, isReverse);
                 listener.nextStep();
             }
-        }, 500);
+        });
+        animatorSet.start();
+
+        //设置步骤内容
+        sort_step.setText("第(" + (curStepBean.getFirstIndex() + 1) + ")趟,第(" + (curStepBean.getSecondIndex() + 1) + ")次比较");
+        sort_step_index.setText("比较次数:(" + curStepBean.getCompareSize() + ")\n交换次数:(" + curStepBean.getExchangeSize() + ")");
     }
 }

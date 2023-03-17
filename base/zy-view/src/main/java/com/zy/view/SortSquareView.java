@@ -1,7 +1,11 @@
 package com.zy.view;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,13 +62,53 @@ public class SortSquareView extends FrameLayout {
         columnView.setLayoutParams(params);
     }
 
+
+    int lastStatues = STATUES_UNSORTED;
+
     public void setStatues(int statues) {
-        if (statues == STATUES_SORTED) {
-            columnView.setBackgroundColor(getResources().getColor(R.color.statues_sorted));
-        } else if (statues == STATUES_SORTING) {
-            columnView.setBackgroundColor(getResources().getColor(R.color.statues_sorting));
+        if (statues != lastStatues) { //动画
+            int to;
+            if (statues == STATUES_SORTED) {
+                to = getResources().getColor(R.color.statues_sorted);
+            } else if (statues == STATUES_SORTING) {
+                to = getResources().getColor(R.color.statues_sorting);
+            } else {
+                to = getResources().getColor(R.color.statues_unsorted);
+            }
+
+            int from;
+            if (lastStatues == STATUES_SORTED) {
+                from = getResources().getColor(R.color.statues_sorted);
+            } else if (lastStatues == STATUES_SORTING) {
+                from = getResources().getColor(R.color.statues_sorting);
+            } else {
+                from = getResources().getColor(R.color.statues_unsorted);
+            }
+            animationColor(from, to);
         } else {
-            columnView.setBackgroundColor(getResources().getColor(R.color.statues_unsorted));
+            if (statues == STATUES_SORTED) {
+                columnView.setBackgroundColor(getResources().getColor(R.color.statues_sorted));
+            } else if (statues == STATUES_SORTING) {
+                columnView.setBackgroundColor(getResources().getColor(R.color.statues_sorting));
+            } else {
+                columnView.setBackgroundColor(getResources().getColor(R.color.statues_unsorted));
+            }
         }
+        lastStatues = statues;
+    }
+
+    private void animationColor(int from, int to) {
+       // Color.RED
+        ValueAnimator valueAnimator = ValueAnimator.ofArgb(from, to);
+        valueAnimator.setDuration(300);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int color = (int) animation.getAnimatedValue();
+                columnView.setBackgroundColor(color);
+            }
+        });
+        valueAnimator.start();
+
     }
 }

@@ -17,7 +17,10 @@ public class AlgorithmMenuActivity extends BaseMenuActivity {
         list.add(new BaseBean("排序算法"));
         list.add(new BaseBean("排序-冒泡", 1));
         list.add(new BaseBean("排序-冒泡(优化一)", 2));
-        list.add(new BaseBean("排序-冒泡(柱形图)", 3));
+        list.add(new BaseBean("排序-冒泡(柱形图)V1", 3));
+        list.add(new BaseBean("排序-冒泡(柱形图)V2", 4));
+        list.add(new BaseBean("排序-冒泡(柱形图)最好情况", 5));
+        list.add(new BaseBean("排序-冒泡(柱形图)最差情况", 6));
 
     }
 

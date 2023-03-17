@@ -1,6 +1,5 @@
 package com.zy.algorithm.bean;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SortStepBean {
@@ -18,6 +17,8 @@ public class SortStepBean {
     int[] stepStart; //本次操作前
     int[] stepEnd; //本次操作后
     boolean needAnimation = true; //是否动画
+    int compareSize = 0; //比较次数
+    int exchangeSize = 0; //交换次数
 
 
     public List<Integer> getSorted() {
@@ -68,6 +69,14 @@ public class SortStepBean {
         return opSecond;
     }
 
+    public int getCompareSize() {
+        return compareSize;
+    }
+
+    public int getExchangeSize() {
+        return exchangeSize;
+    }
+
     @Override
     public String toString() {
         return "SortStepBean{" +
@@ -96,6 +105,8 @@ public class SortStepBean {
         this.stepStart = builder.stepStart;
         this.stepEnd = builder.stepEnd;
         this.needAnimation = builder.needAnimation;
+        this.compareSize = builder.compareSize;
+        this.exchangeSize = builder.exchangeSize;
     }
 
     public static class Builder {
@@ -111,6 +122,8 @@ public class SortStepBean {
         int opFirst; //本次操作位下标
         int opSecond; //本次操作位下标
         boolean needAnimation = true; //是否动画
+        int compareSize = 0; //比较次数
+        int exchangeSize = 0; //交换次数
 
 
         public Builder setSorted(List<Integer> sorted) {
@@ -173,6 +186,14 @@ public class SortStepBean {
 
         public int[] getStepEnd() {
             return this.stepEnd;
+        }
+
+        public void setCompareSize(int compareSize) {
+            this.compareSize = compareSize;
+        }
+
+        public void setExchangeSize(int exchangeSize) {
+            this.exchangeSize = exchangeSize;
         }
 
         public SortStepBean build() {

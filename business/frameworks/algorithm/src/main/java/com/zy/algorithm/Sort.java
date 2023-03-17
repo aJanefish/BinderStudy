@@ -65,13 +65,18 @@ public class Sort {
         List<SortStepBean> stepList = new ArrayList<>();
 
         SortStepBean.Builder builder = null;
+
+
+        int compareSize = 0; //比较次数
+        int exchangeSize = 0; //交换次数
+
         for (int i = 0; i < array.length - 1; i++) {
             for (int j = 0; j < array.length - 1 - i; j++) {
 
                 int firstOpV = array[j];
                 int secondOpV = array[j + 1];
 
-                boolean exchange = firstOpV > secondOpV;
+                boolean result = firstOpV > secondOpV;
 
                 builder = new SortStepBean.Builder();
 
@@ -82,10 +87,12 @@ public class Sort {
                 builder.setOp(">");
                 builder.setFirstOpV(firstOpV);
                 builder.setSecondOpV(secondOpV);
-                builder.setResult(exchange);
+                builder.setResult(result);
                 builder.setStepStart(Arrays.copyOf(array, array.length));
+                builder.setCompareSize(compareSize++);
+                builder.setExchangeSize(result ? ++exchangeSize : exchangeSize);
 
-                if (exchange) {
+                if (result) {
                     array[j] = secondOpV;
                     array[j + 1] = firstOpV;
                 }
@@ -120,15 +127,21 @@ public class Sort {
 
     public static List<SortStepBean> bubbleSortAnimationV2() {
         ZLog.d("Sort", "bubbleSortAnimation");
-        //int[] array = DataBuildUtils.getRandomSortArray();
+        int[] array = DataBuildUtils.getRandomSortArray();
+        return bubbleSortAnimationV2(array);
+    }
 
-        int[] array = {5, 11, 22, 33, 44, 55, 66, 77, 88, 99};
-
+    public static List<SortStepBean> bubbleSortAnimationV2(int[] array) {
         ZLog.d("Sort", "排序前数组:" + Arrays.toString(array));
 
         List<SortStepBean> stepList = new ArrayList<>();
 
         SortStepBean.Builder builder = null;
+
+        int compareSize = 0; //比较次数
+        int exchangeSize = 0; //交换次数
+
+
         for (int i = 0; i < array.length - 1; i++) {
             boolean exchange = false;
             for (int j = 0; j < array.length - 1 - i; j++) {
@@ -139,7 +152,6 @@ public class Sort {
                 boolean result = firstOpV > secondOpV;
 
                 builder = new SortStepBean.Builder();
-
                 builder.setFirstIndex(i);
                 builder.setSecondIndex(j);
                 builder.setOpFirst(j);
@@ -149,6 +161,8 @@ public class Sort {
                 builder.setSecondOpV(secondOpV);
                 builder.setResult(result);
                 builder.setStepStart(Arrays.copyOf(array, array.length));
+                builder.setCompareSize(++compareSize);
+                builder.setExchangeSize(result ? ++exchangeSize : exchangeSize);
 
                 if (result) {
                     array[j] = secondOpV;

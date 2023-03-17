@@ -9,9 +9,12 @@
     <dimen name="dp_50">50dp</dimen>
 
 
+    <!--    <dimen name="dp_50">50dp</dimen>-->
 
-
-<!--    <dimen name="dp_50">50dp</dimen>-->
-
+    <!--    size-->
+    <dimen name="context_title">36sp</dimen>
+    <dimen name="context_des">18sp</dimen>
+    <dimen name="context_step_des">24sp</dimen>
+    <dimen name="enter_title">36sp</dimen>
 
 </resources>

@@ -10,7 +10,8 @@
         <activity
             android:name=".AlgorithmMainActivity"
             android:exported="false"
-            android:label="算法" />
+            android:label="算法"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

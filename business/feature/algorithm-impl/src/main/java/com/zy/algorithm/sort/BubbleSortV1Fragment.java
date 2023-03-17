@@ -15,4 +15,13 @@ public class BubbleSortV1Fragment extends BaseAlgorithmBallFragment {
         return Sort.bubbleSortAnimationV1();
     }
 
+    @Override
+    protected String getTitle() {
+        return "排序-冒泡排序(V1)";
+    }
+
+    @Override
+    protected String getEnterTitle() {
+        return "排序-冒泡排序(V1)ssss";
+    }
 }

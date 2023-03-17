@@ -1,18 +1,13 @@
 package com.zy.algorithm.fragment;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Rect;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.zy.activity.BaseFragment;
 import com.zy.algorithm.R;
 import com.zy.algorithm.bean.SortStepBean;
 import com.zy.utils.AnimatorUtils;
@@ -77,7 +72,14 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         initDimen();
         initSortIndex(view);
         initDataTV(view);
+        initTitle(view);
+
         initAnimationContainer(view);
+    }
+
+    private void initTitle(View view) {
+        TextView title = view.findViewById(R.id.sort_title);
+        title.setText(getTitle());
     }
 
     //设置数据
@@ -271,7 +273,7 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
 
     @Override
-    protected void sortAnimation(SortStepBean curStepBean, StepListener listener) {
+    protected void sortAnimation(int index,SortStepBean curStepBean, StepListener listener) {
         //下标动画
         sortIndexAnimation(curStepBean, new AnimationListener() {
             @Override
