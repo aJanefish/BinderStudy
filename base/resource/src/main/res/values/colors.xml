@@ -4,9 +4,17 @@
     <color name="red">#F11606</color>
     <color name="green">#09EC13</color>
     <color name="gray">#B0B1AE</color>
+    <color name="gray_soft">#DEDFDC</color>
 
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+
+
+
+    <color name="statues_sorted">@color/green</color>
+    <color name="statues_unsorted">@color/gray</color>
+    <color name="statues_sorting">@color/red</color>
 
 </resources>

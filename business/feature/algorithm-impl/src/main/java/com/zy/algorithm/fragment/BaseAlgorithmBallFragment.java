@@ -1,12 +1,10 @@
-package com.zy.algorithm;
+package com.zy.algorithm.fragment;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
@@ -15,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zy.activity.BaseFragment;
+import com.zy.algorithm.R;
 import com.zy.algorithm.bean.SortStepBean;
 import com.zy.utils.AnimatorUtils;
 import com.zy.zlog.ZLog;
@@ -22,9 +21,9 @@ import com.zy.zlog.ZLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseAlgorithmFragment extends BaseFragment {
+public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
-    private static final String TAG = "BaseAlgorithm";
+    private static final String TAG = "BaseAlgorithmBall";
 
     @Override
     protected int getLayout() {
@@ -50,25 +49,12 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     protected TextView[] dataTVS = new TextView[10];
 
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initDimen();
-        initSortIndex(view);
-        initDataTV(view);
-        initAnimationContainer(view);
-
-        initSetData();
-        view.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                startSort();
-            }
-        }, 2000);
-    }
-
     float stepOne = 0;
+
+    @Override
+    protected View[] getDataViewS() {
+        return dataTVS;
+    }
 
     private void initDimen() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -85,17 +71,17 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         ZLog.d(TAG, "stepOne:" + stepOne);
     }
 
-    List<SortStepBean> stepList = null;
 
-    protected abstract List<SortStepBean> getStepBean();
-
-    protected void initSetData() {
-        stepList = getStepBean();
-        setSortData(stepList.get(0), true);
+    @Override
+    protected void initView(View view) {
+        initDimen();
+        initSortIndex(view);
+        initDataTV(view);
+        initAnimationContainer(view);
     }
 
-
-    //默认10个数据
+    //设置数据
+    @Override
     protected void setSortData(SortStepBean bean, boolean start) {
         //设置颜色
         List<Integer> sorted = bean.getSorted();
@@ -116,7 +102,8 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         }
     }
 
-    private void initDataTV(View view) {
+
+    protected void initDataTV(View view) {
         sort_index_0 = view.findViewById(R.id.sort_index_0);
         sort_index_1 = view.findViewById(R.id.sort_index_1);
         sort_index_2 = view.findViewById(R.id.sort_index_2);
@@ -138,15 +125,6 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         dataTVS[7] = sort_index_7;
         dataTVS[8] = sort_index_8;
         dataTVS[9] = sort_index_9;
-    }
-
-    protected void resetAll() {
-        for (TextView dataTV : dataTVS) {
-            dataTV.setTranslationX(0);
-            dataTV.setTranslationY(0);
-            dataTV.setScaleX(1f);
-            dataTV.setScaleY(1f);
-        }
     }
 
     protected void setDataItemGreen(int index) {
@@ -189,8 +167,8 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
 //        pk_second.setText(Integer.toString(curStepBean.getSecondOpV()));
 
 
-        TextView originFirstTV = dataTVS[curStepBean.getSecondIndex()];
-        TextView originSecondTV = dataTVS[curStepBean.getSecondIndex() + 1];
+        TextView originFirstTV = dataTVS[curStepBean.getOpFirst()];
+        TextView originSecondTV = dataTVS[curStepBean.getOpSecond()];
 
 
         ZLog.d(TAG, pk_first);
@@ -266,6 +244,7 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         List<Animator> list = new ArrayList<>();
         list.add(firstIndexAni);
         list.add(secondIndexAni);
+
         AnimatorUtils.togetherStart(list, 200, new AnimatorUtils.AnimationListener() {
             @Override
             public void onAnimationEnd() {
@@ -275,46 +254,6 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         });
     }
 
-    protected void startSort() {
-        startSort(0);
-    }
-
-    protected void startSort(int index) {
-        if (index >= stepList.size()) {
-            return;
-        }
-
-        SortStepBean curStepBean = stepList.get(index);
-        ZLog.d(TAG, index + " :" + curStepBean);
-
-
-        if (curStepBean.isNeedAnimation()) {
-            sortAnimation(curStepBean, new StepListener() {
-                @Override
-                public void nextStep() {
-                    if (checkActivityDestroyed()) {
-                        return;
-                    }
-                    setSortData(curStepBean, false);
-                    resetAll();
-                    startSort(index + 1);
-
-                }
-            });
-        } else {
-            setSortData(curStepBean, false);
-            startSort(index + 1);
-        }
-    }
-
-    protected boolean checkActivityDestroyed() {
-        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
-            ZLog.e(TAG, "getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()");
-            return true;
-        }
-        return false;
-    }
-
 
     private void sortDataAnimation(SortStepBean curStepBean, StepListener listener) {
         if (checkActivityDestroyed()) {
@@ -322,15 +261,17 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         }
 
         //设置当前操作位置
+        setDataItemRed(curStepBean.getOpFirst());
         setDataItemRed(curStepBean.getSecondIndex());
-        setDataItemRed(curStepBean.getSecondIndex() + 1);
+
 
         //串行操作
         showPK(curStepBean, listener);
     }
 
 
-    private void sortAnimation(SortStepBean curStepBean, StepListener listener) {
+    @Override
+    protected void sortAnimation(SortStepBean curStepBean, StepListener listener) {
         //下标动画
         sortIndexAnimation(curStepBean, new AnimationListener() {
             @Override
@@ -339,14 +280,5 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
                 sortDataAnimation(curStepBean, listener);
             }
         });
-    }
-
-
-    public interface StepListener {
-        void nextStep();
-    }
-
-    public interface AnimationListener {
-        void onAnimationEnd();
     }
 }

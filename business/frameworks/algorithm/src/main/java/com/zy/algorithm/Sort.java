@@ -77,6 +77,8 @@ public class Sort {
 
                 builder.setFirstIndex(i);
                 builder.setSecondIndex(j);
+                builder.setOpFirst(j);
+                builder.setOpSecond(j + 1);
                 builder.setOp(">");
                 builder.setFirstOpV(firstOpV);
                 builder.setSecondOpV(secondOpV);
@@ -140,6 +142,8 @@ public class Sort {
 
                 builder.setFirstIndex(i);
                 builder.setSecondIndex(j);
+                builder.setOpFirst(j);
+                builder.setOpSecond(j + 1);
                 builder.setOp(">");
                 builder.setFirstOpV(firstOpV);
                 builder.setSecondOpV(secondOpV);

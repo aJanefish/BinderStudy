@@ -58,6 +58,16 @@ public class AnimatorUtils {
         togetherStart(list, 500, listener);
     }
 
+    public static Animator getShakeAnimator(View origin) {
+        List<Animator> list = new ArrayList<>();
+        float curScaleX = origin.getScaleX();
+        float curScaleY = origin.getScaleY();
+        list.add(ObjectAnimator.ofFloat(origin, "scaleX", curScaleX, curScaleX * 1.2F, curScaleX * 0.8F, curScaleX));
+        list.add(ObjectAnimator.ofFloat(origin, "scaleY", curScaleY, curScaleY * 1.2F, curScaleY * 0.8F, curScaleY));
+
+        return getTogetherStart(list);
+    }
+
 
     public static Rect getGlobalVisibleRect(View origin) {
         Rect r = new Rect();
@@ -125,6 +135,13 @@ public class AnimatorUtils {
 
     public static void togetherStart(List<Animator> list) {
         togetherStart(list, null);
+    }
+
+    public static Animator getTogetherStart(List<Animator> list) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        //同时动画
+        animatorSet.playTogether(list);
+        return animatorSet;
     }
 
     public static void togetherStart(List<Animator> list, AnimationListener listener) {

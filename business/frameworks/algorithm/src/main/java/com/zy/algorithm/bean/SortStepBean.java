@@ -1,5 +1,6 @@
 package com.zy.algorithm.bean;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SortStepBean {
@@ -11,6 +12,8 @@ public class SortStepBean {
     int firstOpV; //第一个操作数
     int secondOpV; //第二个操作数
     String op; //操作符
+    int opFirst; //本次操作位下标
+    int opSecond; //本次操作位下标
     boolean result; //本次操作结果
     int[] stepStart; //本次操作前
     int[] stepEnd; //本次操作后
@@ -57,6 +60,14 @@ public class SortStepBean {
         return needAnimation;
     }
 
+    public int getOpFirst() {
+        return opFirst;
+    }
+
+    public int getOpSecond() {
+        return opSecond;
+    }
+
     @Override
     public String toString() {
         return "SortStepBean{" +
@@ -66,6 +77,8 @@ public class SortStepBean {
                 ", firstOpV=" + firstOpV +
                 ", secondOpV=" + secondOpV +
                 ", op='" + op + '\'' +
+                ", opFirst='" + opFirst + '\'' +
+                ", opSecond='" + opSecond + '\'' +
                 ", result=" + result +
                 '}';
     }
@@ -77,6 +90,8 @@ public class SortStepBean {
         this.firstOpV = builder.firstOpV;
         this.secondOpV = builder.secondOpV;
         this.op = builder.op;
+        this.opFirst = builder.opFirst;
+        this.opSecond = builder.opSecond;
         this.result = builder.result;
         this.stepStart = builder.stepStart;
         this.stepEnd = builder.stepEnd;
@@ -93,6 +108,8 @@ public class SortStepBean {
         boolean result;
         int[] stepStart; //本次操作前
         int[] stepEnd; //本次操作后
+        int opFirst; //本次操作位下标
+        int opSecond; //本次操作位下标
         boolean needAnimation = true; //是否动画
 
 
@@ -144,6 +161,14 @@ public class SortStepBean {
         public Builder setNeedAnimation(boolean needAnimation) {
             this.needAnimation = needAnimation;
             return this;
+        }
+
+        public void setOpFirst(int opFirst) {
+            this.opFirst = opFirst;
+        }
+
+        public void setOpSecond(int opSecond) {
+            this.opSecond = opSecond;
         }
 
         public int[] getStepEnd() {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="200dp"
-    android:background="@color/green"
+    android:layout_height="238dp"
+    android:background="@drawable/background_line"
     android:padding="@dimen/dp_1">
 
 
@@ -11,18 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/gray"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/sort_square_layout_post"
             android:layout_width="32dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:background="@color/gray" />
 
         <TextView
             android:id="@+id/sort_square_layout_data"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:background="@drawable/background_line"
             android:gravity="center"
             android:padding="@dimen/dp_2"
             android:text="88"

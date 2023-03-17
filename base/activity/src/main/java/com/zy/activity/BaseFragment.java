@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zy.zlog.ZLog;
+
 public class BaseFragment extends Fragment {
+    private static final String TAG = "BaseFragment";
 
     protected final Handler mHandler = new Handler();
 
@@ -29,6 +32,14 @@ public class BaseFragment extends Fragment {
 
     protected int getLayout() {
         return R.layout.fragment_base;
+    }
+
+    protected boolean checkActivityDestroyed() {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
+            ZLog.e(TAG, "getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()");
+            return true;
+        }
+        return false;
     }
 
 
