@@ -1,4 +1,4 @@
-package com.zy.algorithm.sort;
+package com.zy.algorithm.sort.bubble;
 
 import com.zy.algorithm.fragment.BaseAlgorithmColumnChartFragment;
 import com.zy.algorithm.Sort;

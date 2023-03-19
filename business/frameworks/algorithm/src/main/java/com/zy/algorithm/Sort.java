@@ -1,5 +1,6 @@
 package com.zy.algorithm;
 
+import com.zy.algorithm.bean.ExchangeBean;
 import com.zy.algorithm.bean.SortStepBean;
 import com.zy.utils.DataBuildUtils;
 import com.zy.zlog.ZLog;
@@ -64,8 +65,7 @@ public class Sort {
 
         List<SortStepBean> stepList = new ArrayList<>();
 
-        SortStepBean.Builder builder = null;
-
+        SortStepBean stepBean = null;
 
         int compareSize = 0; //比较次数
         int exchangeSize = 0; //交换次数
@@ -78,19 +78,19 @@ public class Sort {
 
                 boolean result = firstOpV > secondOpV;
 
-                builder = new SortStepBean.Builder();
+                stepBean = new SortStepBean();
 
-                builder.setFirstIndex(i);
-                builder.setSecondIndex(j);
-                builder.setOpFirst(j);
-                builder.setOpSecond(j + 1);
-                builder.setOp(">");
-                builder.setFirstOpV(firstOpV);
-                builder.setSecondOpV(secondOpV);
-                builder.setResult(result);
-                builder.setStepStart(Arrays.copyOf(array, array.length));
-                builder.setCompareSize(compareSize++);
-                builder.setExchangeSize(result ? ++exchangeSize : exchangeSize);
+                stepBean.setFirstIndex(i);
+                stepBean.setSecondIndex(j);
+                stepBean.setOpFirstIndex(j);
+                stepBean.setOpSecondIndex(j + 1);
+                stepBean.setOp(">");
+                stepBean.setOpFirstV(firstOpV);
+                stepBean.setOpSecondV(secondOpV);
+                stepBean.setResult(result);
+                stepBean.setStepStart(Arrays.copyOf(array, array.length));
+                stepBean.setCompareSize(compareSize++);
+                stepBean.setExchangeSize(result ? ++exchangeSize : exchangeSize);
 
                 if (result) {
                     array[j] = secondOpV;
@@ -100,11 +100,13 @@ public class Sort {
                 //记录过程
                 //当前循环最后一次,更新已排序坐标
                 if (j == array.length - 2 - i) {
-                    builder.setSorted(i + 1, SortStepBean.SIZE);
+                    stepBean.setSorted(i + 1, SortStepBean.SIZE);
                 } else {
-                    builder.setSorted(i, SortStepBean.SIZE);
+                    stepBean.setSorted(i, SortStepBean.SIZE);
                 }
-                stepList.add(builder.setStepEnd(Arrays.copyOf(array, array.length)).build());
+
+                stepBean.setStepEnd(Arrays.copyOf(array, array.length));
+                stepList.add(stepBean);
 
             }
 
@@ -114,11 +116,12 @@ public class Sort {
 
         ZLog.d("Sort", "排序后数组:" + Arrays.toString(array));
 
-        if (builder != null) {
-            builder.setStepStart(builder.getStepEnd());
-            builder.setNeedAnimation(false);
-            builder.setSorted(SortStepBean.SIZE, SortStepBean.SIZE);
-            stepList.add(builder.build());
+        if (stepBean != null) {
+            stepBean = stepBean.clone();
+            stepBean.setStepStart(stepBean.getStepEnd());
+            stepBean.setNeedAnimation(false);
+            stepBean.setSorted(SortStepBean.SIZE, SortStepBean.SIZE);
+            stepList.add(stepBean);
         }
 
         return stepList;
@@ -136,7 +139,7 @@ public class Sort {
 
         List<SortStepBean> stepList = new ArrayList<>();
 
-        SortStepBean.Builder builder = null;
+        SortStepBean stepBean = null;
 
         int compareSize = 0; //比较次数
         int exchangeSize = 0; //交换次数
@@ -151,18 +154,18 @@ public class Sort {
 
                 boolean result = firstOpV > secondOpV;
 
-                builder = new SortStepBean.Builder();
-                builder.setFirstIndex(i);
-                builder.setSecondIndex(j);
-                builder.setOpFirst(j);
-                builder.setOpSecond(j + 1);
-                builder.setOp(">");
-                builder.setFirstOpV(firstOpV);
-                builder.setSecondOpV(secondOpV);
-                builder.setResult(result);
-                builder.setStepStart(Arrays.copyOf(array, array.length));
-                builder.setCompareSize(++compareSize);
-                builder.setExchangeSize(result ? ++exchangeSize : exchangeSize);
+                stepBean = new SortStepBean();
+                stepBean.setFirstIndex(i);
+                stepBean.setSecondIndex(j);
+                stepBean.setOpFirstIndex(j);
+                stepBean.setOpSecondIndex(j + 1);
+                stepBean.setOp(">");
+                stepBean.setOpFirstV(firstOpV);
+                stepBean.setOpSecondV(secondOpV);
+                stepBean.setResult(result);
+                stepBean.setStepStart(Arrays.copyOf(array, array.length));
+                stepBean.setCompareSize(++compareSize);
+                stepBean.setExchangeSize(result ? ++exchangeSize : exchangeSize);
 
                 if (result) {
                     array[j] = secondOpV;
@@ -173,11 +176,13 @@ public class Sort {
                 //记录过程
                 //当前循环最后一次,更新已排序坐标
                 if (j == array.length - 2 - i) {
-                    builder.setSorted(i + 1, SortStepBean.SIZE);
+                    stepBean.setSorted(i + 1, SortStepBean.SIZE);
                 } else {
-                    builder.setSorted(i, SortStepBean.SIZE);
+                    stepBean.setSorted(i, SortStepBean.SIZE);
                 }
-                stepList.add(builder.setStepEnd(Arrays.copyOf(array, array.length)).build());
+
+                stepBean.setStepEnd(Arrays.copyOf(array, array.length));
+                stepList.add(stepBean);
 
             }
 
@@ -190,11 +195,12 @@ public class Sort {
 
         ZLog.d("Sort", "排序后数组:" + Arrays.toString(array));
 
-        if (builder != null) {
-            builder.setStepStart(builder.getStepEnd());
-            builder.setNeedAnimation(false);
-            builder.setSorted(SortStepBean.SIZE, SortStepBean.SIZE);
-            stepList.add(builder.build());
+        if (stepBean != null) {
+            stepBean = stepBean.clone();
+            stepBean.setStepStart(stepBean.getStepEnd());
+            stepBean.setNeedAnimation(false);
+            stepBean.setSorted(SortStepBean.SIZE, SortStepBean.SIZE);
+            stepList.add(stepBean);
         }
         return stepList;
     }
@@ -222,8 +228,6 @@ public class Sort {
 
         List<SortStepBean> stepList = new ArrayList<>();
 
-        SortStepBean.Builder builder = null;
-
         int compareSize = 0; //比较次数
         int exchangeSize = 0; //交换次数
 
@@ -239,18 +243,18 @@ public class Sort {
                 boolean compareResult = firstOpV > secondOpV;
 
 
-                builder = new SortStepBean.Builder();
-                builder.setFirstIndex(i);
-                builder.setSecondIndex(j);
-                builder.setOpFirst(minIndex);
-                builder.setOpSecond(j);
-                builder.setOp(">");
-                builder.setFirstOpV(firstOpV);
-                builder.setSecondOpV(secondOpV);
-                builder.setResult(compareResult);
-                builder.setStepStart(Arrays.copyOf(sort, sort.length));
-                builder.setCompareSize(++compareSize);
-                builder.setExchangeSize(exchangeSize);
+                SortStepBean stepBean = new SortStepBean();
+                stepBean.setFirstIndex(i);
+                stepBean.setSecondIndex(j);
+                stepBean.setOpFirstIndex(minIndex);
+                stepBean.setOpSecondIndex(j);
+                stepBean.setOp(">");
+                stepBean.setOpFirstV(firstOpV);
+                stepBean.setOpSecondV(secondOpV);
+                stepBean.setResult(compareResult);
+                stepBean.setStepStart(Arrays.copyOf(sort, sort.length));
+                stepBean.setCompareSize(++compareSize);
+                stepBean.setExchangeSize(exchangeSize);
 
 
                 if (compareResult) {
@@ -261,22 +265,28 @@ public class Sort {
                     //每趟的最后一步-本来在循环外-处理，移到这里-便于记录step状态
                     //把最小元素移动到sort[i]
                     if (minIndex != i) { //不是本次默认下标，则交换位置
-                        builder.setExchangeSize(++exchangeSize);
+                        //这种情况下需要交换动画，反之不需要
+                        //一趟结束才会存在交换-并不会每次都需要交换
+                        stepBean.setExchangeSize(++exchangeSize);
+                        stepBean.setExchangeAnimation(true);
+                        stepBean.setExchangeBean(new ExchangeBean(minIndex, i));
 
+                        //exchange start
                         int tmp = sort[i];
                         sort[i] = sort[minIndex];
                         sort[minIndex] = tmp;
+                        //exchange end
                     } else {
-                        builder.setExchangeSize(exchangeSize);
+                        stepBean.setExchangeSize(exchangeSize);
                     }
 
                     //每一趟最后一个-已排序个数+1
-                    builder.setSorted(i + 1);
-                    stepList.add(builder.setStepEnd(Arrays.copyOf(sort, sort.length)).build());
+                    stepBean.setSorted(i + 1);
                 } else {
-                    builder.setSorted(i);
-                    stepList.add(builder.setStepEnd(Arrays.copyOf(sort, sort.length)).build());
+                    stepBean.setSorted(i);
                 }
+                stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
+                stepList.add(stepBean);
             }
 
             //System.out.println("第" + i + "趟简单选择排序结果:" + Arrays.toString(sort));

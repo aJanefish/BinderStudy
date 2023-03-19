@@ -161,25 +161,12 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
     }
 
     protected void showPK(SortStepBean curStepBean, StepListener listener) {
-        //定位
-        pk_first.setVisibility(View.VISIBLE);
-        pk_second.setVisibility(View.VISIBLE);
-
-//        pk_first.setText(Integer.toString(curStepBean.getFirstOpV()));
-//        pk_second.setText(Integer.toString(curStepBean.getSecondOpV()));
-
-
+        //当前比较的数字View
         TextView originFirstTV = dataTVS[curStepBean.getOpFirstIndex()];
         TextView originSecondTV = dataTVS[curStepBean.getOpSecondIndex()];
 
 
-        ZLog.d(TAG, pk_first);
-        ZLog.d(TAG, pk_second);
-        ZLog.d(TAG, originFirstTV);
-        ZLog.d(TAG, originSecondTV);
-
-        pk_result.setText("pk");
-        pk_op.setText(curStepBean.getOp());
+        pk_result.setText("");
 
         Rect originFirstTVRect = AnimatorUtils.getGlobalVisibleRect(originFirstTV);
         Rect originSecondTVRect = AnimatorUtils.getGlobalVisibleRect(originSecondTV);
@@ -239,8 +226,6 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         //下标转换为偏移量
 
         ObjectAnimator firstIndexAni = ObjectAnimator.ofFloat(sort_first_index, "translationX", sort_first_index.getTranslationX(), firstIndex * stepOne);
-
-
         ObjectAnimator secondIndexAni = ObjectAnimator.ofFloat(sort_second_index, "translationX", sort_second_index.getTranslationX(), secondIndex * stepOne);
 
         List<Animator> list = new ArrayList<>();
@@ -262,10 +247,6 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
             return;
         }
 
-        //设置当前操作位置
-        setDataItemRed(curStepBean.getOpFirstIndex());
-        setDataItemRed(curStepBean.getOpSecondIndex());
-
 
         //串行操作
         showPK(curStepBean, listener);
@@ -274,6 +255,10 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     @Override
     protected void sortAnimation(int index, SortStepBean curStepBean, StepListener listener) {
+        //设置当前操作位置
+        setDataItemRed(curStepBean.getOpFirstIndex());
+        setDataItemRed(curStepBean.getOpSecondIndex());
+
         //下标动画
         sortIndexAnimation(curStepBean, new AnimationListener() {
             @Override

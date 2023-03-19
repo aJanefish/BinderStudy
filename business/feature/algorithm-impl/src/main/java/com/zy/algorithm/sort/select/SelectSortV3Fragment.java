@@ -1,13 +1,12 @@
-package com.zy.algorithm.sort;
+package com.zy.algorithm.sort.select;
 
 import com.zy.algorithm.Sort;
 import com.zy.algorithm.bean.SortStepBean;
-import com.zy.algorithm.fragment.BaseAlgorithmBallFragment;
 
 import java.util.List;
 
 //选择排序
-public class SelectSortV3Fragment extends BaseAlgorithmBallFragment {
+public class SelectSortV3Fragment extends SelectSortBaseFragment {
 
     @Override
     protected List<SortStepBean> getStepBean() {
@@ -17,7 +16,7 @@ public class SelectSortV3Fragment extends BaseAlgorithmBallFragment {
 
     @Override
     protected String getTitle() {
-        return "选择排序\n最坏情况";
+        return "选择排序(最坏情况)";
     }
 
     @Override

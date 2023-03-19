@@ -3,15 +3,15 @@ package com.zy.algorithm;
 import android.support.v4.app.Fragment;
 
 import com.zy.activity.BaseMainActivity;
-import com.zy.algorithm.sort.BubbleSortColumnChartV1Fragment;
-import com.zy.algorithm.sort.BubbleSortColumnChartV2Fragment;
-import com.zy.algorithm.sort.BubbleSortColumnChartV3Fragment;
-import com.zy.algorithm.sort.BubbleSortColumnChartV4Fragment;
-import com.zy.algorithm.sort.BubbleSortV1Fragment;
-import com.zy.algorithm.sort.BubbleSortV2Fragment;
-import com.zy.algorithm.sort.SelectSortV1Fragment;
-import com.zy.algorithm.sort.SelectSortV2Fragment;
-import com.zy.algorithm.sort.SelectSortV3Fragment;
+import com.zy.algorithm.sort.bubble.BubbleSortColumnChartV1Fragment;
+import com.zy.algorithm.sort.bubble.BubbleSortColumnChartV2Fragment;
+import com.zy.algorithm.sort.bubble.BubbleSortColumnChartV3Fragment;
+import com.zy.algorithm.sort.bubble.BubbleSortColumnChartV4Fragment;
+import com.zy.algorithm.sort.bubble.BubbleSortV1Fragment;
+import com.zy.algorithm.sort.bubble.BubbleSortV2Fragment;
+import com.zy.algorithm.sort.select.SelectSortV1Fragment;
+import com.zy.algorithm.sort.select.SelectSortV2Fragment;
+import com.zy.algorithm.sort.select.SelectSortV3Fragment;
 
 public class AlgorithmMainActivity extends BaseMainActivity {
 

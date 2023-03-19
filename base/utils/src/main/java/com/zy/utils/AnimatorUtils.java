@@ -133,6 +133,57 @@ public class AnimatorUtils {
         togetherStart(list, listener);
     }
 
+
+    public static Animator moveArc(View origin, Rect targetR, boolean up) {
+
+        Rect originR = getGlobalVisibleRect(origin);
+
+        float curScaleX = origin.getScaleX();
+        if (curScaleX == 0) {
+            curScaleX = 1;
+        }
+
+        float curScaleY = origin.getScaleY();
+        if (curScaleY == 0) {
+            curScaleY = 1;
+        }
+
+        float originWidth = originR.width() / curScaleX;
+        float originHeight = originR.height() / curScaleY;
+
+        int targetWidth = targetR.width();
+        int targetHeight = targetR.height();
+
+        //缩放动画
+        List<Animator> list = new ArrayList<>();
+        list.add(ObjectAnimator.ofFloat(origin, "scaleX", curScaleX, ((float) targetWidth / (float) originWidth)));
+        list.add(ObjectAnimator.ofFloat(origin, "scaleY", curScaleY, ((float) targetHeight / (float) originHeight)));
+
+        int originXCenter = originR.centerX();
+        int originYCenter = originR.centerY();
+
+        int targetXCenter = targetR.centerX();
+        int targetYCenter = targetR.centerY();
+
+
+        list.add(ObjectAnimator.ofFloat(origin, "translationX", origin.getTranslationX(), origin.getTranslationX() + (targetXCenter - originXCenter)));
+
+        if (up) {
+            float yStart = origin.getTranslationY();
+            float yEnd = origin.getTranslationY() + (targetYCenter - originYCenter);
+            ObjectAnimator upTranslationY = ObjectAnimator.ofFloat(origin, "translationY", yStart, (yStart + yEnd) / 2 - 200, yEnd);
+            list.add(upTranslationY);
+        } else {
+            float yStart = origin.getTranslationY();
+            float yEnd = origin.getTranslationY() + (targetYCenter - originYCenter);
+            ObjectAnimator downTranslationY = ObjectAnimator.ofFloat(origin, "translationY", yStart, (yStart + yEnd) / 2 + 200, yEnd);
+            list.add(downTranslationY);
+        }
+
+        //平移-中心点
+        return getTogetherStart(list);
+    }
+
     public static void togetherStart(List<Animator> list) {
         togetherStart(list, null);
     }
