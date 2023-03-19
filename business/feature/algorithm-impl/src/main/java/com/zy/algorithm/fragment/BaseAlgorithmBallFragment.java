@@ -2,8 +2,8 @@ package com.zy.algorithm.fragment;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Rect;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +15,8 @@ import com.zy.zlog.ZLog;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
@@ -25,9 +27,12 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         return R.layout.fragment_algorithm_base;
     }
 
+    private Map<Integer, Integer> colorMap = new ConcurrentHashMap<>();
+
     //下标
     protected View sort_first_index;
     protected View sort_second_index;
+    protected View sort_min_index;
 
     //数据内容
     protected TextView sort_index_0;
@@ -43,43 +48,37 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     protected TextView[] dataTVS = new TextView[10];
 
-
-    float stepOne = 0;
-
     @Override
     protected View[] getDataViewS() {
         return dataTVS;
     }
 
-    private void initDimen() {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int widthPixels = displayMetrics.widthPixels;
-        int heightPixels = displayMetrics.heightPixels;
-
-        float dp_8 = getResources().getDimension(R.dimen.dp_8);
-
-        ZLog.d(TAG, "displayMetrics:" + displayMetrics);
-        ZLog.d(TAG, "heightPixels:" + heightPixels);
-        ZLog.d(TAG, "widthPixels:" + widthPixels);
-        ZLog.d(TAG, "dp_8:" + dp_8);
-        stepOne = (widthPixels - dp_8) / 10;
-        ZLog.d(TAG, "stepOne:" + stepOne);
-    }
-
-
     @Override
     protected void initView(View view) {
-        initDimen();
+        super.initView(view);
+        initEnteringContainer(view);
         initSortIndex(view);
         initDataTV(view);
-        initTitle(view);
 
         initAnimationContainer(view);
     }
 
-    private void initTitle(View view) {
-        TextView title = view.findViewById(R.id.sort_title);
-        title.setText(getTitle());
+    private View entering_container;
+    private View algorithm_context_container;
+
+    private void initEnteringContainer(View view) {
+        entering_container = view.findViewById(R.id.entering_container);
+        algorithm_context_container = view.findViewById(R.id.algorithm_context_container);
+    }
+
+    @Override
+    protected View getEnterContainer() {
+        return entering_container;
+    }
+
+    @Override
+    protected View getContextContainer() {
+        return algorithm_context_container;
     }
 
     //设置数据
@@ -129,35 +128,94 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         dataTVS[9] = sort_index_9;
     }
 
+    private int getCurStatues(int index) {
+        Integer curStatus = colorMap.get(index);
+        if (curStatus == null) {
+            curStatus = STATUES_UNSORTED;
+        }
+        return curStatus;
+    }
+
     protected void setDataItemGreen(int index) {
-        dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_sorted));
+        int curStatus = getCurStatues(index);
+        if (curStatus == STATUES_SORTED) {
+            dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_sorted));
+        } else {
+            //变色动画
+            animationColor(dataTVS[index], curStatus, STATUES_SORTED);
+        }
+        colorMap.put(index, STATUES_SORTED);
+    }
+
+    private void animationColor(View view, int curStatus, int newStatues) {
+        int cur;
+        if (curStatus == STATUES_SORTED) {
+            cur = getResources().getColor(R.color.statues_sorted);
+        } else if (curStatus == STATUES_SORTING) {
+            cur = getResources().getColor(R.color.statues_sorting);
+        } else {
+            cur = getResources().getColor(R.color.statues_unsorted);
+        }
+
+        int to;
+        if (newStatues == STATUES_SORTED) {
+            to = getResources().getColor(R.color.statues_sorted);
+        } else if (newStatues == STATUES_SORTING) {
+            to = getResources().getColor(R.color.statues_sorting);
+        } else {
+            to = getResources().getColor(R.color.statues_unsorted);
+        }
+
+        ValueAnimator valueAnimator = ValueAnimator.ofArgb(cur, to);
+        valueAnimator.setDuration(500);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int color = (int) animation.getAnimatedValue();
+                view.setBackgroundColor(color);
+            }
+        });
+        valueAnimator.start();
     }
 
     protected void setDataItemGray(int index) {
-        dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_unsorted));
+        int curStatus = getCurStatues(index);
+        if (curStatus == STATUES_UNSORTED) {
+            dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_unsorted));
+        } else {
+            //变色动画
+            animationColor(dataTVS[index], curStatus, STATUES_UNSORTED);
+        }
+        colorMap.put(index, STATUES_UNSORTED);
     }
 
     protected void setDataItemRed(int index) {
-        dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_sorting));
+        int curStatus = getCurStatues(index);
+        if (curStatus == STATUES_SORTING) {
+            dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_sorting));
+        } else {
+            //变色动画
+            animationColor(dataTVS[index], curStatus, STATUES_SORTING);
+        }
+        colorMap.put(index, STATUES_SORTING);
     }
 
     private void initSortIndex(View view) {
         sort_first_index = view.findViewById(R.id.sort_first_index);
         sort_second_index = view.findViewById(R.id.sort_second_index);
+        sort_min_index = view.findViewById(R.id.sort_min_index);
     }
 
     //PK 区域View组件
     protected TextView pk_first;
     protected TextView pk_second;
     protected TextView pk_op;
-    protected TextView pk_result;
 
     //初始化PK 区域
     private void initAnimationContainer(View view) {
         pk_first = view.findViewById(R.id.pk_first);
         pk_second = view.findViewById(R.id.pk_second);
         pk_op = view.findViewById(R.id.pk_op);
-        pk_result = view.findViewById(R.id.pk_result);
     }
 
     protected void showPK(SortStepBean curStepBean, StepListener listener) {
@@ -165,8 +223,6 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         TextView originFirstTV = dataTVS[curStepBean.getOpFirstIndex()];
         TextView originSecondTV = dataTVS[curStepBean.getOpSecondIndex()];
 
-
-        pk_result.setText("");
 
         Rect originFirstTVRect = AnimatorUtils.getGlobalVisibleRect(originFirstTV);
         Rect originSecondTVRect = AnimatorUtils.getGlobalVisibleRect(originSecondTV);
@@ -178,6 +234,9 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         AnimatorUtils.move(originSecondTV, pk_second, new AnimatorUtils.AnimationListener() {
             @Override
             public void onAnimationEnd() {
+                if (checkActivityDestroyed()) {
+                    return;
+                }
 
                 //比较大小
                 if (curStepBean.isResult()) {
@@ -185,6 +244,10 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
                         @Override
                         public void onAnimationEnd() {
                             super.onAnimationEnd();
+                            if (checkActivityDestroyed()) {
+                                return;
+                            }
+
 
                             AnimatorUtils.move(originFirstTV, originSecondTVRect);
                             AnimatorUtils.move(originSecondTV, originFirstTVRect, new AnimatorUtils.AnimationListener() {
@@ -201,6 +264,10 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
                         @Override
                         public void onAnimationEnd() {
                             super.onAnimationEnd();
+                            if (checkActivityDestroyed()) {
+                                return;
+                            }
+
                             AnimatorUtils.reset(originFirstTV);
                             AnimatorUtils.reset(originSecondTV, new AnimatorUtils.AnimationListener() {
                                 @Override
@@ -212,25 +279,51 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
                         }
                     });
                 }
-
-                pk_result.setText(curStepBean.isResult() ? "交换" : "不交换");
             }
         });
     }
 
     //下标动画
     protected void sortIndexAnimation(SortStepBean curStepBean, AnimationListener listener) {
+        if (false) {
+            View originFirstV = dataTVS[curStepBean.getFirstIndex()];
+            View originSecondV = dataTVS[curStepBean.getSecondIndex()];
+
+            Rect firstIndexR = AnimatorUtils.getGlobalVisibleRect(originFirstV);
+            Rect secondIndexR = AnimatorUtils.getGlobalVisibleRect(originSecondV);
+
+            ZLog.d("ZYDebug", "firstIndexR:" + firstIndexR + " " + firstIndexR.centerX());
+            ZLog.d("ZYDebug", "secondIndexR:" + secondIndexR + " " + secondIndexR.centerX());
+
+
+            Rect firstO = AnimatorUtils.getGlobalVisibleRect(sort_first_index);
+            Rect secondO = AnimatorUtils.getGlobalVisibleRect(sort_second_index);
+
+            ZLog.d("ZYDebug", "firstO:" + firstO + " " + firstO.centerX());
+            ZLog.d("ZYDebug", "secondO:" + secondO + " " + secondO.centerX());
+
+            int firstDis = firstIndexR.centerX() - firstO.centerX();
+            int secondDis = secondIndexR.centerX() - secondO.centerX();
+
+            //下标转换为偏移量
+            ObjectAnimator firstIndexAni = ObjectAnimator.ofFloat(sort_first_index, "translationX", sort_first_index.getTranslationX(), sort_first_index.getTranslationX() + firstDis);
+            ObjectAnimator secondIndexAni = ObjectAnimator.ofFloat(sort_second_index, "translationX", sort_second_index.getTranslationX(), sort_second_index.getTranslationX() + secondDis);
+        }
+
         int firstIndex = curStepBean.getFirstIndex();
         int secondIndex = curStepBean.getSecondIndex();
+        int opFirstIndex = curStepBean.getOpFirstIndex();
 
-        //下标转换为偏移量
+
 
         ObjectAnimator firstIndexAni = ObjectAnimator.ofFloat(sort_first_index, "translationX", sort_first_index.getTranslationX(), firstIndex * stepOne);
         ObjectAnimator secondIndexAni = ObjectAnimator.ofFloat(sort_second_index, "translationX", sort_second_index.getTranslationX(), secondIndex * stepOne);
+        ObjectAnimator minIndexAni = ObjectAnimator.ofFloat(sort_min_index, "translationX", sort_min_index.getTranslationX(), opFirstIndex * stepOne);
 
         List<Animator> list = new ArrayList<>();
         list.add(firstIndexAni);
         list.add(secondIndexAni);
+        list.add(minIndexAni);
 
         AnimatorUtils.togetherStart(list, 200, new AnimatorUtils.AnimationListener() {
             @Override
@@ -246,8 +339,6 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         if (checkActivityDestroyed()) {
             return;
         }
-
-
         //串行操作
         showPK(curStepBean, listener);
     }
@@ -255,6 +346,10 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     @Override
     protected void sortAnimation(int index, SortStepBean curStepBean, StepListener listener) {
+        if (checkActivityDestroyed()) {
+            return;
+        }
+
         //设置当前操作位置
         setDataItemRed(curStepBean.getOpFirstIndex());
         setDataItemRed(curStepBean.getOpSecondIndex());
@@ -263,6 +358,9 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         sortIndexAnimation(curStepBean, new AnimationListener() {
             @Override
             public void onAnimationEnd() {
+                if (checkActivityDestroyed()) {
+                    return;
+                }
                 //数据动画
                 sortDataAnimation(curStepBean, listener);
             }

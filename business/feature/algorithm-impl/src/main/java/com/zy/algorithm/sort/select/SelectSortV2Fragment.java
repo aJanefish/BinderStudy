@@ -21,7 +21,11 @@ public class SelectSortV2Fragment extends SelectSortBaseFragment {
 
     @Override
     protected String getEnterTitle() {
-
         return "选择排序\n最好情况";
+    }
+
+    @Override
+    protected String getDataDes() {
+        return "每一趟,选出最小的数字\n放到未排序数组的最前面";
     }
 }

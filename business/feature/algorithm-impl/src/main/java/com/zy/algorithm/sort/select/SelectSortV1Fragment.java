@@ -22,4 +22,9 @@ public class SelectSortV1Fragment extends SelectSortBaseFragment {
     protected String getEnterTitle() {
         return "选择排序";
     }
+
+    @Override
+    protected String getDataDes() {
+        return "每一趟,选出最小的数字\n放到未排序数组的最前面";
+    }
 }

@@ -4,8 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +24,7 @@ public class AnimatorUtils {
     //rotation
     //alpha
 
-    private static final int D = 1000;
+    private static final int D = 500;
 
 
     public static void reset(View origin) {
@@ -52,8 +56,8 @@ public class AnimatorUtils {
         List<Animator> list = new ArrayList<>();
         float curScaleX = origin.getScaleX();
         float curScaleY = origin.getScaleY();
-        list.add(ObjectAnimator.ofFloat(origin, "scaleX", curScaleX, curScaleX * 1.2F, curScaleX * 0.8F, curScaleX));
-        list.add(ObjectAnimator.ofFloat(origin, "scaleY", curScaleY, curScaleY * 1.2F, curScaleY * 0.8F, curScaleY));
+        list.add(ObjectAnimator.ofFloat(origin, "scaleX", curScaleX, curScaleX * 1.1F, curScaleX * 0.9F, curScaleX));
+        list.add(ObjectAnimator.ofFloat(origin, "scaleY", curScaleY, curScaleY * 1.1F, curScaleY * 0.9F, curScaleY));
 
         togetherStart(list, 500, listener);
     }
@@ -62,8 +66,8 @@ public class AnimatorUtils {
         List<Animator> list = new ArrayList<>();
         float curScaleX = origin.getScaleX();
         float curScaleY = origin.getScaleY();
-        list.add(ObjectAnimator.ofFloat(origin, "scaleX", curScaleX, curScaleX * 1.2F, curScaleX * 0.8F, curScaleX));
-        list.add(ObjectAnimator.ofFloat(origin, "scaleY", curScaleY, curScaleY * 1.2F, curScaleY * 0.8F, curScaleY));
+        list.add(ObjectAnimator.ofFloat(origin, "scaleX", curScaleX, curScaleX * 1.1F, curScaleX * 0.9F, curScaleX));
+        list.add(ObjectAnimator.ofFloat(origin, "scaleY", curScaleY, curScaleY * 1.1F, curScaleY * 0.9F, curScaleY));
 
         return getTogetherStart(list);
     }
@@ -134,51 +138,30 @@ public class AnimatorUtils {
     }
 
 
+    //水平方向上的交换
     public static Animator moveArc(View origin, Rect targetR, boolean up) {
-
         Rect originR = getGlobalVisibleRect(origin);
-
-        float curScaleX = origin.getScaleX();
-        if (curScaleX == 0) {
-            curScaleX = 1;
-        }
-
-        float curScaleY = origin.getScaleY();
-        if (curScaleY == 0) {
-            curScaleY = 1;
-        }
-
-        float originWidth = originR.width() / curScaleX;
-        float originHeight = originR.height() / curScaleY;
-
-        int targetWidth = targetR.width();
-        int targetHeight = targetR.height();
 
         //缩放动画
         List<Animator> list = new ArrayList<>();
-        list.add(ObjectAnimator.ofFloat(origin, "scaleX", curScaleX, ((float) targetWidth / (float) originWidth)));
-        list.add(ObjectAnimator.ofFloat(origin, "scaleY", curScaleY, ((float) targetHeight / (float) originHeight)));
-
         int originXCenter = originR.centerX();
-        int originYCenter = originR.centerY();
-
         int targetXCenter = targetR.centerX();
-        int targetYCenter = targetR.centerY();
 
 
         list.add(ObjectAnimator.ofFloat(origin, "translationX", origin.getTranslationX(), origin.getTranslationX() + (targetXCenter - originXCenter)));
 
-        if (up) {
-            float yStart = origin.getTranslationY();
-            float yEnd = origin.getTranslationY() + (targetYCenter - originYCenter);
-            ObjectAnimator upTranslationY = ObjectAnimator.ofFloat(origin, "translationY", yStart, (yStart + yEnd) / 2 - 200, yEnd);
-            list.add(upTranslationY);
-        } else {
-            float yStart = origin.getTranslationY();
-            float yEnd = origin.getTranslationY() + (targetYCenter - originYCenter);
-            ObjectAnimator downTranslationY = ObjectAnimator.ofFloat(origin, "translationY", yStart, (yStart + yEnd) / 2 + 200, yEnd);
-            list.add(downTranslationY);
-        }
+
+        ValueAnimator upDown = ValueAnimator.ofFloat(0, up ? 200 : 200, 0);
+        upDown.setInterpolator(new DecelerateInterpolator());
+        upDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float translationY = (float) animation.getAnimatedValue();
+                origin.setTranslationY(translationY);
+            }
+        });
+
+        list.add(upDown);
 
         //平移-中心点
         return getTogetherStart(list);
@@ -192,7 +175,6 @@ public class AnimatorUtils {
         AnimatorSet animatorSet = new AnimatorSet();
         //同时动画
         animatorSet.playTogether(animators);
-        animatorSet.setDuration(300);
         return animatorSet;
     }
 
@@ -200,7 +182,20 @@ public class AnimatorUtils {
         AnimatorSet animatorSet = new AnimatorSet();
         //同时动画
         animatorSet.playTogether(list);
-        animatorSet.setDuration(300);
+        return animatorSet;
+    }
+
+    public static Animator getPlaySequentially(Animator... animators) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        //同时动画
+        animatorSet.playSequentially(animators);
+        return animatorSet;
+    }
+
+    public static Animator getPlaySequentially(List<Animator> list) {
+        AnimatorSet animatorSet = new AnimatorSet();
+        //同时动画
+        animatorSet.playSequentially(list);
         return animatorSet;
     }
 

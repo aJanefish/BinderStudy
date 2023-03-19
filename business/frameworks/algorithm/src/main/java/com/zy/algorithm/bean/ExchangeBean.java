@@ -17,4 +17,12 @@ public class ExchangeBean {
     public int getSecondIndex() {
         return secondIndex;
     }
+
+    @Override
+    public String toString() {
+        return "ExchangeBean{" +
+                "firstIndex=" + firstIndex +
+                ", secondIndex=" + secondIndex +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package com.zy.algorithm.sort.select;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +12,19 @@ import com.zy.algorithm.bean.SortStepBean;
 import com.zy.algorithm.fragment.BaseAlgorithmBallFragment;
 import com.zy.utils.AnimatorUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 //选择排序
 public abstract class SelectSortBaseFragment extends BaseAlgorithmBallFragment {
 
     private static final String TAG = "SelectSortBaseFragment";
 
+//    @Override
+//    protected int getLayout() {
+//        return R.layout.fragment_algorithm_select_base;
+//    }
 
     @Override
     protected void showPK(SortStepBean curStepBean, StepListener listener) {
@@ -24,8 +32,6 @@ public abstract class SelectSortBaseFragment extends BaseAlgorithmBallFragment {
         View originFirstTV = dataTVS[curStepBean.getOpFirstIndex()];
         View originSecondTV = dataTVS[curStepBean.getOpSecondIndex()];
 
-
-        pk_result.setText("");
 
         Rect originFirstTVRect = AnimatorUtils.getGlobalVisibleRect(originFirstTV);
         Rect originSecondTVRect = AnimatorUtils.getGlobalVisibleRect(originSecondTV);
@@ -48,7 +54,7 @@ public abstract class SelectSortBaseFragment extends BaseAlgorithmBallFragment {
                                 super.onAnimationEnd();
                                 //结束后需要交换动画
                                 if (curStepBean.isExchangeAnimation() && curStepBean.getExchangeBean() != null) {
-                                    exchangeAnimation(curStepBean.getExchangeBean(), listener);
+                                    exchangeAnimation(curStepBean, curStepBean.getExchangeBean(), listener);
                                 } else {
                                     listener.nextStep();
                                 }
@@ -63,34 +69,44 @@ public abstract class SelectSortBaseFragment extends BaseAlgorithmBallFragment {
                 } else {
                     AnimatorUtils.shake(originFirstTV, animationListener);
                 }
-
-                pk_result.setText(curStepBean.isResult() ? "交换" : "不交换");
             }
         });
     }
 
-    private void exchangeAnimation(ExchangeBean exchangeBean, StepListener listener) {
+    private void exchangeAnimation(SortStepBean sortStepBean, ExchangeBean exchangeBean, StepListener listener) {
+
         //当前交换bean
         View originFirstTV = dataTVS[exchangeBean.getFirstIndex()];
         View originSecondTV = dataTVS[exchangeBean.getSecondIndex()];
 
+        setDataItemRed(exchangeBean.getFirstIndex());
+        setDataItemRed(exchangeBean.getSecondIndex());
+
+        List<Animator> animatorList = new ArrayList<>();
+
+        if (sortStepBean.getOpFirstIndex() != exchangeBean.getFirstIndex()) {
+            //不相等
+            //则说明本次循环的最后一比比较的最小下标 发生改变，需要补上其动画
+            ObjectAnimator minIndexAni = ObjectAnimator.ofFloat(sort_min_index, "translationX", sort_min_index.getTranslationX(), exchangeBean.getFirstIndex() * stepOne);
+            animatorList.add(minIndexAni);
+        }
+
+        animatorList.add(AnimatorUtils.getTogetherStart(AnimatorUtils.getShakeAnimator(originFirstTV), AnimatorUtils.getShakeAnimator(originSecondTV)));
+
 
         Rect originFirstTVRect = AnimatorUtils.getGlobalVisibleRect(originFirstTV);
         Rect originSecondTVRect = AnimatorUtils.getGlobalVisibleRect(originSecondTV);
-
         Animator up = AnimatorUtils.moveArc(originFirstTV, originSecondTVRect, true);
         Animator down = AnimatorUtils.moveArc(originSecondTV, originFirstTVRect, false);
 
 
-        Animator animator = AnimatorUtils.getTogetherStart(up, down);
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation, boolean isReverse) {
-                super.onAnimationEnd(animation, isReverse);
-                listener.nextStep();
-            }
-        });
-        animator.start();
+        Animator move = AnimatorUtils.getTogetherStart(up, down);
+        move.setDuration(1000);
+
+        animatorList.add(move);
+
+
+        startStepAnimator(animatorList, listener);
     }
 
 }

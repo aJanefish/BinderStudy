@@ -232,7 +232,7 @@ public class Sort {
         int exchangeSize = 0; //交换次数
 
         int length = sort.length;
-
+        SortStepBean stepBean = null;
         for (int i = 0; i < length - 1; i++) {
             int minIndex = i;//初始待排序的第一个元素为最小元素
 
@@ -243,7 +243,7 @@ public class Sort {
                 boolean compareResult = firstOpV > secondOpV;
 
 
-                SortStepBean stepBean = new SortStepBean();
+                stepBean = new SortStepBean();
                 stepBean.setFirstIndex(i);
                 stepBean.setSecondIndex(j);
                 stepBean.setOpFirstIndex(minIndex);
@@ -290,6 +290,14 @@ public class Sort {
             }
 
             //System.out.println("第" + i + "趟简单选择排序结果:" + Arrays.toString(sort));
+        }
+
+        if (stepBean != null) {
+            stepBean = stepBean.clone();
+            stepBean.setStepStart(stepBean.getStepEnd());
+            stepBean.setNeedAnimation(false);
+            stepBean.setSorted(sort.length);
+            stepList.add(stepBean);
         }
         return stepList;
     }

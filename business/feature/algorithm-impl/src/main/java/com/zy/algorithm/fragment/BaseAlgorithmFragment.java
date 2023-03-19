@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.TextView;
 
 import com.zy.activity.BaseFragment;
+import com.zy.algorithm.R;
 import com.zy.algorithm.bean.SortStepBean;
+import com.zy.utils.AnimatorUtils;
 import com.zy.zlog.ZLog;
 
 import java.util.ArrayList;
@@ -20,11 +23,17 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
 
     private static final String TAG = "BaseAlgorithm";
 
+    protected static final int STATUES_UNSORTED = 1;
+    protected static final int STATUES_SORTING = 2;
+    protected static final int STATUES_SORTED = 3;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         initSetData();
+
+        startPage();
         mHandler.postDelayed(new Runnable() {
 
             @Override
@@ -45,6 +54,13 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         }, 2000);
     }
 
+    private void startPage() {
+        View enterContainer = getEnterContainer();
+        View contextContainer = getContextContainer();
+        enterContainer.setVisibility(View.VISIBLE);
+        contextContainer.setVisibility(View.GONE);
+    }
+
     protected View getEnterContainer() {
         return null;
     }
@@ -56,10 +72,6 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     private void startEnterAnimation(AnimationListener animationListener) {
         View enterContainer = getEnterContainer();
         View contextContainer = getContextContainer();
-        if (enterContainer == null || contextContainer == null) {
-            animationListener.onAnimationEnd();
-            return;
-        }
 
         List<Animator> animatorList = new ArrayList<>();
 
@@ -78,10 +90,10 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
 
         //平移
         List<Animator> translationList = new ArrayList<>();
-        translationList.add(ObjectAnimator.ofFloat(enterContainer, "translationY", 0, -800));
+        translationList.add(ObjectAnimator.ofFloat(enterContainer, "translationY", 0, -400));
         translationList.add(ObjectAnimator.ofFloat(enterContainer, "alpha", 1, 0));
 
-        translationList.add(ObjectAnimator.ofFloat(contextContainer, "translationY", 800, 0));
+        translationList.add(ObjectAnimator.ofFloat(contextContainer, "translationY", heightPixels, 0));
         translationList.add(ObjectAnimator.ofFloat(contextContainer, "alpha", 0, 1));
 
 
@@ -92,8 +104,6 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
 
         animatorList.add(translation);
 
-        contextContainer.setTranslationY(-800);
-
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(animatorList);
         animatorSet.setDuration(500);
@@ -102,6 +112,7 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
                 contextContainer.setVisibility(View.VISIBLE);
+                contextContainer.setTranslationY(heightPixels);
             }
 
             @Override
@@ -123,6 +134,8 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
 
     protected abstract String getEnterTitle();
 
+    protected abstract String getDataDes();
+
     //初始化数据
     protected void initSetData() {
         stepList = getStepBean();
@@ -134,7 +147,19 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     protected abstract void setSortData(SortStepBean bean, boolean start);
 
     //初始化View
-    protected abstract void initView(View view);
+    protected void initView(View view) {
+        initTitle(view);
+    }
+
+    private void initTitle(View view) {
+        TextView title = view.findViewById(R.id.sort_title);
+        title.setText(getTitle());
+        TextView enterTitle = view.findViewById(R.id.enter_title);
+        enterTitle.setText(getEnterTitle());
+
+        TextView sort_step_des = view.findViewById(R.id.sort_step_des);
+        sort_step_des.setText(getDataDes());
+    }
 
     protected void resetAll() {
         View[] views = getDataViewS();
@@ -188,7 +213,8 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     protected abstract void sortAnimation(int index, SortStepBean curStepBean, StepListener listener);
 
 
-    protected final void startStepAnimator(Animator animator, StepListener listener) {
+    protected final void startStepAnimator(List<Animator> animatorList, StepListener listener) {
+        Animator animator = AnimatorUtils.getPlaySequentially(animatorList);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {

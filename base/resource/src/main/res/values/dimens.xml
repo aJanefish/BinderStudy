@@ -9,6 +9,10 @@
     <dimen name="dp_50">50dp</dimen>
 
 
+    <dimen name="select_margin_top">0dp</dimen>
+    <dimen name="pk_wh">100dp</dimen>
+
+
     <!--    <dimen name="dp_50">50dp</dimen>-->
 
     <!--    size-->

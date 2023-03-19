@@ -24,4 +24,9 @@ public class BubbleSortV2Fragment extends BaseAlgorithmBallFragment {
     protected String getEnterTitle() {
         return "排序-冒泡排序(V1)aaaa";
     }
+
+    @Override
+    protected String getDataDes() {
+        return "冒泡";
+    }
 }

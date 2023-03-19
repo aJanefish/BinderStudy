@@ -41,7 +41,6 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
 
     protected TextView sort_step;
     protected TextView sort_step_index;
-    protected TextView sort_step_des;
 
     @Override
     protected View[] getDataViewS() {
@@ -55,9 +54,9 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
 
     @Override
     protected void initView(View view) {
+        super.initView(view);
         initEnteringContainer(view);
         initDataTV(view);
-        initTitle(view);
     }
 
 
@@ -79,17 +78,10 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
         return algorithm_context_container;
     }
 
-    private void initTitle(View view) {
-        TextView title = view.findViewById(R.id.sort_title);
-        title.setText(getTitle());
-        TextView enterTitle = view.findViewById(R.id.enter_title);
-        enterTitle.setText(getEnterTitle());
-    }
-
     protected void initDataTV(View view) {
         sort_step = view.findViewById(R.id.sort_step);
         sort_step_index = view.findViewById(R.id.sort_step_index);
-        sort_step_des = view.findViewById(R.id.sort_step_des);
+
 
 
         sort_index_0 = view.findViewById(R.id.sort_index_0);
@@ -114,10 +106,8 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
         dataTVS[8] = sort_index_8;
         dataTVS[9] = sort_index_9;
 
-        sort_step_des.setText(getDataDes());
-    }
 
-    protected abstract String getDataDes();
+    }
 
     @Override
     protected void initSetData() {
@@ -162,7 +152,6 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
 
 
         List<Animator> animatorList = new ArrayList<>();
-        List<Animator> shakeList = new ArrayList<>();
         if (curStepBean.isResult()) {
             //交换
             int translationXWidth = originFirstTV.getWidth();
