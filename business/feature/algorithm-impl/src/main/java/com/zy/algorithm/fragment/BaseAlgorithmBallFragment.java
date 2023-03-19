@@ -130,15 +130,15 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
     }
 
     protected void setDataItemGreen(int index) {
-        dataTVS[index].setBackgroundColor(getResources().getColor(com.zy.activity.R.color.green));
+        dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_sorted));
     }
 
     protected void setDataItemGray(int index) {
-        dataTVS[index].setBackgroundColor(getResources().getColor(com.zy.activity.R.color.gray));
+        dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_unsorted));
     }
 
     protected void setDataItemRed(int index) {
-        dataTVS[index].setBackgroundColor(getResources().getColor(com.zy.activity.R.color.red));
+        dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_sorting));
     }
 
     private void initSortIndex(View view) {
@@ -169,8 +169,8 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 //        pk_second.setText(Integer.toString(curStepBean.getSecondOpV()));
 
 
-        TextView originFirstTV = dataTVS[curStepBean.getOpFirst()];
-        TextView originSecondTV = dataTVS[curStepBean.getOpSecond()];
+        TextView originFirstTV = dataTVS[curStepBean.getOpFirstIndex()];
+        TextView originSecondTV = dataTVS[curStepBean.getOpSecondIndex()];
 
 
         ZLog.d(TAG, pk_first);
@@ -263,8 +263,8 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         }
 
         //设置当前操作位置
-        setDataItemRed(curStepBean.getOpFirst());
-        setDataItemRed(curStepBean.getSecondIndex());
+        setDataItemRed(curStepBean.getOpFirstIndex());
+        setDataItemRed(curStepBean.getOpSecondIndex());
 
 
         //串行操作
@@ -273,7 +273,7 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
 
     @Override
-    protected void sortAnimation(int index,SortStepBean curStepBean, StepListener listener) {
+    protected void sortAnimation(int index, SortStepBean curStepBean, StepListener listener) {
         //下标动画
         sortIndexAnimation(curStepBean, new AnimationListener() {
             @Override

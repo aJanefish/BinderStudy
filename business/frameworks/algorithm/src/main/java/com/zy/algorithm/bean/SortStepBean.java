@@ -1,5 +1,6 @@
 package com.zy.algorithm.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SortStepBean {
@@ -8,11 +9,11 @@ public class SortStepBean {
     List<Integer> sorted;//已排序数据下标
     int firstIndex; //第一层循环下标
     int secondIndex; //第二层循环下标
-    int firstOpV; //第一个操作数
-    int secondOpV; //第二个操作数
     String op; //操作符
-    int opFirst; //本次操作位下标
-    int opSecond; //本次操作位下标
+    int opFirstV; //第一个操作数
+    int opSecondV; //第二个操作数
+    int opFirstIndex; //本次操作位下标
+    int opSecondIndex; //本次操作位下标
     boolean result; //本次操作结果
     int[] stepStart; //本次操作前
     int[] stepEnd; //本次操作后
@@ -33,12 +34,12 @@ public class SortStepBean {
         return secondIndex;
     }
 
-    public int getFirstOpV() {
-        return firstOpV;
+    public int getOpFirstV() {
+        return opFirstV;
     }
 
-    public int getSecondOpV() {
-        return secondOpV;
+    public int getOpSecondV() {
+        return opSecondV;
     }
 
     public String getOp() {
@@ -61,12 +62,12 @@ public class SortStepBean {
         return needAnimation;
     }
 
-    public int getOpFirst() {
-        return opFirst;
+    public int getOpFirstIndex() {
+        return opFirstIndex;
     }
 
-    public int getOpSecond() {
-        return opSecond;
+    public int getOpSecondIndex() {
+        return opSecondIndex;
     }
 
     public int getCompareSize() {
@@ -83,11 +84,11 @@ public class SortStepBean {
                 "sorted=" + sorted +
                 ", firstIndex=" + firstIndex +
                 ", secondIndex=" + secondIndex +
-                ", firstOpV=" + firstOpV +
-                ", secondOpV=" + secondOpV +
+                ", firstOpV=" + opFirstV +
+                ", secondOpV=" + opSecondV +
                 ", op='" + op + '\'' +
-                ", opFirst='" + opFirst + '\'' +
-                ", opSecond='" + opSecond + '\'' +
+                ", opFirst='" + opFirstIndex + '\'' +
+                ", opSecond='" + opSecondIndex + '\'' +
                 ", result=" + result +
                 '}';
     }
@@ -96,11 +97,11 @@ public class SortStepBean {
         this.sorted = builder.sorted;
         this.firstIndex = builder.firstIndex;
         this.secondIndex = builder.secondIndex;
-        this.firstOpV = builder.firstOpV;
-        this.secondOpV = builder.secondOpV;
+        this.opFirstV = builder.firstOpV;
+        this.opSecondV = builder.secondOpV;
         this.op = builder.op;
-        this.opFirst = builder.opFirst;
-        this.opSecond = builder.opSecond;
+        this.opFirstIndex = builder.opFirst;
+        this.opSecondIndex = builder.opSecond;
         this.result = builder.result;
         this.stepStart = builder.stepStart;
         this.stepEnd = builder.stepEnd;
@@ -128,6 +129,26 @@ public class SortStepBean {
 
         public Builder setSorted(List<Integer> sorted) {
             this.sorted = sorted;
+            return this;
+        }
+
+        public Builder setSorted(int sortedSize, int length) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < length && i < sortedSize; i++) {
+                list.add(length - i - 1);
+            }
+
+            this.sorted = list;
+            return this;
+        }
+
+        public Builder setSorted(int sortedSize) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < sortedSize; i++) {
+                list.add(i);
+            }
+
+            this.sorted = list;
             return this;
         }
 

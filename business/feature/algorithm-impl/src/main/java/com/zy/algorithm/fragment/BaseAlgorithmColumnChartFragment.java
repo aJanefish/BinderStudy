@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.zy.algorithm.R;
 import com.zy.algorithm.bean.SortStepBean;
-import com.zy.utils.AnimatorUtils;
 import com.zy.view.SortSquareView;
 
 import java.util.ArrayList;
@@ -154,31 +153,17 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
     @Override
     protected void sortAnimation(int index, SortStepBean curStepBean, StepListener listener) {
         //设置当前操作位置-标识
-        setDataItemSorting(curStepBean.getOpFirst());
-        setDataItemSorting(curStepBean.getOpSecond());
+        setDataItemSorting(curStepBean.getOpFirstIndex());
+        setDataItemSorting(curStepBean.getOpSecondIndex());
 
-        View originFirstTV = dataTVS[curStepBean.getOpFirst()];
-        View originSecondTV = dataTVS[curStepBean.getOpSecond()];
+        View originFirstTV = dataTVS[curStepBean.getOpFirstIndex()];
+        View originSecondTV = dataTVS[curStepBean.getOpSecondIndex()];
         //比较动画
 
-
-        float[] shakes = new float[]{1f, 1.05f, 1, 0.95F, 1f, 1.05f, 1f};
 
         List<Animator> animatorList = new ArrayList<>();
         List<Animator> shakeList = new ArrayList<>();
         if (curStepBean.isResult()) {
-            //前一个大
-            shakeList.add(ObjectAnimator.ofFloat(originFirstTV, "scaleX", shakes));
-            shakeList.add(ObjectAnimator.ofFloat(originFirstTV, "scaleY", shakes));
-
-            AnimatorSet shakeAnimatorSet = new AnimatorSet();
-            shakeAnimatorSet.playTogether(shakeList);
-            shakeAnimatorSet.setDuration(500);
-
-
-            //animatorList.add(shakeAnimatorSet);
-
-
             //交换
             int translationXWidth = originFirstTV.getWidth();
             List<Animator> move = new ArrayList<>();
@@ -191,26 +176,13 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
             moveAnimatorSet.setDuration(500);
             animatorList.add(moveAnimatorSet);
 
-//            ObjectAnimator empty = ObjectAnimator.ofFloat(originSecondTV, "scaleX", 1f, 1f);
-//            empty.setDuration(200);
-//            animatorList.add(empty);
         } else {//后一个大
             //不交换
-            shakeList.add(ObjectAnimator.ofFloat(originSecondTV, "scaleX", shakes));
-            shakeList.add(ObjectAnimator.ofFloat(originSecondTV, "scaleY", shakes));
-
-            AnimatorSet shakeAnimatorSet = new AnimatorSet();
-            shakeAnimatorSet.playTogether(shakeList);
-            shakeAnimatorSet.setDuration(500);
-
-
-            //animatorList.add(shakeAnimatorSet);
 
             ObjectAnimator empty = ObjectAnimator.ofFloat(originSecondTV, "scaleX", 1f, 1f);
             empty.setDuration(500);
             animatorList.add(empty);
         }
-
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(animatorList);

@@ -18,6 +18,7 @@
     <color name="statues_sorted">#37A13A</color>
     <color name="statues_sorting">#D62420</color>
     <color name="statues_unsorted">#DDDDDD</color>
+    <color name="statues_text_color">@color/black</color>
 
 
 <!--    <color name="statues_sorted">#1FC0FE</color>-->

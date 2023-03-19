@@ -100,9 +100,9 @@ public class Sort {
                 //记录过程
                 //当前循环最后一次,更新已排序坐标
                 if (j == array.length - 2 - i) {
-                    builder.setSorted(getBubbleSortedList(i + 1, SortStepBean.SIZE));
+                    builder.setSorted(i + 1, SortStepBean.SIZE);
                 } else {
-                    builder.setSorted(getBubbleSortedList(i, SortStepBean.SIZE));
+                    builder.setSorted(i, SortStepBean.SIZE);
                 }
                 stepList.add(builder.setStepEnd(Arrays.copyOf(array, array.length)).build());
 
@@ -117,7 +117,7 @@ public class Sort {
         if (builder != null) {
             builder.setStepStart(builder.getStepEnd());
             builder.setNeedAnimation(false);
-            builder.setSorted(getBubbleSortedList(SortStepBean.SIZE, SortStepBean.SIZE));
+            builder.setSorted(SortStepBean.SIZE, SortStepBean.SIZE);
             stepList.add(builder.build());
         }
 
@@ -173,9 +173,9 @@ public class Sort {
                 //记录过程
                 //当前循环最后一次,更新已排序坐标
                 if (j == array.length - 2 - i) {
-                    builder.setSorted(getBubbleSortedList(i + 1, SortStepBean.SIZE));
+                    builder.setSorted(i + 1, SortStepBean.SIZE);
                 } else {
-                    builder.setSorted(getBubbleSortedList(i, SortStepBean.SIZE));
+                    builder.setSorted(i, SortStepBean.SIZE);
                 }
                 stepList.add(builder.setStepEnd(Arrays.copyOf(array, array.length)).build());
 
@@ -193,20 +193,94 @@ public class Sort {
         if (builder != null) {
             builder.setStepStart(builder.getStepEnd());
             builder.setNeedAnimation(false);
-            builder.setSorted(getBubbleSortedList(SortStepBean.SIZE, SortStepBean.SIZE));
+            builder.setSorted(SortStepBean.SIZE, SortStepBean.SIZE);
             stepList.add(builder.build());
         }
-
         return stepList;
     }
 
 
+    //获取冒泡排序中已排序的位置下标List    [list.length - sortedSize,list.length]
     private static List<Integer> getBubbleSortedList(int sortedSize, int totalSize) {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < totalSize && i < sortedSize; i++) {
             list.add(totalSize - i - 1);
         }
-
         return list;
+    }
+
+
+    public static List<SortStepBean> selectSortV1() {
+        ZLog.d("Sort", "selectSortV1");
+        int[] array = DataBuildUtils.getRandomSortArray();
+        return selectSortV1(array);
+    }
+
+    //选择排序
+    public static List<SortStepBean> selectSortV1(int[] sort) {
+        ZLog.d("Sort", "排序前数组:" + Arrays.toString(sort));
+
+        List<SortStepBean> stepList = new ArrayList<>();
+
+        SortStepBean.Builder builder = null;
+
+        int compareSize = 0; //比较次数
+        int exchangeSize = 0; //交换次数
+
+        int length = sort.length;
+
+        for (int i = 0; i < length - 1; i++) {
+            int minIndex = i;//初始待排序的第一个元素为最小元素
+
+            for (int j = i + 1; j < length; j++) {
+
+                int firstOpV = sort[minIndex];
+                int secondOpV = sort[j];
+                boolean compareResult = firstOpV > secondOpV;
+
+
+                builder = new SortStepBean.Builder();
+                builder.setFirstIndex(i);
+                builder.setSecondIndex(j);
+                builder.setOpFirst(minIndex);
+                builder.setOpSecond(j);
+                builder.setOp(">");
+                builder.setFirstOpV(firstOpV);
+                builder.setSecondOpV(secondOpV);
+                builder.setResult(compareResult);
+                builder.setStepStart(Arrays.copyOf(sort, sort.length));
+                builder.setCompareSize(++compareSize);
+                builder.setExchangeSize(exchangeSize);
+
+
+                if (compareResult) {
+                    minIndex = j;//记录最小元素位置
+                }
+
+                if (j == length - 1) {
+                    //每趟的最后一步-本来在循环外-处理，移到这里-便于记录step状态
+                    //把最小元素移动到sort[i]
+                    if (minIndex != i) { //不是本次默认下标，则交换位置
+                        builder.setExchangeSize(++exchangeSize);
+
+                        int tmp = sort[i];
+                        sort[i] = sort[minIndex];
+                        sort[minIndex] = tmp;
+                    } else {
+                        builder.setExchangeSize(exchangeSize);
+                    }
+
+                    //每一趟最后一个-已排序个数+1
+                    builder.setSorted(i + 1);
+                    stepList.add(builder.setStepEnd(Arrays.copyOf(sort, sort.length)).build());
+                } else {
+                    builder.setSorted(i);
+                    stepList.add(builder.setStepEnd(Arrays.copyOf(sort, sort.length)).build());
+                }
+            }
+
+            //System.out.println("第" + i + "趟简单选择排序结果:" + Arrays.toString(sort));
+        }
+        return stepList;
     }
 }

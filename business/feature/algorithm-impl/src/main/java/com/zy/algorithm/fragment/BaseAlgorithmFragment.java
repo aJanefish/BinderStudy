@@ -188,6 +188,17 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     protected abstract void sortAnimation(int index, SortStepBean curStepBean, StepListener listener);
 
 
+    protected final void startStepAnimator(Animator animator, StepListener listener) {
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation, boolean isReverse) {
+                super.onAnimationEnd(animation, isReverse);
+                listener.nextStep();
+            }
+        });
+        animator.start();
+    }
+
     public interface StepListener {
         void nextStep();
     }
