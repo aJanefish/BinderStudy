@@ -20,6 +20,7 @@ public class SortStepBean implements Cloneable {
     int[] stepEnd; //本次操作后
     boolean needAnimation = true; //是否动画
     int compareSize = 0; //比较次数
+    //定义交换-是两个位置交换
     int exchangeSize = 0; //交换次数
     boolean exchangeAnimation = false; //交换动画
     ExchangeBean exchangeBean;

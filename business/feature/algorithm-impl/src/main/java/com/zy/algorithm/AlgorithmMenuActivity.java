@@ -24,6 +24,9 @@ public class AlgorithmMenuActivity extends BaseMenuActivity {
         list.add(new BaseBean("排序-选择", 7));
         list.add(new BaseBean("排序-选择-最好情况", 8));
         list.add(new BaseBean("排序-选择-最坏情况", 9));
+        list.add(new BaseBean("排序-插入排序", 10));
+        list.add(new BaseBean("排序-插入排序-最坏情况", 11));
+        list.add(new BaseBean("排序-插入排序-最坏情况", 12));
 
     }
 

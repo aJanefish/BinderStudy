@@ -1,6 +1,7 @@
 package com.zy.algorithm;
 
 import com.zy.algorithm.bean.ExchangeBean;
+import com.zy.algorithm.bean.InsertionSortStepBean;
 import com.zy.algorithm.bean.SortStepBean;
 import com.zy.utils.DataBuildUtils;
 import com.zy.zlog.ZLog;
@@ -217,7 +218,6 @@ public class Sort {
 
 
     public static List<SortStepBean> selectSortV1() {
-        ZLog.d("Sort", "selectSortV1");
         int[] array = DataBuildUtils.getRandomSortArray();
         return selectSortV1(array);
     }
@@ -298,6 +298,105 @@ public class Sort {
             stepBean.setNeedAnimation(false);
             stepBean.setSorted(sort.length);
             stepList.add(stepBean);
+        }
+        return stepList;
+    }
+
+
+    public static List<SortStepBean> insertionSort() {
+        int[] array = DataBuildUtils.getRandomSortArray();
+        return insertionSort(array);
+    }
+
+    //选择排序
+    public static List<SortStepBean> insertionSort(int[] sort) {
+        ZLog.d("Sort", "排序前数组:" + Arrays.toString(sort));
+
+        List<SortStepBean> stepList = new ArrayList<>();
+
+        int compareSize = 0; //比较次数
+        int exchangeSize = 0; //交换次数
+        int moveSize = 0; //移动次数
+
+        int length = sort.length;
+        InsertionSortStepBean stepBean = null;
+
+        for (int firstIndex = 1; firstIndex < length; firstIndex++) {
+            //保存当前比较数字
+            int key = sort[firstIndex];
+            for (int secondIndex = firstIndex - 1; secondIndex >= 0; secondIndex--) {
+
+                int opFirstIndex = secondIndex;
+                int opSecondIndex = firstIndex;
+
+                int firstOpV = sort[secondIndex];
+                int secondOpV = key;
+
+                boolean compareResult = firstOpV > secondOpV;
+
+                stepBean = new InsertionSortStepBean();
+                stepBean.setFirstIndex(firstIndex);
+                stepBean.setSecondIndex(secondIndex);
+                stepBean.setOpFirstIndex(opFirstIndex);
+                stepBean.setOpSecondIndex(opSecondIndex);
+                stepBean.setOpFirstV(firstOpV);
+                stepBean.setOpSecondV(secondOpV);
+                stepBean.setResult(compareResult);
+                stepBean.setStepStart(Arrays.copyOf(sort, sort.length)); //移动之前的数组
+                stepBean.setCompareSize(++compareSize);
+
+                stepBean.setExchangeSize(moveSize);
+
+                stepBean.setCompareFirstInPer(secondIndex == firstIndex - 1);
+
+
+                if (compareResult) {
+                    //当前位置的数字往后移一格
+                    sort[secondIndex + 1] = sort[secondIndex];
+
+
+                    stepBean.setExchangeSize(++moveSize);
+                    //move动画 -> 向后移动
+                    stepBean.setMoveRight(true);
+                    stepBean.setMoveRightFirstIndex(secondIndex);
+                    stepBean.setMoveRightSecondIndex(secondIndex + 1);
+
+
+                } else {
+                    //本次循环结束
+                    sort[secondIndex + 1] = key;
+
+
+                    //move动画 -> 数据填充
+                    stepBean.setMoveBack(true);
+                    stepBean.setMoveBackIndex(secondIndex + 1);
+
+                    stepBean.setSorted(firstIndex + 1);
+                    stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
+                    stepList.add(stepBean);
+                    break;
+                }
+
+                if (secondIndex == 0) {
+                    //本次循环结束
+                    sort[0] = key;
+
+
+                    //move动画-> 数据填充
+                    stepBean.setMoveBack(true);
+                    stepBean.setMoveBackIndex(0);
+
+                    stepBean.setSorted(firstIndex + 1);
+                    stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
+                    stepList.add(stepBean);
+                    break;
+                }
+
+                //普通结束-还要开启下一次循环
+                stepBean.setSorted(firstIndex);
+                stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));//移动之后的数组
+                stepList.add(stepBean);
+            }
         }
         return stepList;
     }

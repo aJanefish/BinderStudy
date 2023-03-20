@@ -189,7 +189,6 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         SortStepBean curStepBean = stepList.get(index);
         ZLog.d(TAG, index + " :" + curStepBean);
 
-
         if (curStepBean.isNeedAnimation()) {
             sortAnimation(index, curStepBean, new StepListener() {
                 @Override

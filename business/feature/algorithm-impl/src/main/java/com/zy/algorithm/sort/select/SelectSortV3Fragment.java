@@ -14,19 +14,19 @@ public class SelectSortV3Fragment extends SelectSortBaseFragment {
         int[] array = {99, 88, 77, 66, 55, 44, 33, 22, 11, 5};
         List<SortStepBean> sortStepBeans = Sort.selectSortV1(array);
         for (SortStepBean sortStepBean : sortStepBeans) {
-            ZLog.d("SelectSortV3Fragment",""+sortStepBean);
+            ZLog.d("SelectSortV3Fragment", "" + sortStepBean);
         }
         return sortStepBeans;
     }
 
     @Override
     protected String getTitle() {
-        return "选择排序(最坏情况)";
+        return "选择排序(逆序数组)";
     }
 
     @Override
     protected String getEnterTitle() {
-        return "选择排序\n最坏情况";
+        return "选择排序(逆序数组)";
     }
 
     @Override

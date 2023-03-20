@@ -16,12 +16,12 @@ public class SelectSortV2Fragment extends SelectSortBaseFragment {
 
     @Override
     protected String getTitle() {
-        return "选择排序\n最好情况";
+        return "选择排序(顺序数组)";
     }
 
     @Override
     protected String getEnterTitle() {
-        return "选择排序\n最好情况";
+        return "选择排序(顺序数组)";
     }
 
     @Override

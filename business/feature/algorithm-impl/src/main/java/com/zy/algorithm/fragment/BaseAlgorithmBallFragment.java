@@ -285,35 +285,9 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     //下标动画
     protected void sortIndexAnimation(SortStepBean curStepBean, AnimationListener listener) {
-        if (false) {
-            View originFirstV = dataTVS[curStepBean.getFirstIndex()];
-            View originSecondV = dataTVS[curStepBean.getSecondIndex()];
-
-            Rect firstIndexR = AnimatorUtils.getGlobalVisibleRect(originFirstV);
-            Rect secondIndexR = AnimatorUtils.getGlobalVisibleRect(originSecondV);
-
-            ZLog.d("ZYDebug", "firstIndexR:" + firstIndexR + " " + firstIndexR.centerX());
-            ZLog.d("ZYDebug", "secondIndexR:" + secondIndexR + " " + secondIndexR.centerX());
-
-
-            Rect firstO = AnimatorUtils.getGlobalVisibleRect(sort_first_index);
-            Rect secondO = AnimatorUtils.getGlobalVisibleRect(sort_second_index);
-
-            ZLog.d("ZYDebug", "firstO:" + firstO + " " + firstO.centerX());
-            ZLog.d("ZYDebug", "secondO:" + secondO + " " + secondO.centerX());
-
-            int firstDis = firstIndexR.centerX() - firstO.centerX();
-            int secondDis = secondIndexR.centerX() - secondO.centerX();
-
-            //下标转换为偏移量
-            ObjectAnimator firstIndexAni = ObjectAnimator.ofFloat(sort_first_index, "translationX", sort_first_index.getTranslationX(), sort_first_index.getTranslationX() + firstDis);
-            ObjectAnimator secondIndexAni = ObjectAnimator.ofFloat(sort_second_index, "translationX", sort_second_index.getTranslationX(), sort_second_index.getTranslationX() + secondDis);
-        }
-
         int firstIndex = curStepBean.getFirstIndex();
         int secondIndex = curStepBean.getSecondIndex();
         int opFirstIndex = curStepBean.getOpFirstIndex();
-
 
 
         ObjectAnimator firstIndexAni = ObjectAnimator.ofFloat(sort_first_index, "translationX", sort_first_index.getTranslationX(), firstIndex * stepOne);
