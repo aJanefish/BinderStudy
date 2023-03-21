@@ -139,7 +139,11 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     //初始化数据
     protected void initSetData() {
         stepList = getStepBean();
+        setSortDataTips(stepList.get(0));
         setSortData(stepList.get(0), true);
+    }
+
+    protected void setSortDataTips(SortStepBean bean) {
     }
 
 

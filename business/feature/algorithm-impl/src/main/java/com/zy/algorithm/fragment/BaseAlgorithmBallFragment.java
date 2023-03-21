@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.zy.algorithm.R;
 import com.zy.algorithm.bean.SortStepBean;
+import com.zy.algorithm.controller.IndexController;
 import com.zy.utils.AnimatorUtils;
 import com.zy.zlog.ZLog;
 
@@ -29,10 +30,6 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     private Map<Integer, Integer> colorMap = new ConcurrentHashMap<>();
 
-    //下标
-    protected View sort_first_index;
-    protected View sort_second_index;
-    protected View sort_min_index;
 
     //数据内容
     protected TextView sort_index_0;
@@ -48,6 +45,10 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     protected TextView[] dataTVS = new TextView[10];
 
+    protected TextView[] dataTipsTVS = new TextView[10];
+    protected IndexController indexController;
+
+
     @Override
     protected View[] getDataViewS() {
         return dataTVS;
@@ -57,10 +58,36 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
     protected void initView(View view) {
         super.initView(view);
         initEnteringContainer(view);
-        initSortIndex(view);
+        indexController = new IndexController(view, stepOne);
+        initUnSortView(view);
         initDataTV(view);
 
         initAnimationContainer(view);
+    }
+
+    private void initUnSortView(View view) {
+        TextView index0 = view.findViewById(R.id.un_sort_index_0);
+        TextView index1 = view.findViewById(R.id.un_sort_index_1);
+        TextView index2 = view.findViewById(R.id.un_sort_index_2);
+        TextView index3 = view.findViewById(R.id.un_sort_index_3);
+        TextView index4 = view.findViewById(R.id.un_sort_index_4);
+        TextView index5 = view.findViewById(R.id.un_sort_index_5);
+        TextView index6 = view.findViewById(R.id.un_sort_index_6);
+        TextView index7 = view.findViewById(R.id.un_sort_index_7);
+        TextView index8 = view.findViewById(R.id.un_sort_index_8);
+        TextView index9 = view.findViewById(R.id.un_sort_index_9);
+
+
+        dataTipsTVS[0] = index0;
+        dataTipsTVS[1] = index1;
+        dataTipsTVS[2] = index2;
+        dataTipsTVS[3] = index3;
+        dataTipsTVS[4] = index4;
+        dataTipsTVS[5] = index5;
+        dataTipsTVS[6] = index6;
+        dataTipsTVS[7] = index7;
+        dataTipsTVS[8] = index8;
+        dataTipsTVS[9] = index9;
     }
 
     private View entering_container;
@@ -81,6 +108,15 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         return algorithm_context_container;
     }
 
+    @Override
+    protected void setSortDataTips(SortStepBean bean) {
+        super.setSortDataTips(bean);
+        for (int index = 0; index < dataTipsTVS.length; index++) {
+            TextView textView = dataTipsTVS[index];
+            textView.setText(Integer.toString(bean.getStepStart()[index]));
+        }
+    }
+
     //设置数据
     @Override
     protected void setSortData(SortStepBean bean, boolean start) {
@@ -96,7 +132,7 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
                 if (num == -1) {
                     textView.setText("");
                     textView.setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     textView.setText(Integer.toString(bean.getStepEnd()[index]));
                 }
             }
@@ -206,12 +242,6 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         colorMap.put(index, STATUES_SORTING);
     }
 
-    private void initSortIndex(View view) {
-        sort_first_index = view.findViewById(R.id.sort_first_index);
-        sort_second_index = view.findViewById(R.id.sort_second_index);
-        sort_min_index = view.findViewById(R.id.sort_min_index);
-    }
-
     //PK 区域View组件
     protected TextView pk_first;
     protected TextView pk_second;
@@ -289,31 +319,6 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
         });
     }
 
-    //下标动画
-    protected void sortIndexAnimation(SortStepBean curStepBean, AnimationListener listener) {
-        int firstIndex = curStepBean.getFirstIndex();
-        int secondIndex = curStepBean.getSecondIndex();
-        int opFirstIndex = curStepBean.getOpFirstIndex();
-
-
-        ObjectAnimator firstIndexAni = ObjectAnimator.ofFloat(sort_first_index, "translationX", sort_first_index.getTranslationX(), firstIndex * stepOne);
-        ObjectAnimator secondIndexAni = ObjectAnimator.ofFloat(sort_second_index, "translationX", sort_second_index.getTranslationX(), secondIndex * stepOne);
-        ObjectAnimator minIndexAni = ObjectAnimator.ofFloat(sort_min_index, "translationX", sort_min_index.getTranslationX(), opFirstIndex * stepOne);
-
-        List<Animator> list = new ArrayList<>();
-        list.add(firstIndexAni);
-        list.add(secondIndexAni);
-        list.add(minIndexAni);
-
-        AnimatorUtils.togetherStart(list, 200, new AnimatorUtils.AnimationListener() {
-            @Override
-            public void onAnimationEnd() {
-                super.onAnimationEnd();
-                listener.onAnimationEnd();
-            }
-        });
-    }
-
 
     private void sortDataAnimation(SortStepBean curStepBean, StepListener listener) {
         if (checkActivityDestroyed()) {
@@ -345,5 +350,9 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
                 sortDataAnimation(curStepBean, listener);
             }
         });
+    }
+
+    protected void sortIndexAnimation(SortStepBean curStepBean, AnimationListener animationListener) {
+        indexController.sortIndexAnimation(curStepBean, animationListener);
     }
 }

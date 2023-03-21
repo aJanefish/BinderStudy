@@ -97,6 +97,7 @@
 
 
                 <TextView
+                    android:id="@+id/un_sort_index_0"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -108,6 +109,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_1"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -119,6 +121,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_2"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -130,6 +133,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_3"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -141,6 +145,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_4"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -152,6 +157,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_5"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -163,6 +169,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_6"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -174,6 +181,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_7"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -185,6 +193,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_8"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -196,6 +205,7 @@
                     android:textSize="@dimen/context_des" />
 
                 <TextView
+                    android:id="@+id/un_sort_index_9"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"

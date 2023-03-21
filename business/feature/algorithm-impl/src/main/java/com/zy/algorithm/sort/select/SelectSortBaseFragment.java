@@ -87,7 +87,7 @@ public abstract class SelectSortBaseFragment extends BaseAlgorithmBallFragment {
         if (sortStepBean.getOpFirstIndex() != exchangeBean.getFirstIndex()) {
             //不相等
             //则说明本次循环的最后一比比较的最小下标 发生改变，需要补上其动画
-            ObjectAnimator minIndexAni = ObjectAnimator.ofFloat(sort_min_index, "translationX", sort_min_index.getTranslationX(), exchangeBean.getFirstIndex() * stepOne);
+            Animator minIndexAni = indexController.getMinIndexAnimator(exchangeBean.getFirstIndex());
             animatorList.add(minIndexAni);
         }
 

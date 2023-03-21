@@ -107,6 +107,7 @@ public abstract class InsertionSortBaseFragment extends BaseAlgorithmBallFragmen
             View moveTarget = dataTVS[bean.getMoveBackIndex()];
             Animator moveBack = AnimatorUtils.getMove(pk_op, moveTarget);
             moveBack.addListener(new AnimatorListenerAdapter() {
+
                 @Override
                 public void onAnimationEnd(Animator animation, boolean isReverse) {
                     super.onAnimationEnd(animation, isReverse);
@@ -119,6 +120,9 @@ public abstract class InsertionSortBaseFragment extends BaseAlgorithmBallFragmen
                     pk_op.setBackground(getResources().getDrawable(R.drawable.background_line));
                 }
             });
+
+            animatorList.add(indexController.getMinIndexAnimator(bean.getMoveBackIndex()));
+
 
             animatorList.add(moveBack);
         }
