@@ -92,7 +92,13 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
             if (start) {
                 textView.setText(Integer.toString(bean.getStepStart()[index]));
             } else {
-                textView.setText(Integer.toString(bean.getStepEnd()[index]));
+                int num = bean.getStepEnd()[index];
+                if (num == -1) {
+                    textView.setText("");
+                    textView.setVisibility(View.INVISIBLE);
+                }else {
+                    textView.setText(Integer.toString(bean.getStepEnd()[index]));
+                }
             }
 
             if (sorted.contains(index)) {

@@ -24,7 +24,7 @@ public class AnimatorUtils {
     //rotation
     //alpha
 
-    private static final int D = 500;
+    private static final int D = 1000;
 
 
     public static void reset(View origin) {
@@ -80,6 +80,59 @@ public class AnimatorUtils {
         }
         origin.getGlobalVisibleRect(r);
         return r;
+    }
+
+    public static Animator getAlpha(View origin, boolean show) {
+        List<Animator> list = new ArrayList<>();
+        if (show) {
+            list.add(ObjectAnimator.ofFloat(origin, "alpha", 0, 1));
+        } else {
+            list.add(ObjectAnimator.ofFloat(origin, "alpha", 1, 0));
+        }
+        return getTogetherStart(list);
+    }
+
+
+    public static Animator getMove(View origin, View target) {
+        return getMove(origin, getGlobalVisibleRect(target));
+    }
+
+    public static Animator getMove(View origin, Rect targetR) {
+        Rect originR = getGlobalVisibleRect(origin);
+
+        float curScaleX = origin.getScaleX();
+        if (curScaleX == 0) {
+            curScaleX = 1;
+        }
+
+        float curScaleY = origin.getScaleY();
+        if (curScaleY == 0) {
+            curScaleY = 1;
+        }
+
+        float originWidth = originR.width() / curScaleX;
+        float originHeight = originR.height() / curScaleY;
+
+        int targetWidth = targetR.width();
+        int targetHeight = targetR.height();
+
+        //缩放动画
+        List<Animator> list = new ArrayList<>();
+        list.add(ObjectAnimator.ofFloat(origin, "scaleX", curScaleX, ((float) targetWidth / (float) originWidth)));
+        list.add(ObjectAnimator.ofFloat(origin, "scaleY", curScaleY, ((float) targetHeight / (float) originHeight)));
+
+        int originXCenter = originR.centerX();
+        int originYCenter = originR.centerY();
+
+        int targetXCenter = targetR.centerX();
+        int targetYCenter = targetR.centerY();
+
+
+        list.add(ObjectAnimator.ofFloat(origin, "translationX", origin.getTranslationX(), origin.getTranslationX() + (targetXCenter - originXCenter)));
+        list.add(ObjectAnimator.ofFloat(origin, "translationY", origin.getTranslationY(), origin.getTranslationY() + (targetYCenter - originYCenter)));
+
+        //平移-中心点
+        return getTogetherStart(list);
     }
 
     public static void move(View origin, View target) {
@@ -182,6 +235,7 @@ public class AnimatorUtils {
         AnimatorSet animatorSet = new AnimatorSet();
         //同时动画
         animatorSet.playTogether(list);
+        animatorSet.setDuration(D);
         return animatorSet;
     }
 

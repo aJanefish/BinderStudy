@@ -171,6 +171,8 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
             view.setTranslationY(0);
             view.setScaleX(1f);
             view.setScaleY(1f);
+            view.setAlpha(1f);
+            view.setVisibility(View.VISIBLE);
         }
     }
 
@@ -196,13 +198,14 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
                     if (checkActivityDestroyed()) {
                         return;
                     }
-                    setSortData(curStepBean, false);
                     resetAll();
+                    setSortData(curStepBean, false);
                     startSort(index + 1);
 
                 }
             });
         } else {
+            resetAll();
             setSortData(curStepBean, false);
             startSort(index + 1);
         }

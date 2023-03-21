@@ -353,7 +353,8 @@ public class Sort {
                 if (compareResult) {
                     //当前位置的数字往后移一格
                     sort[secondIndex + 1] = sort[secondIndex];
-
+                    //当前位置的数据设置为-1
+                    sort[secondIndex] = -1;
 
                     stepBean.setExchangeSize(++moveSize);
                     //move动画 -> 向后移动
