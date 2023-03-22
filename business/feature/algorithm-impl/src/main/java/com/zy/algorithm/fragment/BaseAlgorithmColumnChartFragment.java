@@ -1,10 +1,6 @@
 package com.zy.algorithm.fragment;
 
 
-import static com.zy.view.SortSquareView.STATUES_SORTED;
-import static com.zy.view.SortSquareView.STATUES_SORTING;
-import static com.zy.view.SortSquareView.STATUES_UNSORTED;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -118,7 +114,7 @@ public abstract class BaseAlgorithmColumnChartFragment extends BaseAlgorithmFrag
 
     protected void setSortData(SortStepBean bean, boolean start) {
         //设置颜色
-        List<Integer> sorted = bean.getSorted();
+        List<Integer> sorted = bean.getStepStartSorted();
         //设置数据
         for (int index = 0; index < dataTVS.length; index++) {
             SortSquareView sortSquareView = dataTVS[index];

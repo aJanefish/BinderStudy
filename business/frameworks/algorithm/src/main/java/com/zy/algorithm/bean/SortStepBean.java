@@ -7,7 +7,8 @@ import java.util.List;
 public class SortStepBean implements Cloneable {
     public static final int SIZE = 10;
 
-    List<Integer> sorted;//已排序数据下标
+    List<Integer> stepStartSorted;//已排序数据下标
+    List<Integer> stepEndSorted;//已排序数据下标
     int firstIndex; //第一层循环下标
     int secondIndex; //第二层循环下标
     String op; //操作符
@@ -25,31 +26,50 @@ public class SortStepBean implements Cloneable {
     boolean exchangeAnimation = false; //交换动画
     ExchangeBean exchangeBean;
 
-    public List<Integer> getSorted() {
-        return sorted;
+    public List<Integer> getStepStartSorted() {
+        return stepStartSorted;
     }
 
-    public void setSorted(List<Integer> sorted) {
-        this.sorted = sorted;
+    public List<Integer> getStepEndSorted() {
+        return stepEndSorted;
     }
 
-    public void setSorted(int sortedSize, int length) {
+
+    public void setStepStartSorted(int sortedSize, int length) {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < length && i < sortedSize; i++) {
             list.add(length - i - 1);
         }
 
-        this.sorted = list;
+        this.stepStartSorted = list;
     }
 
-    public void setSorted(int sortedSize) {
+    public void setStepStartSorted(int sortedSize) {
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < sortedSize; i++) {
             list.add(i);
         }
-
-        this.sorted = list;
+        this.stepStartSorted = list;
     }
+
+
+    public void setStepEndSorted(int sortedSize, int length) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < length && i < sortedSize; i++) {
+            list.add(length - i - 1);
+        }
+
+        this.stepEndSorted = list;
+    }
+
+    public void setStepEndSorted(int sortedSize) {
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < sortedSize; i++) {
+            list.add(i);
+        }
+        this.stepEndSorted = list;
+    }
+
 
     public int getFirstIndex() {
         return firstIndex;
@@ -174,21 +194,11 @@ public class SortStepBean implements Cloneable {
     @Override
     public String toString() {
         return "SortStepBean{" +
-                "sorted=" + sorted +
-                ", firstIndex=" + firstIndex +
+                "firstIndex=" + firstIndex +
                 ", secondIndex=" + secondIndex +
-                ", op='" + op + '\'' +
-                ", opFirstV=" + opFirstV +
-                ", opSecondV=" + opSecondV +
-                ", opFirstIndex=" + opFirstIndex +
-                ", opSecondIndex=" + opSecondIndex +
-                ", result=" + result +
                 ", stepStart=" + Arrays.toString(stepStart) +
                 ", stepEnd=" + Arrays.toString(stepEnd) +
-                ", needAnimation=" + needAnimation +
-                ", compareSize=" + compareSize +
-                ", exchangeSize=" + exchangeSize +
-                ", exchangeAnimation=" + exchangeAnimation +
+                ", sorted=" + stepStartSorted +
                 '}';
     }
 

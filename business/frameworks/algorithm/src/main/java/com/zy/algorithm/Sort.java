@@ -101,9 +101,9 @@ public class Sort {
                 //记录过程
                 //当前循环最后一次,更新已排序坐标
                 if (j == array.length - 2 - i) {
-                    stepBean.setSorted(i + 1, SortStepBean.SIZE);
+                    stepBean.setStepStartSorted(i + 1, SortStepBean.SIZE);
                 } else {
-                    stepBean.setSorted(i, SortStepBean.SIZE);
+                    stepBean.setStepStartSorted(i, SortStepBean.SIZE);
                 }
 
                 stepBean.setStepEnd(Arrays.copyOf(array, array.length));
@@ -121,7 +121,7 @@ public class Sort {
             stepBean = stepBean.clone();
             stepBean.setStepStart(stepBean.getStepEnd());
             stepBean.setNeedAnimation(false);
-            stepBean.setSorted(SortStepBean.SIZE, SortStepBean.SIZE);
+            stepBean.setStepStartSorted(SortStepBean.SIZE, SortStepBean.SIZE);
             stepList.add(stepBean);
         }
 
@@ -177,9 +177,9 @@ public class Sort {
                 //记录过程
                 //当前循环最后一次,更新已排序坐标
                 if (j == array.length - 2 - i) {
-                    stepBean.setSorted(i + 1, SortStepBean.SIZE);
+                    stepBean.setStepStartSorted(i + 1, SortStepBean.SIZE);
                 } else {
-                    stepBean.setSorted(i, SortStepBean.SIZE);
+                    stepBean.setStepStartSorted(i, SortStepBean.SIZE);
                 }
 
                 stepBean.setStepEnd(Arrays.copyOf(array, array.length));
@@ -200,7 +200,7 @@ public class Sort {
             stepBean = stepBean.clone();
             stepBean.setStepStart(stepBean.getStepEnd());
             stepBean.setNeedAnimation(false);
-            stepBean.setSorted(SortStepBean.SIZE, SortStepBean.SIZE);
+            stepBean.setStepStartSorted(SortStepBean.SIZE, SortStepBean.SIZE);
             stepList.add(stepBean);
         }
         return stepList;
@@ -281,9 +281,9 @@ public class Sort {
                     }
 
                     //每一趟最后一个-已排序个数+1
-                    stepBean.setSorted(i + 1);
+                    stepBean.setStepStartSorted(i + 1);
                 } else {
-                    stepBean.setSorted(i);
+                    stepBean.setStepStartSorted(i);
                 }
                 stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
                 stepList.add(stepBean);
@@ -296,7 +296,7 @@ public class Sort {
             stepBean = stepBean.clone();
             stepBean.setStepStart(stepBean.getStepEnd());
             stepBean.setNeedAnimation(false);
-            stepBean.setSorted(sort.length);
+            stepBean.setStepStartSorted(sort.length);
             stepList.add(stepBean);
         }
         return stepList;
@@ -348,7 +348,7 @@ public class Sort {
                 stepBean.setExchangeSize(moveSize);
 
                 stepBean.setCompareFirstInPer(secondIndex == firstIndex - 1);
-
+                stepBean.setStepStartSorted(firstIndex);
 
                 if (compareResult) {
                     //当前位置的数字往后移一格
@@ -372,7 +372,7 @@ public class Sort {
                     stepBean.setMoveBack(true);
                     stepBean.setMoveBackIndex(secondIndex + 1);
 
-                    stepBean.setSorted(firstIndex + 1);
+                    stepBean.setStepEndSorted(firstIndex + 1);
                     stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
                     stepList.add(stepBean);
                     break;
@@ -387,14 +387,14 @@ public class Sort {
                     stepBean.setMoveBack(true);
                     stepBean.setMoveBackIndex(0);
 
-                    stepBean.setSorted(firstIndex + 1);
+                    stepBean.setStepEndSorted(firstIndex + 1);
                     stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
                     stepList.add(stepBean);
                     break;
                 }
 
                 //普通结束-还要开启下一次循环
-                stepBean.setSorted(firstIndex);
+                stepBean.setStepEndSorted(firstIndex + 1);
                 stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));//移动之后的数组
                 stepList.add(stepBean);
             }

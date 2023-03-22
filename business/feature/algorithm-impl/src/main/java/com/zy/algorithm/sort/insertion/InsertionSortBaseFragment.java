@@ -19,6 +19,11 @@ import java.util.List;
 public abstract class InsertionSortBaseFragment extends BaseAlgorithmBallFragment {
 
     @Override
+    protected boolean getColorAni() {
+        return false;
+    }
+
+    @Override
     protected void initView(View view) {
         super.initView(view);
         pk_first.setVisibility(View.GONE);

@@ -3,6 +3,7 @@ package com.zy.algorithm.sort.insertion;
 import com.zy.algorithm.Sort;
 import com.zy.algorithm.bean.SortStepBean;
 import com.zy.algorithm.fragment.BaseAlgorithmBallFragment;
+import com.zy.zlog.ZLog;
 
 import java.util.List;
 
@@ -12,8 +13,11 @@ public class InsertionSortV2Fragment extends InsertionSortBaseFragment {
     @Override
     protected List<SortStepBean> getStepBean() {
         int[] array = {99, 88, 77, 66, 55, 44, 33, 22, 11, 5};
-        return Sort.insertionSort(array);
-
+        List<SortStepBean> sortStepBeans = Sort.insertionSort(array);
+        for (SortStepBean sortStepBean : sortStepBeans) {
+            ZLog.d("InsertionSortV2Fragment",""+sortStepBean);
+        }
+        return sortStepBeans;
     }
 
     private static String title = "插入排序(最坏情况)";

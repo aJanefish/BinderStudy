@@ -136,6 +136,10 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
 
     protected abstract String getDataDes();
 
+    protected boolean getColorAni() {
+        return true;
+    }
+
     //初始化数据
     protected void initSetData() {
         stepList = getStepBean();

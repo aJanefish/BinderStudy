@@ -85,9 +85,9 @@ public class AnimatorUtils {
     public static Animator getAlpha(View origin, boolean show) {
         List<Animator> list = new ArrayList<>();
         if (show) {
-            list.add(ObjectAnimator.ofFloat(origin, "alpha", 0, 1));
+            list.add(ObjectAnimator.ofFloat(origin, "alpha", 0, 1, 1, 1));
         } else {
-            list.add(ObjectAnimator.ofFloat(origin, "alpha", 1, 0));
+            list.add(ObjectAnimator.ofFloat(origin, "alpha", 1, 1, 1, 0));
         }
         return getTogetherStart(list);
     }

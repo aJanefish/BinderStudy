@@ -1,7 +1,5 @@
 package com.zy.algorithm.fragment;
 
-import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.util.Log;
@@ -12,9 +10,7 @@ import com.zy.algorithm.R;
 import com.zy.algorithm.bean.SortStepBean;
 import com.zy.algorithm.controller.IndexController;
 import com.zy.utils.AnimatorUtils;
-import com.zy.zlog.ZLog;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -121,13 +117,14 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
     @Override
     protected void setSortData(SortStepBean bean, boolean start) {
         //设置颜色
-        List<Integer> sorted = bean.getSorted();
+        List<Integer> sorted = bean.getStepStartSorted();
         //设置数据
         for (int index = 0; index < dataTVS.length; index++) {
             TextView textView = dataTVS[index];
             if (start) {
                 textView.setText(Integer.toString(bean.getStepStart()[index]));
             } else {
+                //-1值 - 置为空，不显示
                 int num = bean.getStepEnd()[index];
                 if (num == -1) {
                     textView.setText("");
@@ -180,7 +177,7 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     protected void setDataItemGreen(int index) {
         int curStatus = getCurStatues(index);
-        if (curStatus == STATUES_SORTED) {
+        if (curStatus == STATUES_SORTED || !getColorAni()) {
             dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_sorted));
         } else {
             //变色动画
@@ -222,7 +219,7 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     protected void setDataItemGray(int index) {
         int curStatus = getCurStatues(index);
-        if (curStatus == STATUES_UNSORTED) {
+        if (curStatus == STATUES_UNSORTED || !getColorAni()) {
             dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_unsorted));
         } else {
             //变色动画
@@ -233,7 +230,7 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
 
     protected void setDataItemRed(int index) {
         int curStatus = getCurStatues(index);
-        if (curStatus == STATUES_SORTING) {
+        if (curStatus == STATUES_SORTING || !getColorAni()) {
             dataTVS[index].setBackgroundColor(getResources().getColor(R.color.statues_sorting));
         } else {
             //变色动画
