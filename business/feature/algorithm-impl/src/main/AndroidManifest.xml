@@ -5,10 +5,12 @@
     <application>
         <activity
             android:name=".AlgorithmMenuActivity"
+            android:configChanges="locale|layoutDirection|orientation|screenLayout|screenSize|smallestScreenSize"
             android:exported="false"
             android:label="算法" />
         <activity
             android:name=".AlgorithmMainActivity"
+            android:configChanges="locale|layoutDirection|orientation|screenLayout|screenSize|smallestScreenSize"
             android:exported="false"
             android:label="算法"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

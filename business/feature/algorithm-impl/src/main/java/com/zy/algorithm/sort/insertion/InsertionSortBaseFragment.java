@@ -80,6 +80,9 @@ public abstract class InsertionSortBaseFragment extends BaseAlgorithmBallFragmen
                 @Override
                 public void onAnimationStart(Animator animation, boolean isReverse) {
                     super.onAnimationStart(animation, isReverse);
+                    if (checkActivityDestroyed()) {
+                        return;
+                    }
                     pk_op.setText("" + bean.getOpSecondV());
                     pk_op.setVisibility(View.VISIBLE);
                     pk_op.setBackgroundColor(getResources().getColor(R.color.statues_sorting));
@@ -116,6 +119,9 @@ public abstract class InsertionSortBaseFragment extends BaseAlgorithmBallFragmen
                 @Override
                 public void onAnimationEnd(Animator animation, boolean isReverse) {
                     super.onAnimationEnd(animation, isReverse);
+                    if (checkActivityDestroyed()) {
+                        return;
+                    }
                     pk_op.setTranslationX(0);
                     pk_op.setTranslationY(0);
                     pk_op.setScaleX(1f);

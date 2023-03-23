@@ -93,6 +93,8 @@ public class Sort {
                 stepBean.setCompareSize(compareSize++);
                 stepBean.setExchangeSize(result ? ++exchangeSize : exchangeSize);
 
+                stepBean.setStepStartSorted(i, SortStepBean.SIZE);
+
                 if (result) {
                     array[j] = secondOpV;
                     array[j + 1] = firstOpV;
@@ -101,9 +103,9 @@ public class Sort {
                 //记录过程
                 //当前循环最后一次,更新已排序坐标
                 if (j == array.length - 2 - i) {
-                    stepBean.setStepStartSorted(i + 1, SortStepBean.SIZE);
+                    stepBean.setStepEndSorted(i + 1, SortStepBean.SIZE);
                 } else {
-                    stepBean.setStepStartSorted(i, SortStepBean.SIZE);
+                    stepBean.setStepEndSorted(i, SortStepBean.SIZE);
                 }
 
                 stepBean.setStepEnd(Arrays.copyOf(array, array.length));
@@ -121,7 +123,7 @@ public class Sort {
             stepBean = stepBean.clone();
             stepBean.setStepStart(stepBean.getStepEnd());
             stepBean.setNeedAnimation(false);
-            stepBean.setStepStartSorted(SortStepBean.SIZE, SortStepBean.SIZE);
+            stepBean.setStepEndSorted(SortStepBean.SIZE, SortStepBean.SIZE);
             stepList.add(stepBean);
         }
 
@@ -168,6 +170,8 @@ public class Sort {
                 stepBean.setCompareSize(++compareSize);
                 stepBean.setExchangeSize(result ? ++exchangeSize : exchangeSize);
 
+                stepBean.setStepStartSorted(i, SortStepBean.SIZE);
+
                 if (result) {
                     array[j] = secondOpV;
                     array[j + 1] = firstOpV;
@@ -177,9 +181,9 @@ public class Sort {
                 //记录过程
                 //当前循环最后一次,更新已排序坐标
                 if (j == array.length - 2 - i) {
-                    stepBean.setStepStartSorted(i + 1, SortStepBean.SIZE);
+                    stepBean.setStepEndSorted(i + 1, SortStepBean.SIZE);
                 } else {
-                    stepBean.setStepStartSorted(i, SortStepBean.SIZE);
+                    stepBean.setStepEndSorted(i, SortStepBean.SIZE);
                 }
 
                 stepBean.setStepEnd(Arrays.copyOf(array, array.length));
@@ -200,7 +204,7 @@ public class Sort {
             stepBean = stepBean.clone();
             stepBean.setStepStart(stepBean.getStepEnd());
             stepBean.setNeedAnimation(false);
-            stepBean.setStepStartSorted(SortStepBean.SIZE, SortStepBean.SIZE);
+            stepBean.setStepEndSorted(SortStepBean.SIZE, SortStepBean.SIZE);
             stepList.add(stepBean);
         }
         return stepList;
@@ -255,7 +259,7 @@ public class Sort {
                 stepBean.setStepStart(Arrays.copyOf(sort, sort.length));
                 stepBean.setCompareSize(++compareSize);
                 stepBean.setExchangeSize(exchangeSize);
-
+                stepBean.setStepStartSorted(i);
 
                 if (compareResult) {
                     minIndex = j;//记录最小元素位置
@@ -281,9 +285,9 @@ public class Sort {
                     }
 
                     //每一趟最后一个-已排序个数+1
-                    stepBean.setStepStartSorted(i + 1);
+                    stepBean.setStepEndSorted(i + 1);
                 } else {
-                    stepBean.setStepStartSorted(i);
+                    stepBean.setStepEndSorted(i);
                 }
                 stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
                 stepList.add(stepBean);
@@ -296,7 +300,7 @@ public class Sort {
             stepBean = stepBean.clone();
             stepBean.setStepStart(stepBean.getStepEnd());
             stepBean.setNeedAnimation(false);
-            stepBean.setStepStartSorted(sort.length);
+            stepBean.setStepEndSorted(sort.length);
             stepList.add(stepBean);
         }
         return stepList;
@@ -324,6 +328,8 @@ public class Sort {
         for (int firstIndex = 1; firstIndex < length; firstIndex++) {
             //保存当前比较数字
             int key = sort[firstIndex];
+            boolean hasMoveRight = false;
+
             for (int secondIndex = firstIndex - 1; secondIndex >= 0; secondIndex--) {
 
                 int opFirstIndex = secondIndex;
@@ -348,7 +354,7 @@ public class Sort {
                 stepBean.setExchangeSize(moveSize);
 
                 stepBean.setCompareFirstInPer(secondIndex == firstIndex - 1);
-                stepBean.setStepStartSorted(firstIndex);
+                stepBean.setStepStartSorted(firstIndex + (hasMoveRight ? 1 : 0));
 
                 if (compareResult) {
                     //当前位置的数字往后移一格
@@ -362,7 +368,7 @@ public class Sort {
                     stepBean.setMoveRightFirstIndex(secondIndex);
                     stepBean.setMoveRightSecondIndex(secondIndex + 1);
 
-
+                    hasMoveRight = true;
                 } else {
                     //本次循环结束
                     sort[secondIndex + 1] = key;
@@ -375,6 +381,8 @@ public class Sort {
                     stepBean.setStepEndSorted(firstIndex + 1);
                     stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
                     stepList.add(stepBean);
+
+                    hasMoveRight = false;
                     break;
                 }
 
@@ -390,6 +398,8 @@ public class Sort {
                     stepBean.setStepEndSorted(firstIndex + 1);
                     stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
                     stepList.add(stepBean);
+
+                    hasMoveRight = false;
                     break;
                 }
 

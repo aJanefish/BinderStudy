@@ -1,6 +1,8 @@
 package com.zy.algorithm;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.WindowManager;
 
 import com.zy.activity.BaseMainActivity;
 import com.zy.algorithm.sort.bubble.BubbleSortColumnChartV1Fragment;
@@ -17,6 +19,12 @@ import com.zy.algorithm.sort.select.SelectSortV2Fragment;
 import com.zy.algorithm.sort.select.SelectSortV3Fragment;
 
 public class AlgorithmMainActivity extends BaseMainActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected Fragment getContainerFragment() {

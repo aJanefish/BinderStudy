@@ -198,7 +198,8 @@ public class SortStepBean implements Cloneable {
                 ", secondIndex=" + secondIndex +
                 ", stepStart=" + Arrays.toString(stepStart) +
                 ", stepEnd=" + Arrays.toString(stepEnd) +
-                ", sorted=" + stepStartSorted +
+                ", stepStartSorted=" + stepStartSorted +
+                ", stepEndSorted=" + stepEndSorted +
                 '}';
     }
 

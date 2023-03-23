@@ -20,7 +20,7 @@ public class SelectSortV1Fragment extends SelectSortBaseFragment {
 
     @Override
     protected String getEnterTitle() {
-        return "选择排序";
+        return "经典排序算法\n之\n选择排序";
     }
 
     @Override

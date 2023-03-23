@@ -13,13 +13,15 @@ import android.widget.TextView;
 import com.zy.activity.BaseFragment;
 import com.zy.algorithm.R;
 import com.zy.algorithm.bean.SortStepBean;
+import com.zy.algorithm.controller.AnimatorController;
+import com.zy.algorithm.mvp.IAlgorithmControllerView;
 import com.zy.utils.AnimatorUtils;
 import com.zy.zlog.ZLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseAlgorithmFragment extends BaseFragment {
+public abstract class BaseAlgorithmFragment extends BaseFragment implements IAlgorithmControllerView {
 
     private static final String TAG = "BaseAlgorithm";
 
@@ -33,7 +35,7 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         initView(view);
         initSetData();
 
-        startPage();
+        startEnterPage();
         mHandler.postDelayed(new Runnable() {
 
             @Override
@@ -54,7 +56,7 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         }, 2000);
     }
 
-    private void startPage() {
+    private void startEnterPage() {
         View enterContainer = getEnterContainer();
         View contextContainer = getContextContainer();
         enterContainer.setVisibility(View.VISIBLE);
@@ -127,6 +129,7 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     }
 
     protected List<SortStepBean> stepList = null;
+    protected AnimatorController animatorController = null;
 
     protected abstract List<SortStepBean> getStepBean();
 
@@ -143,6 +146,7 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     //初始化数据
     protected void initSetData() {
         stepList = getStepBean();
+        animatorController.setStepList(stepList);
         setSortDataTips(stepList.get(0));
         setSortData(stepList.get(0), true);
     }
@@ -157,6 +161,11 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
     //初始化View
     protected void initView(View view) {
         initTitle(view);
+        initAnimatorController(view);
+    }
+
+    private void initAnimatorController(View view) {
+        animatorController = new AnimatorController(view, this);
     }
 
     private void initTitle(View view) {
@@ -188,34 +197,60 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
 
 
     private void startSort() {
-        startSort(0);
+        startSort(animatorController.getCurIndex());
     }
+
+    boolean animating = false;
 
     protected void startSort(int index) {
         if (index >= stepList.size()) {
+            return;
+        }
+        if (animating) {
+            ZLog.d(TAG, "animating  :" + true);
             return;
         }
 
         SortStepBean curStepBean = stepList.get(index);
         ZLog.d(TAG, index + " :" + curStepBean);
 
+        setSortData(curStepBean, true);
+
+        if (animatorController.isAuto()) { //如果是自动播放，就自动开始下一个
+            play(index, curStepBean, true);
+        } else if (animatorController.isSingle_play()) {
+            play(index, curStepBean, false);
+        } else { //debug 模式-只设置数据
+            resetAll();
+            setSortData(curStepBean, true);
+        }
+    }
+
+    private void play(int index, SortStepBean curStepBean, boolean auto) {
         if (curStepBean.isNeedAnimation()) {
+            animating = true;
             sortAnimation(index, curStepBean, new StepListener() {
                 @Override
                 public void nextStep() {
+                    animating = false;
+
                     if (checkActivityDestroyed()) {
                         return;
                     }
                     resetAll();
                     setSortData(curStepBean, false);
-                    startSort(index + 1);
+                    if (auto) {
+                        startSort(animatorController.geNextIndex());
+                    }
 
                 }
             });
         } else {
             resetAll();
             setSortData(curStepBean, false);
-            startSort(index + 1);
+            if (auto) {
+                startSort(animatorController.geNextIndex());
+            }
         }
     }
 
@@ -234,6 +269,50 @@ public abstract class BaseAlgorithmFragment extends BaseFragment {
         });
         animator.start();
     }
+
+
+    //动画控制 - start
+    @Override
+    public void ani_pause() {
+
+    }
+
+    @Override
+    public void ani_continue() {
+        startSort();
+    }
+
+    @Override
+    public void ani_play_single() {
+        startSort();
+    }
+
+    @Override
+    public void ani_play_zero() {
+        startSort();
+    }
+
+    @Override
+    public void ani_last() {
+        startSort();
+    }
+
+    @Override
+    public void ani_next() {
+        startSort();
+    }
+
+    @Override
+    public void ani_fast() {
+
+    }
+
+    @Override
+    public void ani_low() {
+
+    }
+    //动画控制 - end
+
 
     public interface StepListener {
         void nextStep();

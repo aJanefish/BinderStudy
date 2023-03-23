@@ -26,7 +26,7 @@ public class SelectSortV3Fragment extends SelectSortBaseFragment {
 
     @Override
     protected String getEnterTitle() {
-        return "选择排序(逆序数组)";
+        return "选择排序\n之\n逆序数组";
     }
 
     @Override

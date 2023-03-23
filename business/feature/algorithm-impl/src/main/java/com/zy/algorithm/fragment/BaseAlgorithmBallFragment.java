@@ -118,6 +118,11 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
     protected void setSortData(SortStepBean bean, boolean start) {
         //设置颜色
         List<Integer> sorted = bean.getStepStartSorted();
+        if (start){
+            sorted = bean.getStepStartSorted();
+        }else {
+            sorted = bean.getStepEndSorted();
+        }
         //设置数据
         for (int index = 0; index < dataTVS.length; index++) {
             TextView textView = dataTVS[index];

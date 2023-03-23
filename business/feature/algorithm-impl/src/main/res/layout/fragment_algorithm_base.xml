@@ -221,7 +221,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_16"
+                android:layout_marginBottom="@dimen/dp_8"
                 android:background="@color/statues_unsorted">
                 <!--下标1-->
                 <LinearLayout
@@ -256,7 +256,10 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:background="@drawable/background_line"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_8">
 
                 <!--动画区域-->
                 <FrameLayout
@@ -322,7 +325,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/background_line"
                     android:orientation="horizontal">
 
 
@@ -459,6 +461,77 @@
                 </LinearLayout>
 
             </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/sort_controller_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暂停" />
+
+                <Button
+                    android:id="@+id/sort_controller_continue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="继续" />
+
+                <Button
+                    android:id="@+id/sort_controller_single_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="单一播放" />
+
+                <Button
+                    android:id="@+id/sort_controller_from_zero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="从头播放" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/sort_controller_last"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上一个" />
+
+                <Button
+                    android:id="@+id/sort_controller_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="下一个" />
+
+                <Button
+                    android:id="@+id/sort_controller_fast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="快速" />
+
+                <Button
+                    android:id="@+id/sort_controller_low"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="慢速" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
