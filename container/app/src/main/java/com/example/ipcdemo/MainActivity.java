@@ -1,82 +1,62 @@
 package com.example.ipcdemo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
 import com.example.ipcdemo.activity.ProxyManagerDemoActivity;
 import com.example.ipcdemo.classloader.ClassLoaderUtils;
 import com.example.ipcdemo.study.activity.SubMainActivity;
 import com.example.ipcdemo.util.BinderInternalUtils;
-import com.zy.algorithm.AlgorithmMainActivity;
+import com.zy.activity.BaseMenuActivity;
+import com.zy.activity.bean.BaseBean;
 import com.zy.algorithm.AlgorithmMenuActivity;
 import com.zy.animation.AnimationMenuActivity;
 import com.zy.feat.broadcast.BroadcastMainActivity;
 import com.zy.feat.broadcast.ZBroadcastManager;
 import com.zy.server.IPCMainActivity;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends BaseMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         //注册广播
         ZBroadcastManager.registerReceiver(this);
         ZBroadcastManager.registerStaticReceiver(this);
     }
 
-    public void test_ipc_demo(View view) {
-        startActivity(new Intent(this, IPCMainActivity.class));
-    }
-
-    public void test_proxy_system_manager(View view) {
-        startActivity(new Intent(this, ProxyManagerDemoActivity.class));
-    }
-
-    public void test_class_loader(View view) {
-        //ClassLoaderUtils.installHook();
-        ClassLoaderUtils.testPathClassLoader();
-
-    }
-
-    public void test_getContextObject(View view) {
-        BinderInternalUtils.test();
-    }
-
-    //测试Activity
-    public void test_activity(View view) {
-        startActivity(new Intent(this, SubMainActivity.class));
+    @Override
+    protected void init(List<BaseBean> list) {
+        list.add(new BaseBean("IPC Client", 1));
+        list.add(new BaseBean("Proxy SystemManager", 2));
+        list.add(new BaseBean("Test ClassLoader", 3));
+        list.add(new BaseBean("Test getContextObject", 4));
+        list.add(new BaseBean("Test Activity", 5));
+        list.add(new BaseBean("测试广播", 6));
+        list.add(new BaseBean("动画", 7));
+        list.add(new BaseBean("算法", 8));
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    public void test_broadcast(View view) {
-        startActivity(new Intent(this, BroadcastMainActivity.class));
-    }
-
-
-    private void test() {
-        int size = 48;
-        Object[] objects = new Object[48];
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < size; i++) {
-            Object actions = objects[i];
-            stringBuffer.append(i).append(" ").append(actions).append("\n");
+    protected void clickItem(BaseBean bean) {
+        if (bean.getCode() == 1) {
+            startActivity(new Intent(this, IPCMainActivity.class));
+        } else if (bean.getCode() == 2) {
+            startActivity(new Intent(this, ProxyManagerDemoActivity.class));
+        } else if (bean.getCode() == 3) {
+            ClassLoaderUtils.testPathClassLoader();
+        } else if (bean.getCode() == 4) {
+            BinderInternalUtils.test();
+        } else if (bean.getCode() == 5) {
+            startActivity(new Intent(this, SubMainActivity.class));
+        } else if (bean.getCode() == 6) {
+            startActivity(new Intent(this, BroadcastMainActivity.class));
+        } else if (bean.getCode() == 7) {
+            startActivity(new Intent(this, AnimationMenuActivity.class));
+        } else if (bean.getCode() == 8) {
+            startActivity(new Intent(this, AlgorithmMenuActivity.class));
         }
-        stringBuffer.toString();
-    }
-
-    public void test_animation(View view) {
-        startActivity(new Intent(this, AnimationMenuActivity.class));
-    }
-
-    public void test_algorithm(View view) {
-        startActivity(new Intent(this, AlgorithmMenuActivity.class));
     }
 }
