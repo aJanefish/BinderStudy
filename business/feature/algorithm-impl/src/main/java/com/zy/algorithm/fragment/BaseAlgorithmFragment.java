@@ -15,6 +15,7 @@ import com.zy.algorithm.R;
 import com.zy.algorithm.bean.SortStepBean;
 import com.zy.algorithm.controller.AnimatorController;
 import com.zy.algorithm.mvp.IAlgorithmControllerView;
+import com.zy.utils.ActivityUtils;
 import com.zy.utils.AnimatorUtils;
 import com.zy.zlog.ZLog;
 
@@ -162,6 +163,19 @@ public abstract class BaseAlgorithmFragment extends BaseFragment implements IAlg
     protected void initView(View view) {
         initTitle(view);
         initAnimatorController(view);
+        initLayoutContainer(view);
+    }
+
+    private void initLayoutContainer(View view) {
+        View sort_step_des = view.findViewById(R.id.sort_step_des);
+        View sort_index_tips_container = view.findViewById(R.id.sort_index_tips_container);
+        if(ActivityUtils.isScreenOrientationPortrait(getActivity())){
+            sort_step_des.setVisibility(View.VISIBLE);
+            sort_index_tips_container.setVisibility(View.VISIBLE);
+        }else {
+            sort_step_des.setVisibility(View.GONE);
+            sort_index_tips_container.setVisibility(View.GONE);
+        }
     }
 
     private void initAnimatorController(View view) {
