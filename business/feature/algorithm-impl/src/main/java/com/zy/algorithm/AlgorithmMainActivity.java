@@ -14,6 +14,9 @@ import com.zy.algorithm.sort.bubble.BubbleSortV2Fragment;
 import com.zy.algorithm.sort.insertion.InsertionSortV1Fragment;
 import com.zy.algorithm.sort.insertion.InsertionSortV2Fragment;
 import com.zy.algorithm.sort.insertion.InsertionSortV3Fragment;
+import com.zy.algorithm.sort.insertion.ShellInsertionSortV1Fragment;
+import com.zy.algorithm.sort.insertion.ShellInsertionSortV2Fragment;
+import com.zy.algorithm.sort.insertion.ShellInsertionSortV3Fragment;
 import com.zy.algorithm.sort.select.SelectSortV1Fragment;
 import com.zy.algorithm.sort.select.SelectSortV2Fragment;
 import com.zy.algorithm.sort.select.SelectSortV3Fragment;
@@ -55,6 +58,12 @@ public class AlgorithmMainActivity extends BaseMainActivity {
             fragment = new InsertionSortV2Fragment();
         } else if (code == 12) {
             fragment = new InsertionSortV3Fragment();
+        } else if (code == 13) {
+            fragment = new ShellInsertionSortV1Fragment();
+        } else if (code == 14) {
+            fragment = new ShellInsertionSortV2Fragment();
+        } else if (code == 15) {
+            fragment = new ShellInsertionSortV3Fragment();
         } else {
             fragment = new BubbleSortV1Fragment();
         }

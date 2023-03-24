@@ -27,6 +27,9 @@ public class AlgorithmMenuActivity extends BaseMenuActivity {
         list.add(new BaseBean("排序-插入排序", 10));
         list.add(new BaseBean("排序-插入排序-最坏情况", 11));
         list.add(new BaseBean("排序-插入排序-最坏情况", 12));
+        list.add(new BaseBean("排序-希尔排序", 13));
+        list.add(new BaseBean("排序-希尔排序-顺序数组", 14));
+        list.add(new BaseBean("排序-希尔排序-逆序数组", 15));
 
     }
 

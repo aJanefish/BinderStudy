@@ -118,9 +118,9 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
     protected void setSortData(SortStepBean bean, boolean start) {
         //设置颜色
         List<Integer> sorted = bean.getStepStartSorted();
-        if (start){
+        if (start) {
             sorted = bean.getStepStartSorted();
-        }else {
+        } else {
             sorted = bean.getStepEndSorted();
         }
         //设置数据
@@ -139,10 +139,12 @@ public abstract class BaseAlgorithmBallFragment extends BaseAlgorithmFragment {
                 }
             }
 
-            if (sorted.contains(index)) {
-                setDataItemGreen(index);
-            } else {
-                setDataItemGray(index);
+            if (sorted != null) {
+                if (sorted.contains(index)) {
+                    setDataItemGreen(index);
+                } else {
+                    setDataItemGray(index);
+                }
             }
         }
     }

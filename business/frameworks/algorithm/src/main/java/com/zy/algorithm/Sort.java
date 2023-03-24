@@ -323,7 +323,6 @@ public class Sort {
         int moveSize = 0; //移动次数
 
         int length = sort.length;
-        InsertionSortStepBean stepBean = null;
 
         for (int firstIndex = 1; firstIndex < length; firstIndex++) {
             //保存当前比较数字
@@ -340,7 +339,7 @@ public class Sort {
 
                 boolean compareResult = firstOpV > secondOpV;
 
-                stepBean = new InsertionSortStepBean();
+                InsertionSortStepBean stepBean = new InsertionSortStepBean();
                 stepBean.setFirstIndex(firstIndex);
                 stepBean.setSecondIndex(secondIndex);
                 stepBean.setOpFirstIndex(opFirstIndex);
@@ -351,7 +350,7 @@ public class Sort {
                 stepBean.setStepStart(Arrays.copyOf(sort, sort.length)); //移动之前的数组
                 stepBean.setCompareSize(++compareSize);
 
-                stepBean.setExchangeSize(moveSize);
+                stepBean.setMoveSize(moveSize);
 
                 stepBean.setCompareFirstInPer(secondIndex == firstIndex - 1);
                 stepBean.setStepStartSorted(firstIndex + (hasMoveRight ? 1 : 0));
@@ -362,7 +361,7 @@ public class Sort {
                     //当前位置的数据设置为-1
                     sort[secondIndex] = -1;
 
-                    stepBean.setExchangeSize(++moveSize);
+                    stepBean.setMoveSize(++moveSize);
                     //move动画 -> 向后移动
                     stepBean.setMoveRight(true);
                     stepBean.setMoveRightFirstIndex(secondIndex);
@@ -377,6 +376,7 @@ public class Sort {
                     //move动画 -> 数据填充
                     stepBean.setMoveBack(true);
                     stepBean.setMoveBackIndex(secondIndex + 1);
+                    stepBean.setMoveSize(++moveSize);
 
                     stepBean.setStepEndSorted(firstIndex + 1);
                     stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
@@ -393,7 +393,8 @@ public class Sort {
 
                     //move动画-> 数据填充
                     stepBean.setMoveBack(true);
-                    stepBean.setMoveBackIndex(0);
+                    stepBean.setMoveBackIndex(secondIndex);
+                    stepBean.setMoveSize(++moveSize);
 
                     stepBean.setStepEndSorted(firstIndex + 1);
                     stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
@@ -409,6 +410,123 @@ public class Sort {
                 stepList.add(stepBean);
             }
         }
+        return stepList;
+    }
+
+
+    public static List<SortStepBean> shellSortBaseV1() {
+        int[] sort = DataBuildUtils.getRandomSortArray();
+        return shellSortBaseV1(sort);
+    }
+
+    public static List<SortStepBean> shellSortBaseV1(int[] sort) {
+        List<SortStepBean> stepList = new ArrayList<>();
+        int compareSize = 0; //比较次数
+        int exchangeSize = 0; //交换次数
+        int moveSize = 0; //移动次数
+
+        int length = sort.length;
+
+        int gap = length;
+        do {
+            gap = gap / 2;
+            System.out.println("gap=" + gap + "      .........");
+            //排序-分组
+            for (int gapIndex = 0; gapIndex < gap; gapIndex++) {
+                //0 5
+                //1 6
+                //2 7
+                //3 8
+                //4 9
+                //0 2 4 6 8
+                //1 3 5 7 9
+                //0 1 2 3 4 5 6 7 8 9
+                //分组内插入排序
+
+                for (int firstIndex = gapIndex + gap; firstIndex < length; firstIndex = firstIndex + gap) {
+                    //System.out.print(firstIndex + " ");
+
+
+                    int key = sort[firstIndex];
+                    boolean hasMoveRight = false;
+                    for (int secondIndex = firstIndex - gap; secondIndex >= 0; secondIndex = secondIndex - gap) {
+                        //操作数
+                        int opFirstIndex = secondIndex;
+                        int opSecondIndex = firstIndex;
+
+                        int opSecondV = key;
+                        int opFirstV = sort[secondIndex];
+
+                        boolean compareResult = opFirstV > opSecondV;
+
+
+                        InsertionSortStepBean stepBean = new InsertionSortStepBean();
+                        stepBean.setFirstIndex(firstIndex);
+                        stepBean.setSecondIndex(secondIndex);
+                        stepBean.setOpFirstIndex(opFirstIndex);
+                        stepBean.setOpSecondIndex(opSecondIndex);
+                        stepBean.setOpFirstV(opFirstV);
+                        stepBean.setOpSecondV(opSecondV);
+                        stepBean.setResult(compareResult);
+                        stepBean.setStepStart(Arrays.copyOf(sort, sort.length)); //移动之前的数组
+                        stepBean.setCompareSize(++compareSize);
+
+                        stepBean.setMoveSize(moveSize);
+
+                        stepBean.setCompareFirstInPer(secondIndex == firstIndex - gap);
+
+                        //需要仔细考虑一下
+                        //stepBean.setStepStartSorted(firstIndex + (hasMoveRight ? 1 : 0));
+
+
+                        if (compareResult) {
+                            sort[secondIndex + gap] = sort[secondIndex];
+                            //当前位置的数据设置为-1
+                            sort[secondIndex] = -1;
+
+                            hasMoveRight = true;
+
+
+                            stepBean.setCompareSize(++moveSize);
+                        } else {
+                            sort[secondIndex + gap] = key;
+
+
+                            stepBean.setCompareSize(++moveSize);
+                            stepBean.setMoveBackIndex(secondIndex + gap);
+                            stepBean.setMoveBack(true);
+
+                            stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
+                            stepList.add(stepBean);
+                            hasMoveRight = false;
+                            break;
+                        }
+
+                        if (secondIndex - gap < 0) {
+                            sort[secondIndex] = key;
+
+
+                            stepBean.setCompareSize(++moveSize);
+                            stepBean.setMoveBack(true);
+                            stepBean.setMoveBackIndex(secondIndex);
+
+                            stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));
+                            stepList.add(stepBean);
+
+                            hasMoveRight = false;
+                            break;
+                        }
+
+
+                        stepBean.setStepEnd(Arrays.copyOf(sort, sort.length));//移动之后的数组
+                        stepList.add(stepBean);
+                    }
+
+
+                }
+            }
+        } while (gap > 1);
+
         return stepList;
     }
 }

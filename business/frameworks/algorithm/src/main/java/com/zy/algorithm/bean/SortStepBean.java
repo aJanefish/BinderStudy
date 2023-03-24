@@ -7,8 +7,8 @@ import java.util.List;
 public class SortStepBean implements Cloneable {
     public static final int SIZE = 10;
 
-    List<Integer> stepStartSorted;//已排序数据下标
-    List<Integer> stepEndSorted;//已排序数据下标
+    List<Integer> stepStartSorted = new ArrayList<>();//已排序数据下标
+    List<Integer> stepEndSorted = new ArrayList<>();//已排序数据下标
     int firstIndex; //第一层循环下标
     int secondIndex; //第二层循环下标
     String op; //操作符
